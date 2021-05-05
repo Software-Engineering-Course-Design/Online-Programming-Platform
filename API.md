@@ -195,16 +195,38 @@ result是提交代码的批改，默认为0，只有当result为0时，批改按
 
 #### 在线编程提交代码页面
 
+可多次保存，但只能提交一次
+
+##### 保存//暂时不知道要不要
+
 1.前端->后端
 
-| Column     | Type   | Value            | Description  |
-| ---------- | ------ | ---------------- | ------------ |
-| username   | string |                  | 候选人用户ID |
-| questionID | string |                  | 面试题目ID   |
-| code       |        |                  | 提交代码     |
-| status     | string | 0：保存  1：提交 | 状态         |
+| Column     | Type   | Value | Description  |
+| ---------- | ------ | ----- | ------------ |
+| username   | string |       | 面试者用户ID |
+| questionID | string |       | 面试题目ID   |
+| code       |        |       | 保存代码     |
 
-可多次保存，但只能提交一次
+可以多次保存
+
+2.后端->前端
+
+| Column    | Type    | Value                                                        | Description                                                  |
+| --------- | ------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ifSuccess | boolean | true：保存成功                                           false：保存失败 | 判断提交代码是否成功保存                                     |
+| msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“保存成功”；为false则“保存失败，网络发生故障”） |
+
+##### 提交
+
+1.前端->后端
+
+| Column     | Type   | Value | Description  |
+| ---------- | ------ | ----- | ------------ |
+| username   | string |       | 面试者用户ID |
+| questionID | string |       | 面试题目ID   |
+| code       |        |       | 提交代码     |
+
+只能提交一次
 
 2.后端->前端
 
@@ -215,11 +237,39 @@ result是提交代码的批改，默认为0，只有当result为0时，批改按
 
 #### 查看已提交的题目列表
 
+##### 方案一：
+
+直接按题目显示，页面呈现一个列表，列表中是已提交过代码的题目标题，点击标题可查看面试题内容、提交代码内容以及批改结果
+
 1.前端->后端
 
 | Column   | Type   | Value | Description  |
 | -------- | ------ | ----- | ------------ |
-| username | string |       | 候选人用户ID |
-|          |        |       |              |
-|          |        |       |              |
+| username | string |       | 面试者用户ID |
+
+2.后端->前端
+
+| Column   | Type  | Value | Description                    |
+| -------- | ----- | ----- | ------------------------------ |
+| h_id_arr | Array |       | 已提交代码的面试题标题和ID数组 |
+
+**h_id_arr格式如下：[[1,heading_one],[2,heading_two]……]，两层数组，第一个参数是questionID，第二个参数是面试题标题**
+
+###### 点击标题后跳转
+
+1.前端->后端
+
+| Column     | Type   | Value | Description  |
+| ---------- | ------ | ----- | ------------ |
+| username   | string |       | 面试者用户ID |
+| questionID | string |       | 面试题目ID   |
+
+2.后端->前端
+
+| Column   | Type   | Value                       | Description |
+| -------- | ------ | --------------------------- | ----------- |
+| heading  | string |                             | 面试题标题  |
+| question | string |                             | 面试题题目  |
+| code     | string |                             | 提交的代码  |
+| result   | string | 0：未批改    1：AC    2：WA | 代码结果    |
 
