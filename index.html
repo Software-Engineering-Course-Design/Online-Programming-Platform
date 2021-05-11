@@ -18,11 +18,11 @@
         <div class="mainbody">
             <div class="content">
                 <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">登录</a>
+                    <li class="nav_item">
+                        <a class="nav_link active" href="#">登录</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">注册</a>
+                    <li class="nav_item">
+                        <a class="nav_link" href="#">注册</a>
                     </li>
                 </ul>
 
@@ -31,28 +31,27 @@
                 <form id="task_form" class="form-horizontal">
                     <div class="form_group">
                         <label class="col_label">用户名</label>
-                        <div>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名"
-                                required>
-                        </div>
+
+                        <input type="text" class="input_box" id="username" name="username" placeholder="请输入用户名"
+                            required>
+
 
                     </div>
 
                     <div class="form_group">
                         <label class="col_label">登录密码</label>
-                        <div>
-                            <input type="password" class="form-control" id="password" name="password"
-                                placeholder="请输入密码" required>
-                        </div>
+
+                        <input type="password" class="input_box" id="password" name="password" placeholder="请输入密码"
+                            required>
+
 
                     </div>
 
                     <div class="form_group r_none" id="r_checkpwd">
-                        <label class="col_label">确认登录密码</label>
-                        <div>
-                            <input type="password" class="form-control" id="checkpwd" name="checkpwd"
-                                placeholder="请再次输入密码">
-                        </div>
+                        <label class="col_label">确认密码</label>
+
+                        <input type="password" class="input_box" id="checkpwd" name="checkpwd" placeholder="请再次输入密码">
+
                     </div>
 
                     <div class="form_group r_none" id="r_usertype">
@@ -64,11 +63,10 @@
                     </div>
 
                     <div class="form_group r_none" id="r_hr_code">
-                        <label class="col_label">面试官邀请码</label>
-                        <div>
-                            <input type="password" class="form-control" id="hr_code" name="hr_code"
-                                placeholder="请输入面试官邀请码">
-                        </div>
+                        <label class="col_label">邀请码</label>
+
+                        <input type="password" class="input_box" id="hr_code" name="hr_code" placeholder="请输入面试官邀请码">
+
                     </div>
 
                     <div class="p-3 d-none" id="result-msg"></div>
@@ -78,9 +76,9 @@
                     </div>
                 </form>
             </div>
-            <div class="img_words">
+            <!-- <div class="img_words">
                 <div class="title">Welcome to Online Programming Platform</div>
-            </div>
+            </div> -->
         </div>
     </div>
     <script src="./js/vue.js"></script>
