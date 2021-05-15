@@ -11,11 +11,11 @@
 
       <el-col :span="6">
         <el-card shadow="always">
-          <h1>登录页面</h1>
+          <h1>注册页面</h1>
           <el-divider></el-divider>
 
           <el-form :model="nameValidateForm" ref="nameValidateForm" label-width="100px" class="demo-ruleForm">
-            <!-- 用户ID -->
+            <!-- 用户名 -->
             <el-form-item label="用户ID" prop="name" :rules="[
                     { required: true, message: '用户ID不能为空'},
                     ]">

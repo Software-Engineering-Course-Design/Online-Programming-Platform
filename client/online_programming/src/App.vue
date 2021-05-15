@@ -1,20 +1,25 @@
 <template>
-  <div>
+  <div id="app">
     <router-link to="/">
         Home
       </router-link>
       |
-      <router-link to="/login">Login</router-link>
+      <router-link to="/signup">Signup</router-link>
       |
-      <router-link to="/register">register</router-link>
+      <router-link to="/login">Login</router-link>
+      
+      <router-view></router-view>
+      
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
+import Test from './components/Test.vue'
 
 export default {
-
+  components:{
+    Test
+  }
 }
 </script>
 
