@@ -1,36 +1,48 @@
 <template>
   <div id="app">
-    <el-row type="flex" justify="center">
-      <!-- justify 对齐方式 -->
+    <!-- <el-row type="flex" justify="center">
       <el-col :span="6">
         <div class="grid-content"></div>
       </el-col>
-    </el-row>
+    </el-row> -->
 
     <el-row type="flex" justify="center">
-
       <el-col :span="6">
         <el-card shadow="always">
           <h1>注册页面</h1>
           <el-divider></el-divider>
 
-          <el-form :model="nameValidateForm" ref="nameValidateForm" label-width="100px" class="demo-ruleForm">
+          <el-form :model="validateForm" ref="validateForm" :rules="formRules" label-width="100px" class="validateForm">
             <!-- 用户名 -->
-            <el-form-item label="用户ID" prop="name" :rules="[
-                    { required: true, message: '用户ID不能为空'},
-                    ]">
-              <el-input placeholder="请输入用户ID" type="text" v-model="nameValidateForm.name" autocomplete="off"></el-input>
+            <el-form-item label="用户ID" prop="username">
+              <el-input placeholder="请输入用户ID" type="text" v-model="validateForm.username" autocomplete="off"></el-input>
             </el-form-item>
 
             <!-- 密码 -->
-            <el-form-item label="密码" prop="password" :rules="[
-                    { required: true, message: '密码不能为空'},
-                    ]">
-              <el-input placeholder="请输入密码" v-model="nameValidateForm.password" show-password></el-input>
+            <el-form-item label="密码" prop="password">
+              <el-input placeholder="请输入密码" v-model="validateForm.password" show-password></el-input>
             </el-form-item>
+
+            <!-- 确认密码 -->
+            <el-form-item label="确认密码" prop="checkpwd">
+              <el-input placeholder="请确认密码" v-model="validateForm.checkpwd" show-password></el-input>
+            </el-form-item>
+
+            <!-- 用户类型 -->
+            <el-radio-group label="用户类型" v-model="validateForm.userType">
+              <el-radio :label=false>面试者</el-radio>
+              <el-radio :label=true>面试官</el-radio>
+            </el-radio-group>
+
+            <!-- 面试官邀请码 -->
+            <el-form-item label="邀请码" prop="hr_code" v-show="validateForm.userType">
+              <el-input placeholder="请输入邀请码" v-model="validateForm.hr_code"></el-input>
+            </el-form-item>
+
+            <!-- 确认按钮 -->
             <el-form-item>
-              <el-button type="primary" @click="submitForm('nameValidateForm')">提交</el-button>
-              <el-button @click="resetForm('nameValidateForm')">重置</el-button>
+              <el-button type="primary" @click="submitForm('validateForm')">提交</el-button>
+              <el-button @click="resetForm('validateForm')">重置</el-button>
             </el-form-item>
           </el-form>
 
@@ -43,22 +55,67 @@
 </template>
 
 <script>
-  import Vue from 'vue';
   export default {
     data() {
-      return {
-        nameValidateForm: {
-          name: '',
-          password: ''
+      var validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.validateForm.password) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
         }
+      };
+      var validateHR = (rule, value, callback) => {
+        if (this.validateForm.userType == true) {
+          if (value === '') {
+            callback(new Error('邀请码不能为空'));
+          } else {
+            callback();
+
+          }
+        }else{
+          console.log("afd");
+        }
+      };
+      return {
+        validateForm: {
+          username: '',
+          password: '',
+          checkpwd: '',
+          userType: false,
+          hr_code: '',
+        },
+        formRules: {
+          username: [{
+            required: true,
+            message: '用户ID不能为空',
+            trigger: 'blur'
+          }],
+          password: [{
+            required: true,
+            message: '密码不能为空',
+            trigger: 'blur'
+          }],
+          checkpwd: [{
+            required: true,
+            message: '两次输入密码不一致',
+            validator: validatePass,
+            trigger: 'blur'
+          }],
+          hr_code:[{
+            validator: validateHR,
+            message: '面试官邀请码不能为空',
+            trigger: 'blur'
+          }],
+        },
       };
     },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('Name:' + this.nameValidateForm.name + ';Password:' + this.nameValidateForm.password);
-            // console.log(this.nameValidateForm.name);
+            console.log("success!!!")
 
           } else {
             console.log('error submit!!');

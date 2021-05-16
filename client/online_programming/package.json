@@ -13,7 +13,8 @@
   "dependencies": {
     "element-ui": "^2.15.1",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-validator": "^3.0.0-alpha.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

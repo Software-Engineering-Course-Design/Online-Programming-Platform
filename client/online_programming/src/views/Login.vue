@@ -1,14 +1,12 @@
 <template>
   <div id="app">
-    <el-row type="flex" justify="center">
-      <!-- justify 对齐方式 -->
+    <!-- <el-row type="flex" justify="center">
       <el-col :span="6">
         <div class="grid-content"></div>
       </el-col>
-    </el-row>
+    </el-row> -->
 
     <el-row type="flex" justify="center">
-
       <el-col :span="6">
         <el-card shadow="always">
           <h1>登录页面</h1>
@@ -28,8 +26,10 @@
                     ]">
               <el-input placeholder="请输入密码" v-model="nameValidateForm.password" show-password></el-input>
             </el-form-item>
+
+            <!-- 确认按钮 -->
             <el-form-item>
-              <el-button type="primary" @click="submitForm('nameValidateForm')">提交</el-button>
+              <el-button type="primary" @click="submitForm('nameValidateForm')">确认</el-button>
               <el-button @click="resetForm('nameValidateForm')">重置</el-button>
             </el-form-item>
           </el-form>
@@ -57,7 +57,7 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('Name:' + this.nameValidateForm.name + ';Password:' + this.nameValidateForm.password);
+            //alert('Name:' + this.nameValidateForm.name + ';Password:' + this.nameValidateForm.password);
             // console.log(this.nameValidateForm.name);
 
           } else {
