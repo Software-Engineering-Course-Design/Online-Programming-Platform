@@ -29,10 +29,12 @@
             </el-form-item>
 
             <!-- 用户类型 -->
-            <el-radio-group label="用户类型" v-model="validateForm.userType">
-              <el-radio :label=false>面试者</el-radio>
-              <el-radio :label=true>面试官</el-radio>
-            </el-radio-group>
+            <el-form-item label="用户类型" prop="userType">
+              <el-radio-group v-model="validateForm.userType">
+                <el-radio :label=false >面试者</el-radio>
+                <el-radio :label=true >面试官</el-radio>
+              </el-radio-group>
+            </el-form-item>
 
             <!-- 面试官邀请码 -->
             <el-form-item label="邀请码" prop="hr_code" v-show="validateForm.userType">
@@ -72,10 +74,7 @@
             callback(new Error('邀请码不能为空'));
           } else {
             callback();
-
           }
-        }else{
-          console.log("afd");
         }
       };
       return {
@@ -103,7 +102,7 @@
             validator: validatePass,
             trigger: 'blur'
           }],
-          hr_code:[{
+          hr_code: [{
             validator: validateHR,
             message: '面试官邀请码不能为空',
             trigger: 'blur'

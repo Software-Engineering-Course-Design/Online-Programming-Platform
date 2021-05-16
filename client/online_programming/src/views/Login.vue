@@ -12,25 +12,22 @@
           <h1>登录页面</h1>
           <el-divider></el-divider>
 
-          <el-form :model="nameValidateForm" ref="nameValidateForm" label-width="100px" class="demo-ruleForm">
+          <el-form :model="validateForm" :rules="formRules" ref="validateForm" label-width="100px"
+            class="demo-ruleForm">
             <!-- 用户ID -->
-            <el-form-item label="用户ID" prop="name" :rules="[
-                    { required: true, message: '用户ID不能为空'},
-                    ]">
-              <el-input placeholder="请输入用户ID" type="text" v-model="nameValidateForm.name" autocomplete="off"></el-input>
+            <el-form-item label="用户ID" prop="name">
+              <el-input placeholder="请输入用户ID" type="text" v-model="validateForm.username" autocomplete="off"></el-input>
             </el-form-item>
 
             <!-- 密码 -->
-            <el-form-item label="密码" prop="password" :rules="[
-                    { required: true, message: '密码不能为空'},
-                    ]">
-              <el-input placeholder="请输入密码" v-model="nameValidateForm.password" show-password></el-input>
+            <el-form-item label="密码" prop="password">
+              <el-input placeholder="请输入密码" v-model="validateForm.password" show-password></el-input>
             </el-form-item>
 
             <!-- 确认按钮 -->
             <el-form-item>
-              <el-button type="primary" @click="submitForm('nameValidateForm')">确认</el-button>
-              <el-button @click="resetForm('nameValidateForm')">重置</el-button>
+              <el-button type="primary" @click="submitForm('validateForm')">确认</el-button>
+              <el-button @click="resetForm('validateForm')">重置</el-button>
             </el-form-item>
           </el-form>
 
@@ -43,22 +40,30 @@
 </template>
 
 <script>
-  import Vue from 'vue';
   export default {
     data() {
       return {
-        nameValidateForm: {
-          name: '',
+        validateForm: {
+          username: '',
           password: ''
-        }
+        },
+        formRules: {
+          username: [{
+            required: true,
+            message: '用户ID不能为空'
+          }, ],
+          password: [{
+            required: true,
+            message: '密码不能为空'
+          }, ],
+        },
       };
     },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            //alert('Name:' + this.nameValidateForm.name + ';Password:' + this.nameValidateForm.password);
-            // console.log(this.nameValidateForm.name);
+            console.log("success!");
 
           } else {
             console.log('error submit!!');
