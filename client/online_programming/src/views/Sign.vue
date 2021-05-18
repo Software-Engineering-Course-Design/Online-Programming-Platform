@@ -28,7 +28,7 @@
         tabs: ["login", "signup"],
         tabsContent: "login",
         tab1State: true, //登录页面显示
-        tab2State: false //注册页面关闭
+        tab2State: false, //注册页面关闭
 
 
       }

@@ -15,7 +15,7 @@
           <el-form :model="validateForm" :rules="formRules" ref="validateForm" label-width="100px"
             class="demo-ruleForm">
             <!-- 用户ID -->
-            <el-form-item label="用户ID" prop="name">
+            <el-form-item label="用户ID" prop="username">
               <el-input placeholder="请输入用户ID" type="text" v-model="validateForm.username" autocomplete="off"></el-input>
             </el-form-item>
 
@@ -50,11 +50,13 @@
         formRules: {
           username: [{
             required: true,
-            message: '用户ID不能为空'
+            message: '用户ID不能为空',
+            trigger: 'blur',
           }, ],
           password: [{
             required: true,
-            message: '密码不能为空'
+            message: '密码不能为空',
+            trigger: 'blur',
           }, ],
         },
       };
@@ -64,6 +66,11 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             console.log("success!");
+            let that = this;
+            let loginData = {
+              username: that.validateForm.username,
+              password: that.validateForm.password,
+            }
 
           } else {
             console.log('error submit!!');

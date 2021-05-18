@@ -12,41 +12,41 @@
           <h1>注册页面</h1>
           <el-divider></el-divider> -->
 
-          <el-form :model="validateForm" ref="validateForm" :rules="formRules" label-width="100px" class="validateForm">
-            <!-- 用户名 -->
-            <el-form-item label="用户ID" prop="username">
-              <el-input placeholder="请输入用户ID" type="text" v-model="validateForm.username" autocomplete="off"></el-input>
-            </el-form-item>
+        <el-form :model="validateForm" ref="validateForm" :rules="formRules" label-width="100px" class="validateForm">
+          <!-- 用户名 -->
+          <el-form-item label="用户ID" prop="username">
+            <el-input placeholder="请输入用户ID" type="text" v-model="validateForm.username" autocomplete="off"></el-input>
+          </el-form-item>
 
-            <!-- 密码 -->
-            <el-form-item label="密码" prop="password">
-              <el-input placeholder="请输入密码" v-model="validateForm.password" show-password></el-input>
-            </el-form-item>
+          <!-- 密码 -->
+          <el-form-item label="密码" prop="password">
+            <el-input placeholder="请输入密码" v-model="validateForm.password" show-password></el-input>
+          </el-form-item>
 
-            <!-- 确认密码 -->
-            <el-form-item label="确认密码" prop="checkpwd">
-              <el-input placeholder="请确认密码" v-model="validateForm.checkpwd" show-password></el-input>
-            </el-form-item>
+          <!-- 确认密码 -->
+          <el-form-item label="确认密码" prop="checkpwd">
+            <el-input placeholder="请确认密码" v-model="validateForm.checkpwd" show-password></el-input>
+          </el-form-item>
 
-            <!-- 用户类型 -->
-            <el-form-item label="用户类型" prop="userType">
-              <el-radio-group v-model="validateForm.userType">
-                <el-radio :label=false >面试者</el-radio>
-                <el-radio :label=true >面试官</el-radio>
-              </el-radio-group>
-            </el-form-item>
+          <!-- 用户类型 -->
+          <el-form-item label="用户类型" prop="userType">
+            <el-radio-group v-model="validateForm.userType">
+              <el-radio :label=false>面试者</el-radio>
+              <el-radio :label=true>面试官</el-radio>
+            </el-radio-group>
+          </el-form-item>
 
-            <!-- 面试官邀请码 -->
-            <el-form-item label="邀请码" prop="hr_code" v-show="validateForm.userType">
-              <el-input placeholder="请输入邀请码" v-model="validateForm.hr_code"></el-input>
-            </el-form-item>
+          <!-- 面试官邀请码 -->
+          <el-form-item label="邀请码" prop="hr_code" v-show="validateForm.userType">
+            <el-input placeholder="请输入邀请码" v-model="validateForm.hr_code"></el-input>
+          </el-form-item>
 
-            <!-- 确认按钮 -->
-            <el-form-item>
-              <el-button type="primary" @click="submitForm('validateForm')">提交</el-button>
-              <el-button @click="resetForm('validateForm')">重置</el-button>
-            </el-form-item>
-          </el-form>
+          <!-- 确认按钮 -->
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('validateForm')">提交</el-button>
+            <el-button @click="resetForm('validateForm')">重置</el-button>
+          </el-form-item>
+        </el-form>
 
         <!-- </el-card> -->
       </el-col>
@@ -75,7 +75,7 @@
           } else {
             callback();
           }
-        }else{
+        } else {
           callback();
         }
       };
@@ -113,10 +113,32 @@
       };
     },
     methods: {
-       submitForm(formName) {
+      submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log("success")
+            //console.log("success");
+            let that = this;
+            let signupData = {
+              username: that.validateForm.username,
+              password: that.validateForm.password,
+              checkpwd: that.validateForm.checkpwd,
+              userType: that.validateForm.userType,
+              hr_code: that.validateForm.hr_code,
+            };
+            console.log(signupData);
+
+            // 测试一下axios能不能用，以后再改
+            const url = 'https://api.github.com/search/repositories?q=v&sort=stars';
+            // this.$axios.post(this.GLOBAL.host + "后台接口地址", this.$qs.stringify(data)).then(res => {
+            //   //获取你需要的数据
+            // });
+            this.$axios.get(url).then(response => {
+              console.log(response.data) // 得到返回结果数据 
+            }).catch(error => {
+              console.log(error.message)
+            })
+            
+
           } else {
             console.log('error submit!!');
             return false;
@@ -129,23 +151,28 @@
       }
     }
   }
+
 </script>
 
 <style>
   .content {
     margin: 0 auto;
   }
+
   .el-card {
     border-radius: 30px;
     /* box-shadow: 0 2px 12px 0 rgb(243, 102, 102); */
     /* box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); */
   }
+
   .grid-content {
     /* background: rgb(14, 214, 131); */
     border-radius: 4px;
     min-height: 80px;
   }
+
   .el-row {
     margin-bottom: 20px;
   }
+
 </style>
