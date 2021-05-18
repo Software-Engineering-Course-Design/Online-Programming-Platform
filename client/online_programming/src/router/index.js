@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
-import Signup from '../views/Signup.vue'
-import Login from '../views/Login.vue'
+import Sign from '../views/Sign.vue'
 
 import HelloWorld from '@/components/HelloWorld'
 
@@ -22,14 +21,9 @@ export default new Router({
       component: Home
     },
     {
-      path: '/login',
-      name: 'login',
-      component: Login
+      path: '/sign',
+      name: 'sign',
+      component: Sign
     },
-    {
-      path: '/signup',
-      name: 'signup',
-      component: Signup
-    }
   ]
 })

@@ -7,10 +7,10 @@
     </el-row> -->
 
     <el-row type="flex" justify="center">
-      <el-col :span="6">
-        <el-card shadow="always">
+      <el-col :span="20">
+        <!-- <el-card shadow="always">
           <h1>登录页面</h1>
-          <el-divider></el-divider>
+          <el-divider></el-divider> -->
 
           <el-form :model="validateForm" :rules="formRules" ref="validateForm" label-width="100px"
             class="demo-ruleForm">
@@ -31,7 +31,7 @@
             </el-form-item>
           </el-form>
 
-        </el-card>
+        <!-- </el-card> -->
       </el-col>
 
     </el-row>
@@ -80,6 +80,8 @@
 </script>
 
 <style>
+
+
   .content {
     margin: 0 auto;
   }

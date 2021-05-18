@@ -7,10 +7,10 @@
     </el-row> -->
 
     <el-row type="flex" justify="center">
-      <el-col :span="6">
-        <el-card shadow="always">
+      <el-col :span="20">
+        <!-- <el-card shadow="always">
           <h1>注册页面</h1>
-          <el-divider></el-divider>
+          <el-divider></el-divider> -->
 
           <el-form :model="validateForm" ref="validateForm" :rules="formRules" label-width="100px" class="validateForm">
             <!-- 用户名 -->
@@ -48,7 +48,7 @@
             </el-form-item>
           </el-form>
 
-        </el-card>
+        <!-- </el-card> -->
       </el-col>
 
     </el-row>
@@ -75,6 +75,8 @@
           } else {
             callback();
           }
+        }else{
+          callback();
         }
       };
       return {
@@ -111,44 +113,39 @@
       };
     },
     methods: {
-      submitForm(formName) {
+       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log("success!!!")
-
+            console.log("success")
           } else {
             console.log('error submit!!');
             return false;
           }
         });
       },
+
       resetForm(formName) {
         this.$refs[formName].resetFields();
       }
     }
   }
-
 </script>
 
 <style>
   .content {
     margin: 0 auto;
   }
-
   .el-card {
     border-radius: 30px;
     /* box-shadow: 0 2px 12px 0 rgb(243, 102, 102); */
     /* box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); */
   }
-
   .grid-content {
     /* background: rgb(14, 214, 131); */
     border-radius: 4px;
     min-height: 80px;
   }
-
   .el-row {
     margin-bottom: 20px;
   }
-
 </style>
