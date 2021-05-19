@@ -71,6 +71,31 @@
               username: that.validateForm.username,
               password: that.validateForm.password,
             }
+            //请求URL
+            const url = 'https://api.github.com/search/repositories?q=v&sort=stars';
+            // this.$axios.post(this.GLOBAL.host + "后台接口地址", this.$qs.stringify(data)).then(res => {
+            //   //获取你需要的数据
+            // });
+            this.axios.get(url).then(response => {
+              console.log(response.data) // 得到返回结果数据 
+            }).catch(error => {
+              console.log(error.message)
+            })
+
+            // this.axios.post(url, loginData).then(response => {
+            //   console.log(response.data) // 得到返回结果数据 
+            //   var ifExist = response.data.ifExist;
+            //   var msg = response.data.msg;
+            //   if(ifExist){
+            //     if(response.data.userType){//面试官true
+            //       //跳转到面试官首页，在首页显示
+            //     }else{//面试者false
+            //       //跳转到面试者首页
+            //     }
+            //   }
+            // }).catch(error => {
+            //   console.log(error.message)
+            // })
 
           } else {
             console.log('error submit!!');

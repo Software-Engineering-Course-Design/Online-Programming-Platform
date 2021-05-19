@@ -132,12 +132,22 @@
             // this.$axios.post(this.GLOBAL.host + "后台接口地址", this.$qs.stringify(data)).then(res => {
             //   //获取你需要的数据
             // });
-            this.$axios.get(url).then(response => {
+            this.axios.get(url).then(response => {
               console.log(response.data) // 得到返回结果数据 
             }).catch(error => {
               console.log(error.message)
             })
-            
+
+            // this.axios.post(url, loginData).then(response => {
+            //   console.log(response.data) // 得到返回结果数据 
+            //   var ifExist = response.data.ifExist;
+            //   var msg = response.data.msg;
+            //   if(!ifExist){
+            //     //注册成功，可以登录
+            //   }
+            // }).catch(error => {
+            //   console.log(error.message)
+            // })
 
           } else {
             console.log('error submit!!');
