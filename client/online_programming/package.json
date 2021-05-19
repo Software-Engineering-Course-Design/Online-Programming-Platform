@@ -16,7 +16,8 @@
     "vue": "^2.5.2",
     "vue-axios": "^3.2.4",
     "vue-router": "^3.0.1",
-    "vue-validator": "^3.0.0-alpha.2"
+    "vue-validator": "^3.0.0-alpha.2",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

@@ -3,8 +3,6 @@ import Router from 'vue-router'
 import Home from '../views/Home.vue'
 import Sign from '../views/Sign.vue'
 
-import HelloWorld from '@/components/HelloWorld'
-
 Vue.use(Router)
 
 export default new Router({
@@ -25,5 +23,21 @@ export default new Router({
       name: 'sign',
       component: Sign
     },
+    //后面都用懒加载，防止组件加载过慢
+    {
+      path: '/applicant',
+      name: 'applicant',
+      component:resolve=>require(['../views/Applicant.vue'],resolve),
+    },
+    {
+      path: '/applicant/interview',
+      name: 'appInterview',
+      component:resolve=>require(['../views/AppInterview.vue'],resolve),
+    },
+    // {
+    //   path: '/applicant/result',
+    //   name: 'appResult',
+    //   component:resolve=>require(['../views/AppResult.vue'],resolve),
+    // },
   ]
 })

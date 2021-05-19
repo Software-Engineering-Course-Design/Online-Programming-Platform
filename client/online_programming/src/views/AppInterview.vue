@@ -1,0 +1,26 @@
+<template>
+    <div id="app">
+    <el-row type="flex" justify="center">
+      <el-col :span="6">
+        <div class="grid-content"></div>
+      </el-col>
+    </el-row>
+        <p>面试页</p>
+      
+  </div>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+
+      };
+    },
+  }
+
+</script>
+
+<style>
+
+</style>
