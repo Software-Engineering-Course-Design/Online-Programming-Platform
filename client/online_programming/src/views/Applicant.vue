@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div>
     <el-row type="flex" justify="center">
       <el-col :span="6">
         <div class="grid-content"></div>

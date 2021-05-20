@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <div id="app" v-if="loginState">
+        <div id="whole" v-if="loginState">
       <router-view></router-view>
     </div>
     <div v-else id="loginTab">
@@ -58,7 +58,7 @@
 </script>
 
 <style>
-  #app {
+  #whole {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

@@ -40,5 +40,21 @@ export default new Router({
     //   name: 'appResult',
     //   component:resolve=>require(['../views/AppResult.vue'],resolve),
     // },
+    {
+      path: '/interview/addNewQuestion',
+      name: 'interviewToAddQuestion',
+      component:resolve => require(['../views/addNewQuestion'],resolve),
+    },
+    {
+      path: '/interview/questionDetails',
+      name: 'interviewToQuestionDetails',
+      component:resolve => require(['../views/viewQuestionDetails'],resolve),
+    },
+    {
+      path: '/interview/updateQuestion',
+      name: 'interviewToUpdateQuestion',
+      component:resolve => require(['../views/updateQuestion'],resolve),
+    
+    }
   ]
 })
