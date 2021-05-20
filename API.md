@@ -12,7 +12,7 @@
 | userType | boolean | true(面试官)  false(面试者) | 用户类型                                                     |
 | password | string  |                             | 密码                                                         |
 | checkpwd | string  |                             | 确认密码                                                     |
-| hr_code  | string  |                             | 面试官编码（该值只有在用户类型为面试官的时候要求输入），相当于面试官注册资格审查 |
+| hr_code  | string  |                             | 面试官编码（该值只有在用户类型为面试官的时候要求输入，但，无论userType是什么，都会传hr_code到后端），相当于面试官注册资格审查 |
 
 2.后端->前端
 
@@ -40,9 +40,11 @@
 
 这里userType暂定这样，因为只有用户存在，登录成功才需要userType来判断跳转到相应页面，先暂时想出以下方案，后续看后端怎么写再做决定：
 
-方案一：无论ifExist值是怎样，都返回userType到前端；此时userType类型设为string，值  0：面试官  1：候选人  2：用户不存在，不用跳转
+//方案一：无论ifExist值是怎样，都返回userType到前端；此时userType类型设为string，值  0：面试官  1：候选人  2：用户不存在，不用跳转
 
 方案二：只有ifExist的值为true，即用户存在，登录成功的时候，才返回userType到前端；此时userType类型设为boolean，值  true：面试官  false：候选人
+
+用方案二
 
 
 
@@ -64,7 +66,7 @@
 
 此页面即在面试官首页中点击列表中的题目时，跳转到具体题目内容的页面
 
-每个面试题页面的URL，用questionID作为参数，由此实现每个面试题有各自的固定链接
+每个面试题页面的URL，用**questionID**作为参数，由此实现每个面试题有各自的固定链接，其中**questionID**是**数据库的问题表中的自增id**
 
 后端->前端（打开页面即返回）
 
@@ -103,6 +105,7 @@
 | username | string |       | 面试官用户ID |
 | heading  | string |       | 面试题标题   |
 | question |        |       | 面试题内容   |
+|          |        |       | 正确答案     |
 
 question是面试官输入的题目，支持富文本格式，类型暂定
 
@@ -115,9 +118,7 @@ question是面试官输入的题目，支持富文本格式，类型暂定
 | ifSuccess | boolean | true：新建成功                                     false：新建失败 | 判断题目是否成功存入数据库中                                 |
 | msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“新建成功”；为false则“新建失败，网络发生故障”） |
 
-如果想复杂一点可以遍历数据库中的题目看是否有重复，有重复的就不能新建，这个以后再想
 
-#### 
 
 #### 面试官修改面试题目
 
@@ -139,14 +140,19 @@ question是面试官输入的题目，支持富文本格式，类型暂定
 | ifSuccess | boolean | true：修改成功                                     false：修改失败 | 判断题目是否修改成功并存入数据库中                           |
 | msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“修改成功”；为false则“修改失败……”） |
 
-#### 邀请一个候选人编程
+#### 发起一场面试
 
 1.前端->后端
 
-| Column    | Type   | Value | Description  |
-| --------- | ------ | ----- | ------------ |
-| username  | string |       | 面试官用户ID |
-| candidate | string |       | 候选人用户ID |
+| Column         | Type    | Value                           | Description      |
+| -------------- | ------- | ------------------------------- | ---------------- |
+| username       | string  |                                 | 面试官用户ID     |
+| applicant      | Array   |                                 | 面试者用户ID数组 |
+| questionNumber | int     |                                 | 面试题数目       |
+| questionID     | Array   |                                 | 面试题ID数组     |
+| createWay      | boolean | true：自主命题；false：系统抽题 | 命题方式         |
+
+**将一场面试存入数据库之后，将表中的自增ID作为sessionID，用来做场次的ID**
 
 2.后端->前端
 
@@ -179,11 +185,36 @@ result是提交代码的批改，默认为0，只有当result为0时，批改按
 
 ## 页面三——面试者模块
 
-#### 在线编程题目显示页面
+#### 面试者首页
 
-一打开页面即触发
+前端->后端
+
+| Column   | Type   | Value | Description  |
+| -------- | ------ | ----- | ------------ |
+| username | string |       | 面试者用户ID |
 
 后端->前端
+
+| Column          | Type  | Value | Description            |
+| --------------- | ----- | ----- | ---------------------- |
+| new_session_arr | Array |       | 可参加的面试场次ID数组 |
+| old_session_arr | Array |       | 已参加的面试场次ID数组 |
+| new_info_arr    | Array |       | 可参加的面试场次的信息 |
+| old_info_arr    | Array |       | 已参加的面试场次的信息 |
+
+**new_info_arr格式**：[[interviewer,questionNumber,time],[interviewer,questionNumber,time]……],两层数组，第一个参数是面试官的用户ID，第二个是该场次的面试题数量，第三个是该场次面试所需的时间（这个time需要后端自己计算然后发给前端，一道题半个小时）
+
+**old_info_arr格式**：[[interviewer,questionNumber,score],[interviewer,questionNumber,score]……]，两层数组，第一个参数是面试官的用户ID，第二个是该场次的面试题数量，第三个是面试成绩（这个score需要后端自己计算再发给前端，满分一百分，每道题的分数是 100/questionNumber，计算该面试者在这个场次AC了多少道题）
+
+#### 在线编程题目显示模块
+
+1.前端->后端
+
+| Column    | Type | Value | Description |
+| --------- | ---- | ----- | ----------- |
+| sessionID | int  |       | 面试场次ID  |
+
+2.后端->前端
 
 | Column       | Type  | Value | Description    |
 | ------------ | ----- | ----- | -------------- |
@@ -191,30 +222,11 @@ result是提交代码的批改，默认为0，只有当result为0时，批改按
 | heading_arr  | Array |       | 面试题标题数组 |
 | question_arr | Array |       | 面试题题目数组 |
 
+将该场次的面试题返回给前端
 
-
-#### 在线编程提交代码页面
+#### 在线编程代码模块
 
 可多次保存，但只能提交一次
-
-##### 保存//暂时不知道要不要
-
-1.前端->后端
-
-| Column     | Type   | Value | Description  |
-| ---------- | ------ | ----- | ------------ |
-| username   | string |       | 面试者用户ID |
-| questionID | string |       | 面试题目ID   |
-| code       |        |       | 保存代码     |
-
-可以多次保存
-
-2.后端->前端
-
-| Column    | Type    | Value                                                        | Description                                                  |
-| --------- | ------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ifSuccess | boolean | true：保存成功                                           false：保存失败 | 判断提交代码是否成功保存                                     |
-| msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“保存成功”；为false则“保存失败，网络发生故障”） |
 
 ##### 提交
 
@@ -235,17 +247,16 @@ result是提交代码的批改，默认为0，只有当result为0时，批改按
 | ifSuccess | boolean | true：提交成功                                           false：提交失败 | 判断提交代码是否成功批改                                     |
 | msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“提交成功”；为false则“提交失败，网络发生故障”） |
 
-#### 查看已提交的题目列表
+#### 查看已参加的面试的结果
 
-##### 方案一：
-
-直接按题目显示，页面呈现一个列表，列表中是已提交过代码的题目标题，点击标题可查看面试题内容、提交代码内容以及批改结果
+按面试场次显示，按场次顺序显示题目标题，点击标题可查看面试题内容、提交代码内容、标准答案以及批改结果
 
 1.前端->后端
 
-| Column   | Type   | Value | Description  |
-| -------- | ------ | ----- | ------------ |
-| username | string |       | 面试者用户ID |
+| Column    | Type   | Value | Description  |
+| --------- | ------ | ----- | ------------ |
+| username  | string |       | 面试者用户ID |
+| sessionID | int    |       | 面试场次ID   |
 
 2.后端->前端
 
@@ -270,6 +281,7 @@ result是提交代码的批改，默认为0，只有当result为0时，批改按
 | -------- | ------ | --------------------------- | ----------- |
 | heading  | string |                             | 面试题标题  |
 | question | string |                             | 面试题题目  |
-| code     | string |                             | 提交的代码  |
+| code     |        |                             | 提交的代码  |
+| answer   |        |                             | 标准答案    |
 | result   | string | 0：未批改    1：AC    2：WA | 代码结果    |
 
