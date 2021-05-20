@@ -1,13 +1,6 @@
 <template>
   <div>
-    <el-row type="flex" justify="center">
-      <el-col :span="6">
-        <div class="grid-content"></div>
-      </el-col>
-    </el-row>
     <div id="code-editor-all">
-
-
       <div class="editor">
         <textarea ref="codeEditor" spellcheck="false" autocapitalize="none" autocorrect="off"
           class="code-editor"></textarea>

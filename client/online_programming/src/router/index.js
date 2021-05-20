@@ -32,8 +32,8 @@ export default new Router({
     {
       path: '/applicant/interview',
       name: 'appInterview',
-      //component:resolve=>require(['../views/AppInterview.vue'],resolve),
-      component:resolve=>require(['../components/CodeEditor.vue'],resolve),
+      component:resolve=>require(['../views/AppInterview.vue'],resolve),
+      //component:resolve=>require(['../components/CodeEditor.vue'],resolve),
     },
     // {
     //   path: '/applicant/result',
