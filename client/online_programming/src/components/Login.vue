@@ -1,10 +1,10 @@
 <template>
   <div id="login_form">
-    <!-- <el-row type="flex" justify="center">
+    <el-row type="flex" justify="center">
       <el-col :span="6">
         <div class="grid-content"></div>
       </el-col>
-    </el-row> -->
+    </el-row>
 
     <el-row type="flex" justify="center">
       <el-col :span="20">
@@ -12,37 +12,41 @@
           <h1>登录页面</h1>
           <el-divider></el-divider> -->
 
-          <el-form :model="validateForm" :rules="formRules" ref="validateForm" label-width="100px"
-            class="demo-ruleForm">
-            <!-- 用户ID -->
-            <el-form-item label="用户ID" prop="username">
-              <el-input placeholder="请输入用户ID" type="text" v-model="validateForm.username" autocomplete="off"></el-input>
-            </el-form-item>
+        <el-form :model="validateForm" :rules="formRules" ref="validateForm" label-width="100px" class="demo-ruleForm">
+          <!-- 用户ID -->
+          <el-form-item label="用户ID" prop="username">
+            <el-input placeholder="请输入用户ID" type="text" v-model="validateForm.username" autocomplete="off"></el-input>
+          </el-form-item>
 
-            <!-- 密码 -->
-            <el-form-item label="密码" prop="password">
-              <el-input placeholder="请输入密码" v-model="validateForm.password" show-password></el-input>
-            </el-form-item>
+          <!-- 密码 -->
+          <el-form-item label="密码" prop="password">
+            <el-input placeholder="请输入密码" v-model="validateForm.password" show-password></el-input>
+          </el-form-item>
 
-            <!-- 确认按钮 -->
-            <el-form-item>
-              <el-button type="primary" @click="submitForm('validateForm')">确认</el-button>
-              <el-button @click="resetForm('validateForm')">重置</el-button>
-            </el-form-item>
-          </el-form>
+          <!-- 确认按钮 -->
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('validateForm')">确认</el-button>
+            <el-button @click="resetForm('validateForm')">重置</el-button>
+          </el-form-item>
+        </el-form>
 
         <!-- </el-card> -->
       </el-col>
 
     </el-row>
-
+    <div class="test">{{msg}}</div>
   </div>
 </template>
 
 <script>
+  import {
+    testget
+  } from '../store/api.js'
+
   export default {
     data() {
       return {
+        msg: "测试文本",
         validateForm: {
           username: '',
           password: ''
@@ -62,6 +66,17 @@
       };
     },
     methods: {
+      //发送axios请求
+      sendRequest() {
+        testget().then(res => {
+          this.msg = res;
+          console.log(res);
+        });
+        
+      },
+      open(){
+        this.msg = 'open';
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -71,15 +86,18 @@
               username: that.validateForm.username,
               password: that.validateForm.password,
             }
-            //请求URL
-            const url = 'https://api.github.com/search/repositories?q=v&sort=stars';
-            // this.$axios.post(this.GLOBAL.host + "后台接口地址", this.$qs.stringify(data)).then(res => {
-            //   //获取你需要的数据
-            // });
-            this.axios.get(url).then(response => {
-              console.log(response.data) // 得到返回结果数据 
-            }).catch(error => {
-              console.log(error.message)
+            //this.sendRequest();
+            
+            this.$store.dispatch('signupRequest', signupData).then(res => {
+              console.log(res);
+              var ifExist = res.ifExist;
+              var msg = res.msg;
+              if(ifExist){
+                //登录成功
+                
+              }else{
+                //用户不存在，登录失败
+              }
             })
 
             // this.axios.post(url, loginData).then(response => {
@@ -112,8 +130,6 @@
 </script>
 
 <style>
-
-
   .content {
     margin: 0 auto;
   }
@@ -127,7 +143,7 @@
   .grid-content {
     /* background: rgb(14, 214, 131); */
     border-radius: 4px;
-    min-height: 80px;
+    min-height: 30px;
   }
 
   .el-row {

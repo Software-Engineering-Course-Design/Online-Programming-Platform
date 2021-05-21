@@ -1,6 +1,5 @@
 import axios from "axios";
 
-const ERR_OK = 0;
 //post请求封装
 export function post(url, postData) {
   return new Promise((resolve, reject) => {
@@ -10,57 +9,24 @@ export function post(url, postData) {
       } else {
         reject(response.data.msg);
       }
-    }).catch(err => {
-      reject(err);
+    }).catch(e => {
+      reject(e);
     })
   })
 }
 
 //get请求封装
-export function get(url) {
-  return function (params) {
-    return axios.get(url).then(res => {
-      console.log(res.data);
-      const {
-        errno,
-        data
-      } = res.data;
-      if (errno == ERR_OK) { //请求成功
-        console.log(data);
-        return data;
+export function get(url, params) {
+  return new Promise((resolve, reject) => {
+    axios.get(url, params).then(response => {
+      if (response.status === 200) {
+        resolve(response.data);
+      } else {
+        reject(response.data.msg);
       }
     }).catch(e => {
-
+      reject(e);
     })
-  }
-
+  })
 }
-/* 统一封装get请求 */
-// export const get = (url, params) => {
-//   return new Promise((resolve, reject) => {
-//     instance({
-//       method: 'get',
-//       url,
-//       params,
-//     }).then(response => {
-//       resolve(response)
-//     }).catch(error => {
-//       reject(error)
-//     })
-//   })
-// }
 
-// /* 统一封装post请求  */
-// export const post = (url, data) => {
-//   return new Promise((resolve, reject) => {
-//     instance({
-//       method: 'post',
-//       url,
-//       data,
-//     }).then(response => {
-//       resolve(response)
-//     }).catch(error => {
-//       reject(error)
-//     })
-//   })
-// }

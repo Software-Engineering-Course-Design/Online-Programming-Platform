@@ -1,10 +1,10 @@
 <template>
   <div id="signup_form">
-    <!-- <el-row type="flex" justify="center">
+    <el-row type="flex" justify="center">
       <el-col :span="6">
         <div class="grid-content"></div>
       </el-col>
-    </el-row> -->
+    </el-row>
 
     <el-row type="flex" justify="center">
       <el-col :span="20">
@@ -128,15 +128,19 @@
             console.log(signupData);
 
             // 测试一下axios能不能用，以后再改
-            const url = 'https://api.github.com/search/repositories?q=v&sort=stars';
-            // this.$axios.post(this.GLOBAL.host + "后台接口地址", this.$qs.stringify(data)).then(res => {
-            //   //获取你需要的数据
-            // });
-            this.axios.get(url).then(response => {
-              console.log(response.data) // 得到返回结果数据 
-            }).catch(error => {
-              console.log(error.message)
+            
+            this.$store.dispatch('signupRequest', signupData).then(res => {
+              console.log(res);
+              var ifExist = res.ifExist;
+              var msg = res.msg;
+              if(!ifExist){
+                //注册成功，可以登录了
+                
+              }else{
+                //用户已存在，重新取一个用户名
+              }
             })
+
 
             // this.axios.post(url, loginData).then(response => {
             //   console.log(response.data) // 得到返回结果数据 
@@ -148,6 +152,7 @@
             // }).catch(error => {
             //   console.log(error.message)
             // })
+
 
           } else {
             console.log('error submit!!');
@@ -178,7 +183,7 @@
   .grid-content {
     /* background: rgb(14, 214, 131); */
     border-radius: 4px;
-    min-height: 80px;
+    min-height: 30px;
   }
 
   .el-row {
