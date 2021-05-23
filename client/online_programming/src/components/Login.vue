@@ -34,7 +34,7 @@
       </el-col>
 
     </el-row>
-    <div class="test">{{msg}}</div>
+    
   </div>
 </template>
 
@@ -46,7 +46,6 @@
   export default {
     data() {
       return {
-        msg: "测试文本",
         validateForm: {
           username: '',
           password: ''
