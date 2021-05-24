@@ -1,6 +1,6 @@
 # API
 
-## 页面一——登录/注册页面
+## 一——登录/注册页面
 
 #### 注册
 
@@ -48,7 +48,7 @@
 
 
 
-## 页面二——面试官
+## 二——面试官
 
 #### 面试官首页
 
@@ -183,7 +183,7 @@ status是提交代码的批改，默认为0，只有当result为0时，批改按
 
 后端先判断提交代码的status是否为0，即未批改状态，只有这种情况才可以成功批改
 
-## 页面三——面试者模块
+## 三——面试者模块
 
 #### 面试者首页
 
@@ -298,3 +298,73 @@ status是提交代码的批改，默认为0，只有当result为0时，批改按
 | answer   |        |                             | 标准答案    |
 | result   | string | 0：未批改    1：AC    2：WA | 代码结果    |
 
+## **四——评论区模块** 
+
+#### **进入后加载页面** 
+
+1.前端->后端 
+
+| Column     | Type    | Value | Description |
+| ---------- | ------- | ----- | ----------- |
+| username   | string  |       | 用户ID      |
+| userType   | boolean |       | 用户类型    |
+| questionID | string  |       | 面试题ID    |
+
+2.后端->前端 
+
+| Column      | Type    | Value                          | Description                                                  |
+| ----------- | ------- | ------------------------------ | ------------------------------------------------------------ |
+| commentList | Array   |                                | 当前题目下的评论内容，存储在数组中。元素为每条评论的相关信息，包括发送用户id、楼层数、评论内容、楼中楼回复。且每条直接评论的评论最多只能有一层楼中楼 |
+| questionID  | string  |                                | 面试题ID                                                     |
+| ifSuccess   | Boolean | true：加载成功 false：加载失败 | 判断评论是否加载成功                                         |
+| msg         | string  |                                | 返回相应提示信息（比如ifSuccess为false则返回“加载失败”）     |
+
+commentList建议格式： 
+
+[ 
+
+{    id: 'testUsr0',//用户id 
+
+layIDX: 1,//主楼层数 
+
+content: 'testComment0',//评论内容 
+
+isSub: true/false,//是否为楼中楼回复 
+
+sublayer: { 
+
+id: 'testUsr1',//用户id 
+
+layIDX: 1,//楼中楼层数 
+
+content: 'testComment1',//评论内容 
+
+}//楼中楼回复列表，如果isSub为true，设置sublayer为空； 
+
+//如果isSub为false，允许给sublayer赋值 
+
+}, 
+
+... 
+
+] 
+
+#### **发送评论** 
+
+1.前端->后端 
+
+| Column         | Type    | Value                        | Description                                            |
+| -------------- | ------- | ---------------------------- | ------------------------------------------------------ |
+| senderID       | string  |                              | 当前用户（即发送评论者）的id                           |
+| commentContent | string  |                              | 评论内容                                               |
+| isSublayer     | Boolean | true：楼中楼 false：直接评论 | 是否回复他人评论，楼中楼则为true，直接评论题目为false  |
+| layerID        | int     | 0：直接评论 >=1：楼中楼      | 回复楼层的层数，楼中楼则为大于等于1的整数，直接评论为0 |
+
+2.后端->前端 
+
+| Column    | Type    | Value                          | Description                                                  |
+| --------- | ------- | ------------------------------ | ------------------------------------------------------------ |
+| ifSuccess | Boolean | true：加载成功 false：加载失败 | 判断评论是否加载成功                                         |
+| msg       | string  |                                | 返回相应提示信息（比如ifSuccess为true则“评论成功”；为false则“评论失败”） |
+
+- 此处前端是否应该向后端发送questionID
