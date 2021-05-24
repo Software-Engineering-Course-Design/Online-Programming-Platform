@@ -1,0 +1,17 @@
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS question;
+
+CREATE TABLE user (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  usertype boolean,
+  username TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL
+);
+
+CREATE TABLE question (
+  questionID INTEGER PRIMARY KEY AUTOINCREMENT,
+  heading TEXT NOT NULL,
+  body TEXT NOT NULL,
+  username TEXT UNIQUE NOT NULL,
+  FOREIGN KEY (username) REFERENCES user(username)
+);
