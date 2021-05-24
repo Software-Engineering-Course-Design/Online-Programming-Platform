@@ -54,7 +54,12 @@ export default new Router({
       path: '/interview/updateQuestion',
       name: 'interviewToUpdateQuestion',
       component:resolve => require(['../views/updateQuestion'],resolve),
-    
-    }
+    },
+    {
+      path: '/interview/viewQuestionCodeList',
+      name: 'interviewToViewQuestionCodeList',
+      component:resolve => require(['../views/viewQuestionCodeList'],resolve),
+    },
+
   ]
 })

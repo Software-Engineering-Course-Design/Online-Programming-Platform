@@ -6,6 +6,7 @@
 </template>
 
 <script>
+//by qzx - component
 export default {
   data(){
     return{
