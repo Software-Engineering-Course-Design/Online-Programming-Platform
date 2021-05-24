@@ -34,7 +34,14 @@
       </el-col>
 
     </el-row>
-    
+    <!-- 提示框 -->
+      <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <span>这是一段信息</span>
+      <span>{{alertMsg}}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -46,6 +53,8 @@
   export default {
     data() {
       return {
+        dialogVisible: false, //提示框显示
+        alertMsg:'',
         validateForm: {
           username: '',
           password: ''
@@ -71,9 +80,9 @@
           this.msg = res;
           console.log(res);
         });
-        
+
       },
-      open(){
+      open() {
         this.msg = 'open';
       },
       submitForm(formName) {
@@ -86,16 +95,18 @@
               password: that.validateForm.password,
             }
             //this.sendRequest();
-            
+
             this.$store.dispatch('signupRequest', signupData).then(res => {
               console.log(res);
               var ifExist = res.ifExist;
               var msg = res.msg;
-              if(ifExist){
+              if (ifExist) {
                 //登录成功
-                
-              }else{
+
+              } else {
                 //用户不存在，登录失败
+                this.alertMsg = msg;
+                this.dialogVisible = true;
               }
             })
 
@@ -122,7 +133,14 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
-      }
+      },
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
     }
   }
 

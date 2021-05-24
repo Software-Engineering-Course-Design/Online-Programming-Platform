@@ -170,9 +170,9 @@ question是面试官输入的题目，支持富文本格式，类型暂定
 | Column   | Type   | Value                       | Description  |
 | -------- | ------ | --------------------------- | ------------ |
 | username | string |                             | 面试官用户ID |
-| result   | string | 0：未批改    1：AC    2：WA | 代码结果     |
+| status   | string | 0：未批改    1：AC    2：WA | 代码结果     |
 
-result是提交代码的批改，默认为0，只有当result为0时，批改按钮才是可用的，否则按钮disabled
+status是提交代码的批改，默认为0，只有当result为0时，批改按钮才是可用的，否则按钮disabled
 
 2.后端->前端
 
@@ -181,7 +181,7 @@ result是提交代码的批改，默认为0，只有当result为0时，批改按
 | ifSuccess | boolean | true：批改成功                                           false：批改失败 | 判断提交代码是否成功批改                                     |
 | msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“批改成功”；为false则“该代码已被批改过，不可重复批改”） |
 
-后端先判断提交代码的result是否为0，即未批改状态，只有这种情况才可以成功批改
+后端先判断提交代码的status是否为0，即未批改状态，只有这种情况才可以成功批改
 
 ## 页面三——面试者模块
 
@@ -202,9 +202,9 @@ result是提交代码的批改，默认为0，只有当result为0时，批改按
 | new_info_arr    | Array |       | 可参加的面试场次的信息 |
 | old_info_arr    | Array |       | 已参加的面试场次的信息 |
 
-**new_info_arr格式**：[[interviewer,questionNumber,time],[interviewer,questionNumber,time]……],两层数组，第一个参数是面试官的用户ID，第二个是该场次的面试题数量，第三个是该场次面试所需的时间（这个time需要后端自己计算然后发给前端，一道题半个小时）
+**new_info_arr格式**：[[interviewer,questionNumber,time],[interviewer,questionNumber,time]……],两层数组，第一个参数是面试官的用户ID，第二个是该场次的面试题数量，第三个是该场次面试所需的时间（这个time需要后端自己计算然后发给前端，一道题半个小时,单位是分钟，数据类型是int）
 
-**old_info_arr格式**：[[interviewer,questionNumber,score],[interviewer,questionNumber,score]……]，两层数组，第一个参数是面试官的用户ID，第二个是该场次的面试题数量，第三个是面试成绩（这个score需要后端自己计算再发给前端，满分一百分，每道题的分数是 100/questionNumber，计算该面试者在这个场次AC了多少道题）
+**old_info_arr格式**：[[interviewer,questionNumber,status,score],[interviewer,questionNumber,status,score]……]，两层数组，第一个参数是面试官的用户ID；第二个是该场次的面试题数量；第3个是批改状态，数据类型是bool，false：未批改    true：已批改；第4个是面试成绩（这个score需要后端自己计算再发给前端，满分一百分，每道题的分数是 100/questionNumber，计算该面试者在这个场次AC了多少道题，这个后端还要判断一下该场面试是否已批改，未批改则返回0）
 
 #### 在线编程题目显示模块
 
@@ -244,8 +244,21 @@ result是提交代码的批改，默认为0，只有当result为0时，批改按
 
 | Column    | Type    | Value                                                        | Description                                                  |
 | --------- | ------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ifSuccess | boolean | true：提交成功                                           false：提交失败 | 判断提交代码是否成功批改                                     |
+| ifSuccess | boolean | true：提交成功                                           false：提交失败 | 判断提交代码是否成功提交                                     |
 | msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“提交成功”；为false则“提交失败，网络发生故障”） |
+
+#### 结束面试（场次）
+
+答题结束之后总交卷
+
+1.前端->后端
+
+| Column      | Type     | Value | Description    |
+| ----------- | -------- | ----- | -------------- |
+| username    | string   |       | 面试者用户ID   |
+| sessionID   | int      |       | 面试场次ID     |
+| submit_time | Datetime |       | 交卷的日期时间 |
+|             |          |       |                |
 
 #### 查看已参加的面试的结果
 

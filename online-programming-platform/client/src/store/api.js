@@ -12,7 +12,8 @@ const url = {
   signup: 'http://127.0.0.1:8000/check',
   login: 'http://127.0.0.1:5000/login/login_info',
   questionList: 'http://127.0.0.1:8000/questionList',
-
+  interviewList: 'http://127.0.0.1:8000/interviewList',
+  resultList: 'http://127.0.0.1:8000/resultList',
 };
 
 
@@ -29,6 +30,12 @@ export default {
     },
     questionListRequest:(postData)=>{
       return post(url.questionList, postData);
+    },
+    interviewListRequest:(postData)=>{
+      return post(url.interviewList,postData);
+    },
+    resultListRequest:(postData)=>{
+      return post(url.resultList,postData);
     },
   }
   

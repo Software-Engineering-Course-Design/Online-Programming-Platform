@@ -33,7 +33,7 @@
       <el-main>
         <el-row :gutter="10">
           <el-col :span="12">
-            <question-details></question-details>>
+            <question-details></question-details>
           </el-col>
 
           <el-col :span="12">

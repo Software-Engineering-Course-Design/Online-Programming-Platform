@@ -13,8 +13,8 @@
         <component :is="tabsContent" :login-state="loginState" @change-login-state="changeLoginState"></component>
       </div>   
     </div>
+    
 
-      
   </div>
 </template>
 
@@ -24,12 +24,12 @@
   export default {
     data() {
       return {
+        
         loginState: false,
         tabs: ["login", "signup"],
         tabsContent: "login",
         tab1State: true, //登录页面显示
         tab2State: false, //注册页面关闭
-
 
       }
     },
@@ -39,7 +39,6 @@
     },
     methods: {
       switchTab(tabName) {
-
         this.tabsContent = tabName;
         if (tabName === "login") {
           this.tab1State = true;
@@ -51,7 +50,8 @@
       },
       changeLoginState(b) {
         this.loginState = b;
-      }
+      },
+      
     }
   }
 

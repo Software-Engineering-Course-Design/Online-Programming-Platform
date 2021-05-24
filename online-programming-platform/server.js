@@ -45,6 +45,29 @@ app.post('/questionList', (request, response) => {
     let str = JSON.stringify(data);
     response.send(str);
 });
+app.post('/resultList', (request, response) => {
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    const data = {
+        id_arr:[11,22,33,44],
+        heading_arr:['h1','h2','h3','h4'],
+        question_arr:['q1','q2','q3','q4'],
+    };
+    let str = JSON.stringify(data);
+    response.send(str);
+});
+app.post('/interviewList', (request, response) => {
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    const data = {
+        new_session_arr:[4,5],
+        old_session_arr:[1,3],
+        //[interviewer,questionNumber,time]
+        new_info_arr:[['面试官1',4,200],['面试官2',3,150]],
+        //[interviewer,questionNumber,status,score]
+        old_info_arr:[['面试官33','5',true,100],['面试官57','4',false,0]],
+    };
+    let str = JSON.stringify(data);
+    response.send(str);
+});
 app.listen(8000, () => {
     console.log("listening 8000……");
 });
