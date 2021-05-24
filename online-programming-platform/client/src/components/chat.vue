@@ -14,12 +14,13 @@
           <p>id： {{ item.id}}</p>
           <p>L{{ item.layIDX}}</p>
           <p>评论内容：{{ item.content}}</p>
-
-          <div v-if="item.isSub==false" v-for="(subitem,index) in item.sublayer" style="margin-left: 50px" :key="index">
-            ------------------------------------
-            <p>id： {{ subitem.id}}</p>
-            <p>L{{ subitem.layIDX}}</p>
-            <p>评论内容：{{ subitem.content}}</p>
+          <div v-if="item.isSub==false">
+            <div v-for="(subitem,index) in item.sublayer" style="margin-left: 50px" :key="index">
+              ------------------------------------
+              <p>id： {{ subitem.id}}</p>
+              <p>L{{ subitem.layIDX}}</p>
+              <p>评论内容：{{ subitem.content}}</p>
+            </div>
           </div>
         </div>
       </div>
