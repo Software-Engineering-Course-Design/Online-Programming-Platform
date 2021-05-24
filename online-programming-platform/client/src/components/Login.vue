@@ -96,12 +96,13 @@
             }
             //this.sendRequest();
 
-            this.$store.dispatch('signupRequest', signupData).then(res => {
+            this.$store.dispatch('loginRequest', loginData).then(res => {
               console.log(res);
               var ifExist = res.ifExist;
               var msg = res.msg;
               if (ifExist) {
                 //登录成功
+                console.log('登录成功')
 
               } else {
                 //用户不存在，登录失败
