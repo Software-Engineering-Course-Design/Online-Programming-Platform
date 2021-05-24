@@ -5,7 +5,7 @@
         <el-row :gutter="20">
           <el-col :span="4">
             <div class="grid-content">
-              <el-select v-model="question" @change="currentQuestion"> 
+              <el-select v-model="question" @change="currentQuestion">
                 <el-option v-for="item in questionOptions" :key="item.value" :label="item.label" :value="item.value"
                   :disabled="item.disabled">
                   <span style="float: left">{{ item.label }}</span>
@@ -25,7 +25,7 @@
           </el-col>
           <!-- 倒计时插件，以后写 -->
           <el-col :span="4">
-            <div class="grid-content bg-purple">倒计时</div>
+            <count-down></count-down>
           </el-col>
         </el-row>
 
@@ -48,19 +48,21 @@
 </template>
 
 <script>
-import questionDetails from '../components/questionDetails.vue'
+  import questionDetails from '../components/questionDetails.vue'
   import CodeEditor from '../components/CodeEditor.vue'
+  import CountDown from '../components/CountDown.vue'
 
   export default {
     components: {
       questionDetails,
       CodeEditor,
+      CountDown,
     },
     data() {
       return {
         question: '', //当前问题
 
-        questionOptions: [],//
+        questionOptions: [], //
 
       };
     },
@@ -68,7 +70,7 @@ import questionDetails from '../components/questionDetails.vue'
       //设置当前题目禁点击,调用时机：监听选择器，question发生变化时
       currentQuestion() {
         var cur_q = this.question;
-        console.log("现在题号：",cur_q);
+        console.log("现在题号：", cur_q);
         for (var i = 0; i < this.questionOptions.length; i++) {
           if (this.questionOptions[i].value == cur_q) {
             this.questionOptions[i].disabled = true;
@@ -89,7 +91,7 @@ import questionDetails from '../components/questionDetails.vue'
         }
       },
       //根据question显示相应题目信息 组件间通信
-      displayQuestionInfo(){
+      displayQuestionInfo() {
 
       },
       //一点开即调用
@@ -97,14 +99,14 @@ import questionDetails from '../components/questionDetails.vue'
         //暂时写死面试场次，以后要用session或者cookie保存该值
         var sessionID = 1;
         var postData = {
-          'sessionID' : sessionID,
+          'sessionID': sessionID,
         }
         //根据面试场次请求题目列表
-        this.$store.dispatch('questionListRequest',postData).then(res=>{
+        this.$store.dispatch('questionListRequest', postData).then(res => {
           console.log(res);
           var id_arr = res.id_arr;
           var heading_arr = res.heading_arr;
-          var question_arr = res.question_arr;//富文本格式题目暂时还没写
+          var question_arr = res.question_arr; //富文本格式题目暂时还没写
           this.question = id_arr[0];
           this.createOptions(id_arr);
           this.currentQuestion();
@@ -113,7 +115,7 @@ import questionDetails from '../components/questionDetails.vue'
         //学习组件间通信，将题目内容传到questionDetails组件上
       },
     },
-    mounted:function(){
+    mounted: function () {
       this.onStart();
     },
   }
