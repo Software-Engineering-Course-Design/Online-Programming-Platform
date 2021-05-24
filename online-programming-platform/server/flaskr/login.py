@@ -28,6 +28,8 @@ def login_info():
                     return dict(ifExist=True,userType=userType,msg=msg)
                 else:
                     return dict(ifExist=True,userType=result['usertype'],msg="Fail!Wrong password!")
+    else:
+        return dict(ifExist=False,usertype=2,msg = "permission denied!")
  
     return 'user_add'
 
