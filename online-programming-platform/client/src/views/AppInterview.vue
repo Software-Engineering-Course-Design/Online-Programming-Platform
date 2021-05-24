@@ -8,8 +8,8 @@
               <el-select v-model="question" @change="currentQuestion"> 
                 <el-option v-for="item in questionOptions" :key="item.value" :label="item.label" :value="item.value"
                   :disabled="item.disabled">
-                  <span style="float: left">{{ item.value }}</span>
-                  <span style="float: right; color: #8492a6; font-size: 13px">{{ item.label }}</span>
+                  <span style="float: left">{{ item.label }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
                 </el-option>
               </el-select>
             </div>
@@ -58,9 +58,9 @@ import questionDetails from '../components/questionDetails.vue'
     },
     data() {
       return {
-        question: 'Question1', //当前问题
+        question: '', //当前问题
 
-        questionOptions: [],//label是questionID,value是第几题
+        questionOptions: [],//
 
       };
     },
@@ -82,9 +82,9 @@ import questionDetails from '../components/questionDetails.vue'
         for (var i = 0; i < id_arr.length; i++) {
           var tmp = 'Question' + (i + 1);
           this.questionOptions.push({
-            value: tmp,
-            label: id_arr[i],
-            disabled: false
+            value: id_arr[i],
+            label: tmp,
+            disabled: false,
           });
         }
       },
@@ -105,6 +105,7 @@ import questionDetails from '../components/questionDetails.vue'
           var id_arr = res.id_arr;
           var heading_arr = res.heading_arr;
           var question_arr = res.question_arr;//富文本格式题目暂时还没写
+          this.question = id_arr[0];
           this.createOptions(id_arr);
           this.currentQuestion();
         })
