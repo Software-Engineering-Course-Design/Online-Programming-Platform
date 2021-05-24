@@ -10,7 +10,7 @@ import {
 const url = {
   test: 'http://127.0.0.1:8000/testget',
   signup: 'http://127.0.0.1:8000/check',
-  login: 'http://127.0.0.1:8000/check',
+  login: 'http://127.0.0.1:5000/login/login_info',
   questionList: 'http://127.0.0.1:8000/questionList',
 
 };
