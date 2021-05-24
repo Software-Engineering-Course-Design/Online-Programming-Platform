@@ -2,7 +2,7 @@
   <el-container id="tab">
     <el-header>修改题目页</el-header>
     <el-main>
-      <div v-for="(item, idx) in info" :class="{ open:active[idx]}">
+      <div v-for="(item, idx) in info" :class="{ open:active[idx]}" :key="idx">
         <el-row type="flex" class="row-bg" justify="space-around">
           <div v-if="button[idx]=='完成'">
             <el-input v-model="item.value"></el-input>

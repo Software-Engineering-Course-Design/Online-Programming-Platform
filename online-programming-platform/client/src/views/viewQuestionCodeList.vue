@@ -3,7 +3,7 @@
     <el-header>已提交代码列表</el-header>
     <el-main>
 <!--此处使用element-ui折叠面板-->
-      <div v-for="(code, idx) in codeList">
+      <div v-for="(code, idx) in codeList" :key="idx">
         用户id：{{code.id}}
         <el-button type="info" @click="viewThisCode(idx)">点击显示或折叠代码</el-button>
         <div v-show="code.currShowStatus==true">{{code.value}}</div>

@@ -9,13 +9,13 @@
       :before-close="handleClose"
     > <!---->
       <div>
-        <div v-for="(item, idx) in commentList">
+        <div v-for="(item, idx) in commentList" :key="idx">
           >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
           <p>id： {{ item.id}}</p>
           <p>L{{ item.layIDX}}</p>
           <p>评论内容：{{ item.content}}</p>
 
-          <div v-if="item.isSub==false" v-for="subitem in item.sublayer" style="margin-left: 50px">
+          <div v-if="item.isSub==false" v-for="(subitem,index) in item.sublayer" style="margin-left: 50px" :key="index">
             ------------------------------------
             <p>id： {{ subitem.id}}</p>
             <p>L{{ subitem.layIDX}}</p>
