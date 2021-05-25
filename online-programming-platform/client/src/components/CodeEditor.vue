@@ -190,6 +190,7 @@
       searchCode(e) {
         this.codemirror.execCommand('find') //触发
       },
+      
     }
   }
 

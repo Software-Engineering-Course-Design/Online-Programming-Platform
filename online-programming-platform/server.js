@@ -12,9 +12,14 @@ app.use((req, res, next) => {
     })
     req.method === 'OPTIONS' ? res.status(204).end() : next()
 })
-app.post('/server', (request, response) => {
+app.post('/submitCode', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
-    response.send("helloxxxxx post");
+    const data = {
+        ifSuccess: true,
+        msg: '提交代码成功！'
+    };
+    let str = JSON.stringify(data);
+    response.send(str);
 });
 app.post('/signup', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');

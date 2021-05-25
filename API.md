@@ -54,11 +54,11 @@
 
 后端->前端
 
-| Column          | Type  | Value | Description                                  |
-| --------------- | ----- | ----- | -------------------------------------------- |
-| question_num    | int   |       | 当前面试题数量                               |
-| interviewer_num | int   |       | 当前面试者数量                               |
-| h_id_arr        | Array |       | 面试题数组（返回所有面试题标题、questionID） |
+| Column        | Type  | Value | Description                                  |
+| ------------- | ----- | ----- | -------------------------------------------- |
+| question_num  | int   |       | 当前面试题数量                               |
+| applicant_num | int   |       | 当前面试者数量                               |
+| h_id_arr      | Array |       | 面试题数组（返回所有面试题标题、questionID） |
 
 **h_id_arr格式如下：[[1,heading_one],[2,heading_two]……]，两层数组，第一个参数是questionID，第二个参数是面试题标题**
 
@@ -235,7 +235,8 @@ status是提交代码的批改，默认为0，只有当result为0时，批改按
 | Column     | Type   | Value | Description  |
 | ---------- | ------ | ----- | ------------ |
 | username   | string |       | 面试者用户ID |
-| questionID | string |       | 面试题目ID   |
+| sessionID  | int    |       | 面试场次ID   |
+| questionID | int    |       | 面试题目ID   |
 | code       |        |       | 提交代码     |
 
 只能提交一次

@@ -37,13 +37,25 @@
           </el-col>
 
           <el-col :span="12">
-            <code-editor></code-editor>
+            <div id="code-editor-all">
+              <div class="editor">
+                <textarea ref="codeEditor" spellcheck="false" autocapitalize="none" autocorrect="off"
+                  class="code-editor"></textarea>
+                <div class="mode-selector">
+                  <el-select class="mode-changing" v-model="mode" @change="changeMode">
+                    <el-option v-for="mode in modes" :key="mode.value" :label="mode.label" :value="mode.value">
+                    </el-option>
+                  </el-select>
+                </div>
+
+              </div>
+            </div>
             <div class="btn-box">
               <el-row>
                 <!-- <el-button type="primary" id="run-btn" round>运行</el-button> -->
                 <el-button type="primary" id="save-btn" round>保存</el-button>
                 <el-button type="primary" id="submit-btn" @click="submitDialogVisible=true" round>提交</el-button>
-                <el-button type="danger" id="clear-btn" round>清空</el-button>
+                <el-button type="danger" id="clear-btn" @click="clear()" round>清空</el-button>
               </el-row>
             </div>
           </el-col>
@@ -63,7 +75,7 @@
 
 <script>
   import questionDetails from '../components/questionDetails.vue'
-  import CodeEditor from '../components/CodeEditor.vue'
+  //import CodeEditor from '../components/CodeEditor.vue'
   import CountDown from '../components/CountDown.vue'
   import io from 'socket.io-client';
   // 引入全局实例
@@ -102,7 +114,7 @@
   export default {
     components: {
       questionDetails,
-      CodeEditor,
+      //CodeEditor,
       CountDown,
     },
     data() {
@@ -111,6 +123,11 @@
 
         questionOptions: [], //
         submitDialogVisible: false,
+        username:'',
+        sessionID: 1,
+        questionID: 1,
+        code: '',
+        coder: null,
         mode: 'javascript',
         modes: [{
           value: 'css',
@@ -149,11 +166,69 @@
           value: 'markdown',
           label: 'Markdown'
         }],
-
+        options: {
+          mode: 'javascript',
+          theme: 'cobalt',
+          lineNumbers: true, //行数
+          lineWrapping: true,
+          indentUnit: 4, //缩进
+          foldGutter: true,
+          styleActiveLine: true,
+          gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
+        }
         //socket: io('localhost:3001'),
       };
     },
     methods: {
+      // 初始化
+      _initialize() {
+        // 初始化编辑器实例，传入需要被实例化的文本域对象和默认配置
+        this.coder = CodeMirror.fromTextArea(this.$refs.codeEditor, this.options)
+        // 编辑器赋值
+        this.coder.setValue(this.value || this.code)
+        // 支持双向绑定
+        this.coder.on('change', (coder) => {
+          this.code = coder.getValue();
+          if (this.$emit) {
+            this.$emit('input', this.code)
+          }
+        })
+
+        // 尝试从父容器获取语法类型
+        if (this.language) {
+          // 获取具体的语法类型对象
+          let modeObj = this._getLanguage(this.language)
+
+          // 判断父容器传入的语法是否被支持
+          if (modeObj) {
+            this.mode = modeObj.label
+          }
+        }
+      },
+      // 获取当前语法类型
+      _getLanguage(language) {
+        // 在支持的语法类型列表中寻找传入的语法类型
+        return this.modes.find((mode) => {
+          // 所有的值都忽略大小写，方便比较
+          let currentLanguage = language.toLowerCase()
+          let currentLabel = mode.label.toLowerCase()
+          let currentValue = mode.value.toLowerCase()
+
+          // 由于真实值可能不规范，例如 java 的真实值是 x-java ，所以讲 value 和 label 同时和传入语法进行比较
+          return currentLabel === currentLanguage || currentValue === currentLanguage
+        })
+      },
+      // 更改模式
+      changeMode(val) {
+        // 修改编辑器的语法配置
+        this.coder.setOption('mode', `text/${val}`)
+
+        // 获取修改后的语法
+        let label = this._getLanguage(val).label.toLowerCase()
+
+        // 允许父容器通过以下函数监听当前的语法值
+        this.$emit('language-change', label)
+      },
       sendMessage(e) {
         e.preventDefault();
       },
@@ -204,24 +279,48 @@
         //默认显示第一题
         //学习组件间通信，将题目内容传到questionDetails组件上
       },
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
+      submit() {
+        this.submitDialogVisible = true;
+        let data = {};
+        data.username = this.username;
+        data.sessionID = this.sessionID;
+        data.questionID = this.questionID;
+        data.code = this.coder.getValue();
+
+        this.$store.dispatch('submitCodeRequest', data).then(res => {
+          var ifSuccess = res.ifSuccess;
+          var msg = res.msg;
+          if (ifSuccess) {
+            this.$message({
+              message: msg,
+              type: 'success',
+            })
+          } else {
+            this.$message.error(msg);
+          }
+          this.submitDialogVisible = false;
+        })
+      },
+      clear() {
+        this.coder.setValue('');
+      },
     },
     mounted: function () {
+      this._initialize();
       //let sessionID = this.$route.query.sessionID
-      let sessionID = 1;
       this.onStart();
       let that = this;
-      this.editor = CodeMirror.fromTextArea(this.$refs.codeEditor, {
-        mode: 'javascript',
-        lineNumbers: true,
-        lineWrapping: true,
-        indentUnit: 4, // 缩进
-        foldGutter: true,
-        styleActiveLine: true,
-        theme: 'cobalt',
-        gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
-      });
+
+
       //实时
-      // this.editor.on('change', (coder, option) => {
+      // this.coder.on('change', (coder, option) => {
       //   let newCode = coder.getValue();
       //   if (newCode !== that.code) {
       //     that.socket.emit('changeCode', {
@@ -232,16 +331,9 @@
       //   this.code = coder.getValue();
       // })
 
-      //window的鼠标事件
-      window.onmousedown = this.ctrlMouseDown
-      window.onmousemove = this.ctrlMouseMove
-      window.onmouseup = this.ctrlMouseUp
-      document.addEventListener('mouseleave', this.mouseLeaveWindow)
 
-      // var vm = this
-      // var sessionID = this.$route.query.sessionID
-      // vm.sessionID = sessionID
-      
+
+
 
     },
   }
@@ -269,6 +361,41 @@
     border-radius: 4px;
     min-height: 36px;
     text-align: center;
+  }
+
+  #code-editor-all {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-end;
+    margin-left: auto; */
+
+  }
+
+  .editor {
+    /* width: 50%; */
+    flex-grow: 1;
+    display: flex;
+    position: relative;
+  }
+
+
+  .CodeMirror {
+    flex-grow: 1;
+    z-index: 1;
+
+  }
+
+  .CodeMirror-code {
+    line-height: 19px;
+  }
+
+
+  .mode-changing {
+    position: absolute;
+    z-index: 2;
+    right: 10px;
+    top: 10px;
+    max-width: 130px;
   }
 
 </style>

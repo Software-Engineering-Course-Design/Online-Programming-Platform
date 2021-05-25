@@ -16,6 +16,7 @@ const url = {
   questionList: 'http://127.0.0.1:8000/questionList',
   interviewList: 'http://127.0.0.1:8000/interviewList',
   resultList: 'http://127.0.0.1:8000/resultList',
+  submitCode:'http://127.0.0.1:8000/submitCode',
 };
 
 
@@ -39,6 +40,9 @@ export default {
     },
     resultListRequest:({state},postData)=>{
       return post(url.resultList,postData);
+    },
+    submitCodeRequest:({state},postData)=>{
+      return post(url.submitCode,postData);
     },
   }
   
