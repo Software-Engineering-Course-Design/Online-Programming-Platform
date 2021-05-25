@@ -16,11 +16,22 @@ app.post('/server', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     response.send("helloxxxxx post");
 });
-app.post('/check', (request, response) => {
+app.post('/signup', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     const data = {
-        exist: 1,
+        ifExist: true,
         msg: '用户名已存在！'
+    };
+    let str = JSON.stringify(data);
+    //response.send(`handle(${str})`);
+    response.send(str);
+});
+app.post('/login', (request, response) => {
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    console.log(request);
+    const data = {
+        ifExist: false,
+        msg: '登录成功！'
     };
     let str = JSON.stringify(data);
     //response.send(`handle(${str})`);

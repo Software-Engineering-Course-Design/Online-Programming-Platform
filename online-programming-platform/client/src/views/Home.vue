@@ -25,9 +25,9 @@
           name: '444',
           age:'18',
         }
-        this.$store.dispatch('testget', obj).then(res=>{
-          console.log(res);
-        })
+        // this.$store.dispatch('testget', obj).then(res=>{
+        //   console.log(res);
+        // })
       }
     },
 
