@@ -16,12 +16,12 @@ def login_info():
     if request.method == 'POST': 
             username=request.json.get("username") 
             password=request.json.get("password") 
-            # 0.写sql
+            #写sql
             query = "SELECT * FROM user WHERE username='{}'".format(username)
             #通过用户的id来查询用户资料（one=True返回第一条数据）
             result = query_db(query,one=True) 
             if result is None:
-                return  dict(ifExist=False,usertype=2,msg = "user doesn't exist")
+                return  dict(ifExist=False,usertype=2,msg = "User doesn't exist!")
             else:
                 password_match=result['password']
                 if password_match==password:
@@ -33,5 +33,3 @@ def login_info():
     else:
         return dict(ifExist=False,usertype=2,msg = "permission denied!")
  
-    return 'user_add'
-
