@@ -12,14 +12,14 @@
         </div>
 
       </div>
-      <div class="btn-box">
+      <!-- <div class="btn-box">
         <el-row>
-          <!-- <el-button type="primary" id="run-btn" round>运行</el-button> -->
+          <el-button type="primary" id="run-btn" round>运行</el-button>
           <el-button type="primary" id="save-btn" round>保存</el-button>
           <el-button type="primary" id="submit-btn" round>提交</el-button>
           <el-button type="danger" id="clear-btn" round>清空</el-button>
         </el-row>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -33,6 +33,16 @@
   import 'codemirror/lib/codemirror.css'
   // 引入主题后还需要在 options 中指定主题才会生效
   import 'codemirror/theme/cobalt.css'
+
+  import 'codemirror/addon/scroll/annotatescrollbar.js'
+  import 'codemirror/addon/search/matchesonscrollbar.js'
+  import 'codemirror/addon/search/match-highlighter.js'
+  import 'codemirror/addon/search/jump-to-line.js'
+
+  import 'codemirror/addon/dialog/dialog.js'
+  import 'codemirror/addon/dialog/dialog.css'
+  import 'codemirror/addon/search/searchcursor.js'
+  import 'codemirror/addon/search/search.js'
 
 
   import 'codemirror/mode/javascript/javascript.js'
@@ -175,7 +185,11 @@
 
         // 允许父容器通过以下函数监听当前的语法值
         this.$emit('language-change', label)
-      }
+      },
+      //点击按钮实现搜索效果
+      searchCode(e) {
+        this.codemirror.execCommand('find') //触发
+      },
     }
   }
 
