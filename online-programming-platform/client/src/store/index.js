@@ -5,9 +5,10 @@ import api from './api.js'
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   /*strict: process.env.NODE_ENV === 'production',*/
   modules: {
     api
   }
 })
+export default store;

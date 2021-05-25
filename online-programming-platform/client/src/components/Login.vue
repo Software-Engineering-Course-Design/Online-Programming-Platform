@@ -53,7 +53,7 @@
     data() {
       return {
         dialogVisible: false, //提示框显示
-        alertMsg:'',
+        alertMsg: '',
         validateForm: {
           username: '',
           password: ''
@@ -87,7 +87,6 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log("success!");
             let that = this;
             let loginData = {
               username: that.validateForm.username,
@@ -102,6 +101,19 @@
               if (ifExist) {
                 //登录成功
                 console.log('登录成功')
+                this.$store.commit("userStatus", true);
+                //Vuex在用户刷新的时候userStatus会回到默认值false，所以需要用到HTML5储存
+                //设置一个名为LoginStatus，值为isLogin的字段，作用是如果LoginStatus有值且为isLogin的时候，证明用户已经登录了。
+                localStorage.setItem("LoginStatus", "isLogin");
+                this.$message({
+                  showClose: true,
+                  message: msg,
+                  type: 'success',
+                  duration: 2300,
+
+                })
+                //登录成功后跳转到指定页面
+                this.$router.push("/home");
 
               } else {
                 //用户不存在，登录失败

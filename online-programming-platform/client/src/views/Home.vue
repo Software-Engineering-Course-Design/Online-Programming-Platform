@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <logout></logout>
     <img alt="Vue logo" src="../assets/logo.png">
     <p>
       If Element is successfully added to this project, you'll see an
@@ -7,13 +8,18 @@
       below
     </p>
     <el-button @click="testClick">{{msg}}</el-button>
+    
 
   </div>
 </template>
 
 <script>
-
+//import Logout from "../components/Logout.vue"
+import logout from "../components/UserQuit.vue"
   export default {
+    components: {
+      logout
+    },
     data() {
       return {
         msg: '1111',
@@ -28,6 +34,8 @@
         // this.$store.dispatch('testget', obj).then(res=>{
         //   console.log(res);
         // })
+        let getFlag = localStorage.getItem("LoginStatus");
+        this.msg = getFlag;
       }
     },
 

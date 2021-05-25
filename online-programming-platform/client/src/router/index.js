@@ -7,33 +7,46 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  routes: [
-    {
+  routes: [{
       path: '/home',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        isLogin: false
+      },
     },
     {
       path: '/',
       name: '/',
-      component: Home
+      component: Sign,
+      meta: {
+        isLogin: false
+      },
     },
     {
       path: '/sign',
       name: 'sign',
-      component: Sign
+      component: Sign,
+      meta: {
+        isLogin: false
+      },
     },
     //后面都用懒加载，防止组件加载过慢
     {
       path: '/applicant',
       name: 'applicant',
-      component:resolve=>require(['../views/Applicant.vue'],resolve),
+      component: resolve => require(['../views/Applicant.vue'], resolve),
+      meta: {
+        isLogin: false
+      },
     },
     {
       path: '/applicant/interview',
       name: 'appInterview',
-      component:resolve=>require(['../views/AppInterview.vue'],resolve),
-      //component:resolve=>require(['../components/CodeEditor.vue'],resolve),
+      component: resolve => require(['../views/AppInterview.vue'], resolve),
+      meta: {
+        isLogin: false
+      },
     },
     // {
     //   path: '/applicant/result',
@@ -43,22 +56,34 @@ export default new Router({
     {
       path: '/interview/addNewQuestion',
       name: 'interviewToAddQuestion',
-      component:resolve => require(['../views/addNewQuestion'],resolve),
+      component: resolve => require(['../views/addNewQuestion'], resolve),
+      meta: {
+        isLogin: false
+      },
     },
     {
       path: '/interview/questionDetails',
       name: 'interviewToQuestionDetails',
-      component:resolve => require(['../views/viewQuestionDetails'],resolve),
+      component: resolve => require(['../views/viewQuestionDetails'], resolve),
+      meta: {
+        isLogin: false
+      },
     },
     {
       path: '/interview/updateQuestion',
       name: 'interviewToUpdateQuestion',
-      component:resolve => require(['../views/updateQuestion'],resolve),
+      component: resolve => require(['../views/updateQuestion'], resolve),
+      meta: {
+        isLogin: false
+      },
     },
     {
       path: '/interview/viewQuestionCodeList',
       name: 'interviewToViewQuestionCodeList',
-      component:resolve => require(['../views/viewQuestionCodeList'],resolve),
+      component: resolve => require(['../views/viewQuestionCodeList'], resolve),
+      meta: {
+        isLogin: false
+      },
     },
 
   ]

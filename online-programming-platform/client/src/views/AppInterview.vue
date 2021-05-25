@@ -302,15 +302,15 @@
               showClose: true,
               message: msg,
               type: 'success',
-              duration:2300,
-              
+              duration: 2300,
+
             })
           } else {
             this.$message({
               showClose: true,
               message: msg,
               type: 'error',
-              duration:2300,
+              duration: 2300,
             });
           }
           this.submitDialogVisible = false;

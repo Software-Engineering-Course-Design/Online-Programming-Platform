@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-link to="/">Home</router-link>|
+    <router-link to="/home">Home</router-link>|
     <router-link to="/sign">登录注册</router-link>|
     <router-link to="/applicant">面试者首页</router-link>|
     <router-link to="/applicant/interview">面试模块</router-link>|
