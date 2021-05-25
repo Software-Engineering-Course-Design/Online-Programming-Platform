@@ -2,9 +2,11 @@ import os
 
 from flask import Flask
 from flask import request
+from flask_cors import *
 from .login import login 
 from .comment import comment
 from .signup import signup
+
 
 def create_app(test_config=None):
     # create and configure the app

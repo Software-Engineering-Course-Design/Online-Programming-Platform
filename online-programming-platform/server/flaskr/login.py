@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect,request
 from . import db
+from flask_cors import *
 
 login = Blueprint('login',__name__)
 
@@ -10,6 +11,7 @@ def query_db(query, args=(), one=False):
         return (rv[0] if rv else None) if one else rv
 
 @login.route('/login_info',methods=['GET','POST'])
+@cross_orgin()
 def login_info():
     if request.method == 'POST': 
             username=request.json.get("username") 
