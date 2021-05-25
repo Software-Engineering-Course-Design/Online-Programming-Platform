@@ -11,7 +11,7 @@ def query_db(query, args=(), one=False):
         return (rv[0] if rv else None) if one else rv
 
 @login.route('/login_info',methods=['GET','POST'])
-@cross_orgin()
+@cross_origin()
 def login_info():
     if request.method == 'POST': 
             username=request.json.get("username") 

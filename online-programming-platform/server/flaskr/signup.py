@@ -11,7 +11,7 @@ def query_db(query, args=(), one=False):
         return (rv[0] if rv else None) if one else rv
 
 @signup.route('/signup_info',methods=['GET','POST'])
-@cross_orgin()
+@cross_origin()
 def signup_info():
     if request.method == 'POST': 
 #
@@ -31,20 +31,22 @@ def signup_info():
             #print(query)
             #通过用户的id来查询用户资料（one=True返回第一条数据）
             result = query_db(query,one=True) 
-            #print(result['username'])
+            print(result)
             if result is None:#数据库里没有该用户，加到数据库
+                print('here')
                 connection = db.get_db()
                 query = "INSERT INTO user(usertype,username,password) values('{}','{}','{}')".format(userType,username,password)
                 connection.execute(query)
                 connection.commit()
                 return  dict(ifExist=False,msg = "success")
             else:#数据库里有该用户
+                print('fail')
                 return dict(ifExist=True, msg="fail! user already existed!")
  
     return 'user_add'
 
 @signup.route('/signup_test',methods=['GET','POST'])
-@cross_orgin()
+@cross_origin()
 def signup_test():
     if request.method == 'POST': 
         return 'aaa'

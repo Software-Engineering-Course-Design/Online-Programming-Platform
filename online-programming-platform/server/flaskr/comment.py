@@ -11,7 +11,7 @@ def query_db(query, args=(), one=False):
         return (rv[0] if rv else None) if one else rv
 
 @comment.route('/comment_add',methods=['GET','POST'])
-@cross_orgin()
+@cross_origin()
 def comment_add():
     if request.method == 'POST': 
             questionID=request.json.get("questionID")
@@ -31,7 +31,7 @@ def comment_add():
         return dict(ifExist=False,usertype=2,msg = "user doesn't exist") 
  
 @comment.route('/comment_search',methods=['GET','POST'])
-@cross_orgin()
+@cross_origin()
 def comment_search():
      if request.method=='GET':
          username=request.json.get("username") 

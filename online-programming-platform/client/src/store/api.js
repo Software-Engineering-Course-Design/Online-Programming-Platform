@@ -9,8 +9,8 @@ import {
 //在别的地方引入 import {getData} from 'api',按钮点击可以绑定这个方法
 const url = {
   test: 'http://127.0.0.1:8000/testget',
-  signup: 'http://127.0.0.1:8000/check',
-  login: 'http://127.0.0.1/5000/login/login_info',
+  signup: 'http://127.0.0.1:5000/signup/signup_info',
+  login: 'http://127.0.0.1:5000/login/login_info',
   questionList: 'http://127.0.0.1:8000/questionList',
   interviewList: 'http://127.0.0.1:8000/interviewList',
   resultList: 'http://127.0.0.1:8000/resultList',
