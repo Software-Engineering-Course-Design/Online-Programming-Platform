@@ -123,7 +123,7 @@
 
         questionOptions: [], //
         submitDialogVisible: false,
-        username:'',
+        username: '',
         sessionID: 1,
         questionID: 1,
         code: '',
@@ -299,11 +299,19 @@
           var msg = res.msg;
           if (ifSuccess) {
             this.$message({
+              showClose: true,
               message: msg,
               type: 'success',
+              duration:2300,
+              
             })
           } else {
-            this.$message.error(msg);
+            this.$message({
+              showClose: true,
+              message: msg,
+              type: 'error',
+              duration:2300,
+            });
           }
           this.submitDialogVisible = false;
         })
