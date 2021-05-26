@@ -84,7 +84,7 @@
 
 | Column     | Type   | Value | Description |
 | ---------- | ------ | ----- | ----------- |
-| candidate  | string |       | 面试者ID    |
+| applicant  | string |       | 面试者ID    |
 | questionID | int    |       | 面试题ID    |
 
 2.后端->前端
