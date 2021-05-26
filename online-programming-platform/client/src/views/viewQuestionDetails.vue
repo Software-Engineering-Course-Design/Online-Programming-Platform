@@ -5,6 +5,7 @@
       <question-details></question-details>
     </el-main>
     <el-footer>
+      <el-button type="info" @click="newExam">发起面试</el-button>
       <el-button type="info" @click="update">修改题目</el-button>
       <el-button type="info" @click="viewCodes">查看已提交代码</el-button>
     </el-footer>
@@ -28,8 +29,8 @@ export default {
     updateQuestion
   },
   methods:{
-    hello(){
-      console.log(this.msg);
+    newExam(){
+      this.$router.push('./addNewExam');
     },
     viewCodes(){
       this.$router.push('./viewQuestionCodeList');//需要传参

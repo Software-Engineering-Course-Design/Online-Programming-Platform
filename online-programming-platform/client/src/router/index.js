@@ -85,6 +85,11 @@ export default new Router({
         isLogin: false
       },
     },
+    {
+      path: '/interview/addNewExam',
+      name: 'interviewToAddNewExam',
+      component:resolve => require(['../views/addNewExam'],resolve),
+    },
 
   ]
 })
