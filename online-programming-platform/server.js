@@ -61,14 +61,18 @@ app.post('/questionList', (request, response) => {
     let str = JSON.stringify(data);
     response.send(str);
 });
-app.post('/resultList', (request, response) => {
+app.post('/viewResult', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     const data = {
         id_arr:[11,22,33,44],
-        heading_arr:['h1','h2','h3','h4'],
-        question_arr:['q1','q2','q3','q4'],
+        msg:{ "join":[{"sessionID":1, "hr_name":"aaa", "questionNumber":3, "time":1.5},
+            {"sessionID":2, "hr_name":"bbb", "questionNumber":2, "time":1}], 
+            "notjoin":[{"sessionID":3, "hr_name":"aaa", "questionNumber":3, "time":1.5},
+            {"sessionID":2, "hr_name":"bbb", "questionNumber":2, "time":1}]
+        }
     };
     let str = JSON.stringify(data);
+    console.log(data);
     response.send(str);
 });
 app.post('/interviewList', (request, response) => {

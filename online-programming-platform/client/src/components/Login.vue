@@ -104,7 +104,7 @@
                 this.$store.commit("userStatus", true);
                 //Vuex在用户刷新的时候userStatus会回到默认值false，所以需要用到HTML5储存
                 //设置一个名为LoginStatus，值为isLogin的字段，作用是如果LoginStatus有值且为isLogin的时候，证明用户已经登录了。
-                localStorage.setItem("LoginStatus", "isLogin");
+                sessionStorage.setItem("LoginStatus", "isLogin");
                 this.$message({
                   showClose: true,
                   message: msg,

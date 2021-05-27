@@ -5,12 +5,12 @@
       <el-form ref="form" :model="form" :rules="rules">
         <el-form-item label="请选择题目数量" prop="num">
           <el-radio-group v-model="form.num">
-            <el-radio-button v-for="n in 5" :label="n"></el-radio-button>
+            <el-radio-button v-for="n in 5" :label="n" :key="n"></el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="请选择出题类型" prop="type">
           <el-radio-group v-model="form.type">
-            <el-radio-button v-for="item in options" :label="item.value"></el-radio-button>
+            <el-radio-button v-for="(item,index) in options" :label="item.value" :key="index"></el-radio-button>
           </el-radio-group>
         </el-form-item>
         <div v-if="form.type=='自主选题'">

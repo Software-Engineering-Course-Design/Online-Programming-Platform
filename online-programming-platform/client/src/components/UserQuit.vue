@@ -20,9 +20,9 @@
     },
     methods: {
       user_logout() {
-        let getStatus = localStorage.getItem("LoginStatus");
+        let getStatus = sessionStorage.getItem("LoginStatus");
         if (getStatus === 'isLogin') {
-          localStorage.removeItem("LoginStatus");
+          sessionStorage.removeItem("LoginStatus");
           this.dialogVisible = false;
           console.log('退出登录');
         }else{

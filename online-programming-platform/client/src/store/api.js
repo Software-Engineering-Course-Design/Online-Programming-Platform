@@ -12,10 +12,11 @@ const url = {
   login: 'http://127.0.0.1:5000/login/login_info',
   // signup: 'http://127.0.0.1:8000/signup',
   // login: 'http://127.0.0.1:8000/login',
-  questionList: 'http://127.0.0.1:8000/questionList',
-  interviewList: 'http://127.0.0.1:8000/interviewList',
-  resultList: 'http://127.0.0.1:8000/resultList',
-  submitCode: 'http://127.0.0.1:8000/submitCode',
+  questionList: 'http://127.0.0.1:8000/questionList',//面试模块，请求面试题目
+  interviewList: 'http://127.0.0.1:8000/interviewList',//面试者首页，请求可参加的和已参加的面试场次信息
+  //resultList: 'http://127.0.0.1:8000/resultList',//面试者首页，请求已参加的面试场次信息
+  submitCode: 'http://127.0.0.1:8000/submitCode',//提交代码
+  viewResult:'http://127.0.0.1:8000/viewResult',
 };
 
 
@@ -58,15 +59,20 @@ export default {
     }, postData) => {
       return post(url.interviewList, postData);
     },
-    resultListRequest: ({
-      state
-    }, postData) => {
-      return post(url.resultList, postData);
-    },
+    // resultListRequest: ({
+    //   state
+    // }, postData) => {
+    //   return post(url.resultList, postData);
+    // },
     submitCodeRequest: ({
       state
     }, postData) => {
       return post(url.submitCode, postData);
+    },
+    viewResultRequest: ({
+      state
+    }, postData) => {
+      return post(url.viewResult, postData);
     },
   }
 

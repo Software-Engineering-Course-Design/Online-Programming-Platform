@@ -281,30 +281,16 @@ status是提交代码的批改，默认为0，只有当result为0时，批改按
 
 2.后端->前端
 
-| Column   | Type  | Value | Description                    |
-| -------- | ----- | ----- | ------------------------------ |
-| h_id_arr | Array |       | 已提交代码的面试题标题和ID数组 |
+| Column       | Type   | Value                       | Description        |
+| ------------ | ------ | --------------------------- | ------------------ |
+| id_arr       | Array  |                             | 该场次面试题ID数组 |
+| heading_arr  | string |                             | 面试题标题数组     |
+| question_arr | string |                             | 面试题题目数组     |
+| code_arr     |        |                             | 提交的代码数组     |
+| answer_arr   |        |                             | 标准答案数组       |
+| result_arr   | string | 0：未批改    1：AC    2：WA | 代码结果数组       |
 
-**h_id_arr格式如下：[[1,heading_one],[2,heading_two]……]，两层数组，第一个参数是questionID，第二个参数是面试题标题**
-
-###### 点击标题后跳转
-
-1.前端->后端
-
-| Column     | Type   | Value | Description  |
-| ---------- | ------ | ----- | ------------ |
-| username   | string |       | 面试者用户ID |
-| questionID | string |       | 面试题目ID   |
-
-2.后端->前端
-
-| Column   | Type   | Value                       | Description |
-| -------- | ------ | --------------------------- | ----------- |
-| heading  | string |                             | 面试题标题  |
-| question | string |                             | 面试题题目  |
-| code     |        |                             | 提交的代码  |
-| answer   |        |                             | 标准答案    |
-| result   | string | 0：未批改    1：AC    2：WA | 代码结果    |
+###### 
 
 ## **四——评论区模块** 
 
