@@ -6,6 +6,7 @@ from flask_cors import *
 from .login import login 
 from .comment import comment
 from .signup import signup
+from .interviewer import interviewer
 
 
 def create_app(test_config=None):
@@ -15,7 +16,8 @@ def create_app(test_config=None):
     #注册蓝图
     app.register_blueprint(login,url_prefix='/login') 
     app.register_blueprint(comment,url_prefix='/comment') 
-    app.register_blueprint(signup,url_prefix='/signup') 
+    app.register_blueprint(signup,url_prefix='/signup')
+    app.register_blueprint(interviewer, url_prefix='/interviewer')
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
