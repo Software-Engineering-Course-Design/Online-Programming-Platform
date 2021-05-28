@@ -20,12 +20,12 @@
           <el-col :span="8">
             <div class="grid-content bg-purple"></div>
           </el-col>
-          <el-col :span="4">
+          <!-- <el-col :span="4">
             <div class="grid-content bg-purple"></div>
-          </el-col>
-          <!-- 倒计时插件，以后写 -->
-          <el-col :span="4">
-            <!-- <count-down></count-down> -->
+          </el-col> -->
+          <!-- 倒计时 -->
+          <el-col :span="8">
+            <count-down :interviewTime="interviewTime" :startTime="startTime" :endTime="endTime"></count-down>
           </el-col>
         </el-row>
 
@@ -127,7 +127,12 @@
         username: this.$route.query.username,
         sessionID: this.$route.query.sessionID,
 
-        questionID: 1,//当前问题的id 即item.value
+        questionID: 1, //当前问题的id 即item.value
+
+        interviewTime: parseInt(this.$route.query.time), //传给倒计时组件的,面试时长
+        startTime: this.$route.query.startTime, //传给倒计时组件的,面试开始时间
+        endTime: this.$route.query.endTime,//传给倒计时组件的,面试结束时间
+
         code: '',
         coder: null,
         mode: 'javascript',
@@ -263,10 +268,8 @@
       },
       //一点开即调用
       onStart() {
-        //暂时写死面试场次，以后要用session或者cookie保存该值
-        var sessionID = 1;
         var postData = {
-          'sessionID': sessionID,
+          'sessionID': this.sessionID,
         }
         //根据面试场次请求题目列表
         this.$store.dispatch('questionListRequest', postData).then(res => {

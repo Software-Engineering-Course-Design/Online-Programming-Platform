@@ -13,8 +13,11 @@
                 </template>
                 <div>出题者：{{item.interviewer}}</div>
                 <div>题数：{{item.questionNumber}}</div>
-                <div>面试时长：{{item.time}}</div>
-                <el-button type="primary" class="start-btn" @click="jumpToInterviewURL(item.sessionID)" round>开始面试
+                <div>面试开始时间：{{item.startTime}}</div>
+                <div>面试时长：{{item.time}}分钟</div>
+                <el-button type="primary" class="start-btn"
+                  @click="startInterview(item.sessionID,item.startTime,item.endTime,item.time)" round>
+                  开始面试
                 </el-button>
               </el-collapse-item>
 
@@ -30,7 +33,8 @@
                 <div>题数：{{item.questionNumber}}</div>
                 <div>批改状态：{{item.status?'已批改':'未批改'}}</div>
                 <div>面试分数：{{item.score}}</div>
-                <el-button type="primary" class="check-btn" @click="jumpToResultURL(item.sessionID)" round>查看面试详情</el-button>
+                <el-button type="primary" class="check-btn" @click="jumpToResultURL(item.sessionID)" round>查看面试详情
+                </el-button>
               </el-collapse-item>
 
             </el-collapse>
@@ -39,6 +43,13 @@
       </el-main>
     </el-container>
       
+    <!-- 提示框 -->
+      <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <span>{{alertMsg}}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -51,9 +62,10 @@
         sessionName2: '0',
         interviewName: 'interview',
 
-        interviewList: [],//可参加的面试场次
-        resultList: [],//已参加的面试场次
-
+        interviewList: [], //可参加的面试场次
+        resultList: [], //已参加的面试场次
+        dialogVisible: false,
+        alertMsg: '',
       };
     },
     methods: {
@@ -67,6 +79,8 @@
             sessionID: arr[i].sessionID,
             interviewer: arr[i].hr_username,
             questionNumber: arr[i].questionNumber,
+            startTime: arr[i].startTime,
+            endTime: arr[i].endTime,
             time: arr[i].time,
           });
         }
@@ -83,15 +97,41 @@
           });
         }
       },
-      //点击按钮跳转并传参
-      jumpToInterviewURL(s_id) {
+      //跳转并传参
+      jumpToInterviewURL(s_id, s_time, e_time, time) {
         this.$router.push({
           path: '/applicant/interview',
           query: {
             username: this.username,
             sessionID: s_id,
+            startTime: s_time,
+            endTime: e_time,
+            time: time,
           }
         })
+      },
+      //点击开始面试按钮，判断是否满足开始面试的条件
+      startInterview(s_id, s_time, e_time, time) {
+        // 获取当前时间
+        let newTime = new Date().getTime();
+        //获取面试开始时间
+        let interviewStartTime = new Date(s_time).getTime();
+        //获取结束时间
+        let interviewEndTime = new Date(e_time).getTime();
+        //可提前10分钟进入面试链接,可迟到15分钟
+        var pre = 10 * 60000;
+        var late = 15 * 60000;
+        if (interviewStartTime - newTime > pre) {
+          alertMsg = '面试尚未开始，不能进入面试';
+          dialogVisible = true;
+        } else if (interviewStartTime - newTime <= pre || interviewStartTime == newTime || newTime - interviewStartTime <
+          late) {
+          this.jumpToInterviewURL(s_id, s_time, e_time, time);
+        } else if (newTime - interviewStartTime > late) {
+          alertMsg = '您已迟到，无法再进入面试';
+          dialogVisible = true;
+        }
+
       },
       jumpToResultURL(s_id) {
         this.$router.push({
@@ -101,6 +141,13 @@
             sessionID: s_id,
           }
         })
+      },
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
       },
       onStart() {
         //var username = sessionStorage.getItem("username");
@@ -112,8 +159,8 @@
         this.$store.dispatch('interviewListRequest', postData).then(res => {
           console.log(res);
 
-          this.createInterviewList(res.join, this.interviewList);
-          this.createResultList(res.notjoin, this.resultList);
+          this.createInterviewList(res.notjoin, this.interviewList);
+          this.createResultList(res.join, this.resultList);
         })
 
       },

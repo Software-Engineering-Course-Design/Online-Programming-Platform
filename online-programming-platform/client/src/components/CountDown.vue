@@ -1,100 +1,80 @@
 <template>
   <div class="count-down" style="height:40px">
-    {{surplus|filterTime}}
+    剩余时间：{{countDownList}}
   </div>
 </template>
 <script>
   export default {
     name: 'CountDown',
     props: {
-      endHours: {
+      interviewTime: {
         type: Number,
-        required: true,
+        // required: true,
         default: 0
+      },
+      startTime: {
+        type: String,
+      },
+      endTime: {
+        type: String,
       }
     },
     created() {
-      this.beforeDestroy();
+      this.countDownAction();
     },
     data() {
       return {
-        surplus: '',
-        diffSeconds: 0,
-        interval: undefined,
-        year: '',
-        month: '',
-        day: '',
-        hours: '',
-        minutes: '',
-        seconds: '',
-        endHours:'',
-        endMinutes:'',
-        endSeconds:'',
-      }
+        countDownList: '00时00分00秒',
+
+      };
     },
     methods: {
-      getTime() {
-        var date1 = new Date();
-        this.year = date1.getFullYear();
-        this.month = date1.getMonth() + 1;
-        this.day = date1.getDate();
-        this.hours = date1.getHours();
-        this.minutes = date1.getMinutes();
-        this.seconds = date1.getSeconds();
-        //return year + "年" + month + "月" + day + "日" + hours + ":" + minutes + ":" + seconds
+      //格式
+      timeFormat(param) {
+        return param < 10 ? '0' + param : param;
       },
-      setEndTime(){
+      //时间处理
+      countDownAction(it) {
+        var interval = setInterval(() => {
+          // 获取当前时间
+          let newTime = new Date().getTime();
+          //获取面试开始时间
+          let interviewStartTime = new Date(this.startTime).getTime();
+          //获取结束时间
+          let interviewEndTime = new Date(this.endTime).getTime();
 
+          let obj = null;
+          if (newTime - interviewStartTime > 0) {
+            // 如果活动未结束，对时间进行处理
+            if (interviewEndTime - newTime > 0) {
+              let time = (interviewEndTime - newTime) / 1000;
+              // 获取天、时、分、秒
+              let day = parseInt(time / (60 * 60 * 24));
+              let hour = parseInt(time % (60 * 60 * 24) / 3600);
+              let min = parseInt(time % (60 * 60 * 24) % 3600 / 60);
+              let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60);
+              obj = {
+                day: this.timeFormat(day),
+                hour: this.timeFormat(hour),
+                min: this.timeFormat(min),
+                sec: this.timeFormat(sec)
+              };
+            } else { // 活动已结束，全部设置为'00'
+              obj = {
+                day: '00',
+                hour: '00',
+                min: '00',
+                sec: '00'
+              };
+              clearInterval(interval);
+            }
+          } else {
+            console.log('面试还没开始')
+          }
+
+          this.countDownList = obj.hour + '时' + obj.min + '分' + obj.sec + '秒';
+        }, 1000);
       },
-
-      beforeDestroy() {
-        if (this.interval) {
-          clearInterval(this.interval)
-        }
-        let date = new Date();
-        if (date.getHours() > this.endHours) {
-          this.surplus = '面试结束';
-          return
-        }
-        if (date.getHours() === this.endHours) {
-          this.surplus = '面试中';
-          return
-        }
-        //差距小时数
-        const diffHours = this.endHours - date.getHours() - 1;
-        // 差距分钟数
-        const diffMinutes = 60 - date.getMinutes() - 1;
-        // 差距秒数
-        const diffSeconds = 60 - date.getSeconds();
-        // 转化为对应的秒数
-        this.diffSeconds = diffHours * 3600 + diffMinutes * 60 + diffSeconds;
-        // 当时间每过1秒 秒数差距应该 - 1
-        this.interval = setInterval(() => {
-          this.diffSeconds -= 1
-        }, 1000)
-      }
-    },
-    watch: {
-      diffSeconds(newV) {
-        // 当前的秒数 / 3600，向下取整，获取到转化的小时数
-        let hours =
-          Math.floor(newV / 3600);
-        // 当前秒数 / 60，向下取整
-        // 获取到所有分钟数 3600 / 60 = 60分钟
-        // 对60取模，超过小时数的分钟数
-        let minutes =
-          Math.floor(newV / 60) % 60;
-        // 当前的秒数 % 60，获取到 超过小时数、分钟数的秒数（秒数）
-        let seconds = newV % 60;
-        // 拼装数据
-        this.surplus = hours + ':' + minutes + ':' + seconds;
-        /**
-         * 在当前秒数 变为 0， 需要修改展示数据
-         */
-        if (newV === 0) {
-          this.beforeDestroy()
-        }
-      }
     }
   }
 
@@ -104,7 +84,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff
+    color: black;
   }
 
 </style>

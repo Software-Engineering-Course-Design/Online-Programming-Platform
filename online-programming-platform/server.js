@@ -107,25 +107,32 @@ app.post('/interviewList', (request, response) => {
             "sessionID": 1,
             "hr_username": "aaa",
             "questionNumber": 3,
+            "status": 150,
+            "score":100,
+        },
+        {
+            "sessionID": 2,
+            "hr_username": "bbb",
+            "questionNumber": 2,
+            "status": 1,
+            "score":80,
+        }
+    ],
+    //可参加
+    notjoin: [{
+            "sessionID": 3,
+            "hr_username": "aaa",
+            "questionNumber": 3,
+            "startTime":'2021-05-28 17:50:00',
+            "endTime":'2021-05-28 22:50:00',
             "time": 150
         },
         {
             "sessionID": 2,
             "hr_username": "bbb",
             "questionNumber": 2,
-            "time": 1
-        }
-    ],
-    notjoin: [{
-            "sessionID": 3,
-            "hr_username": "aaa",
-            "questionNumber": 3,
-            "time": 1.5
-        },
-        {
-            "sessionID": 2,
-            "hr_username": "bbb",
-            "questionNumber": 2,
+            "startTime":'2021-05-28 17:50:00',
+            "endTime":'2021-05-28 22:50:00',
             "time": 150
         }
     ]

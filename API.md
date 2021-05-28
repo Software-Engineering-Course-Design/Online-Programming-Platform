@@ -197,13 +197,22 @@ status是提交代码的批改，默认为0，只有当result为0时，批改按
 
 | Column          | Type  | Value | Description            |
 | --------------- | ----- | ----- | ---------------------- |
-| join_message    | json  |       | 已参加的面试场次和未参加的面试场次信息 |
+| notjoin | Array |       | 未参加的面试场次信息 |
+| join | Array | | 已参加的面试场次信息 |
 
+格式如下：
 
-**join_message格式**：{"notjoin":[{"sessionID":" ","hr_username":" ", "questionNumber":" ","time": " "}, {......}],"join"{["sessionID":" ","hr_username":" ", "questionNumber":" ","status": " ", "score":" "}, {......}]},两层json。
-key为join代表已参加的面试信息，里面每一场的信息成为一个json串，sessionID是场次；hr_username是发起该场面试的面试官姓名；questionNumber是该场次的面试题数量；time是该场次面试所需的时间（这个time需要后端自己计算然后发给前端，一道题半个小时,单位是分钟，数据类型是int）。
-key为notjoin代表未参加的面试信息，里面每一场的信息成为一个json串，sessionID是场次；hr_username是发起该场面试的面试官姓名；questionNumber是该场次的面试题数量；status是批改状态，数据类型是bool，false：未批改 true：已批改；score是面试成绩（这个score需要后端自己计算再发给前端，满分一百分，每道题的分数是 100/questionNumber，计算该面试者在这个场次AC了多少道题，这个后端还要判断一下该场面试是否已批改，未批改则返回0）
-**举例**{"notjoin":[{"sessionID":1,"hr_username":"Lisa", "questionNumber":3, "time": 90}, {"sessionID":2,"hr_username":"Joey", "questionNumber":2, "time": 60}],"join"{["sessionID":3,"hr_username":" Mary", "questionNumber":4,"status": true, "score":100]}}
+notjoin:  [{"sessionID":" ","hr_username":" ", "questionNumber":" ","time": " "}, {......}],
+
+join:  [{"sessionID":" ","hr_username":" ", "questionNumber":" ","status": " ", "score":" "}, {......}]
+
+join代表已参加的面试信息，里面每一场的信息成为一个json串，sessionID是场次；hr_username是发起该场面试的面试官姓名；questionNumber是该场次的面试题数量；time是该场次面试所需的时间（这个time需要后端自己计算然后发给前端，单位是分钟，数据类型是int）。
+
+notjoin代表未参加的面试信息，里面每一场的信息成为一个json串，sessionID是场次；hr_username是发起该场面试的面试官姓名；questionNumber是该场次的面试题数量；status是批改状态，数据类型是bool，false：未批改 true：已批改；score是面试成绩（这个score需要后端自己计算再发给前端，满分一百分，每道题的分数是 100/questionNumber，计算该面试者在这个场次AC了多少道题，这个后端还要判断一下该场面试是否已批改，未批改则返回0）
+
+**举例**notjoin:[{"sessionID":1,"hr_username":"Lisa", "questionNumber":3, "time": 90}, {"sessionID":2,"hr_username":"Joey", "questionNumber":2, "time": 60}],
+
+join:[{"sessionID":3,"hr_username":" Mary", "questionNumber":4,"status": true, "score":100}]
 意思为：该面试者还未参加的场次是第一场和第二场，已经参加的是第三场
 
 #### 在线编程题目显示模块
