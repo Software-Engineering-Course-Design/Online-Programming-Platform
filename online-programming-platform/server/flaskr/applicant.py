@@ -17,7 +17,7 @@ def join_message():
 	if request.method == 'POST':
 		interviewee=request.json.get("username") 
 		# 0.写sql
-		query = "SELECT sessionID, username, questionNumber,  FROM interview WHERE applicant='{}' AND status='True'".format(interviewee)
+		query = "SELECT sessionID, username, questionNumber, startTime, endTime, TimeUsed FROM interview WHERE applicant='{}' AND status='True'".format(interviewee)
 		result = query_db(query) 
 		#print(result['sessionID'])sssssss
 		temp=[]
