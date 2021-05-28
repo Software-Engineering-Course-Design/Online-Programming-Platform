@@ -16,7 +16,8 @@ const url = {
   interviewList: 'http://127.0.0.1:8000/interviewList',//面试者首页，请求可参加的和已参加的面试场次信息
   //resultList: 'http://127.0.0.1:8000/resultList',//面试者首页，请求已参加的面试场次信息
   submitCode: 'http://127.0.0.1:8000/submitCode',//提交代码
-  viewResult:'http://127.0.0.1:8000/viewResult',
+  viewResult:'http://127.0.0.1:8000/viewResult',//查看已参加面试详情
+  handin:'http://127.0.0.1:8000/handin',//交卷
 };
 
 
@@ -73,6 +74,11 @@ export default {
       state
     }, postData) => {
       return post(url.viewResult, postData);
+    },
+    handinRequest: ({
+      state
+    }, postData) => {
+      return post(url.handin, postData);
     },
   }
 

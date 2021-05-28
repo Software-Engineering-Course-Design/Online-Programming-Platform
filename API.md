@@ -256,16 +256,19 @@ notjoin: [{
 
 ##### 提交
 
-提交某一道题
+提交某一道题，每道题只能提交一次
 
 1.前端->后端
 
-| Column     | Type   | Value | Description  |
-| ---------- | ------ | ----- | ------------ |
-| username   | string |       | 面试者用户ID |
-| sessionID  | int    |       | 面试场次ID   |
-| questionID | int    |       | 面试题目ID   |
-| code       |        |       | 提交代码     |
+| Column         | Type    | Value                       | Description      |
+| -------------- | ------- | --------------------------- | ---------------- |
+| username       | string  |                             | 面试者用户ID     |
+| sessionID      | int     |                             | 面试场次ID       |
+| questionID     | int     |                             | 面试题目ID       |
+| code           |         |                             | 提交代码         |
+| questionStatus | boolean | true：已提交  false：未提交 | 该题目的提交状态 |
+
+questionStatus默认未提交，即false
 
 2.后端->前端
 
@@ -292,7 +295,7 @@ notjoin: [{
 | Column    | Type    | Value                                                        | Description                                                  |
 | --------- | ------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ifSuccess | boolean | true：提交成功                                           false：提交失败 | 判断是否成功交卷                                             |
-| msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“提交成功”；为false则“提交失败，网络发生故障”） |
+| msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“交卷成功，已结束面试”；为false则“提交失败，网络发生故障”） |
 
 #### 查看已参加的面试的结果
 

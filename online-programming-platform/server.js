@@ -42,11 +42,11 @@ app.post('/login', (request, response) => {
     //response.send(`handle(${str})`);
     response.send(str);
 });
-app.get('/testget', (request, response) => {
+app.post('/handin', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     const data = {
-        exist: 1,
-        msg: '用户名已存在！'
+        ifSuccess: true,
+        msg: '交卷成功！'
     };
     let str = JSON.stringify(data);
     response.send(data);
@@ -123,7 +123,7 @@ app.post('/interviewList', (request, response) => {
             "sessionID": 3,
             "hr_username": "提前10分钟",
             "questionNumber": 3,
-            "startTime":'2021-05-28 19:00:00',
+            "startTime":'2021-05-28 19:30:00',
             "endTime":'2021-05-28 22:50:00',
             "time": 300
         },

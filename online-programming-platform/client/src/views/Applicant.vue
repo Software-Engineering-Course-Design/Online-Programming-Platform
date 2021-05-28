@@ -2,7 +2,7 @@
     <div class="applicant">
     <el-container>
       <!-- header显示用户id和用户类型 -->
-      <el-header>Hello,用户1111</el-header>
+      <el-header>Hello,用户 {{username}}!</el-header>
       <el-main>
         <el-tabs v-model="interviewName" @tab-click="handleClick">
           <el-tab-pane label="可参加面试" name="interview">
@@ -97,7 +97,7 @@
           });
         }
       },
-      //跳转并传参
+      //跳转并传参 跳转至面试页面
       jumpToInterviewURL(s_id, s_time, e_time, time) {
         this.$router.push({
           path: '/applicant/interview',
@@ -110,7 +110,7 @@
           }
         })
       },
-      //点击开始面试按钮，判断是否满足开始面试的条件
+      //点击开始面试按钮触发，判断是否满足开始面试的条件
       startInterview(s_id, s_time, e_time, time) {
         // 获取当前时间
         let newTime = new Date().getTime();
@@ -139,6 +139,7 @@
         }
 
       },
+      //跳转并传参 跳转至查看面试结果页面
       jumpToResultURL(s_id) {
         this.$router.push({
           path: '/applicant/viewResult',
@@ -155,11 +156,10 @@
           })
           .catch(_ => {});
       },
+      //页面刚加载时调用，在mounted里调用
       onStart() {
-        //var username = sessionStorage.getItem("username");
-        var username = "111";
         var postData = {
-          'username': username,
+          'username': this.username,
         }
         //根据面试场次请求题目列表
         this.$store.dispatch('interviewListRequest', postData).then(res => {
