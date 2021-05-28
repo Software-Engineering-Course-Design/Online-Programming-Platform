@@ -25,7 +25,7 @@
           </el-col>
           <!-- 倒计时 -->
           <el-col :span="4">
-            <count-down :interviewTime="interviewTime" :startTime="startTime" :endTime="endTime"></count-down>
+            <count-down :interviewTime="interviewTime" :startTime="startTime" :endTime="endTime" @endInterview="timeUp"></count-down>
           </el-col>
         </el-row>
 
@@ -53,7 +53,7 @@
             <div class="btn-box">
               <el-row>
                 <!-- <el-button type="primary" id="run-btn" round>运行</el-button> -->
-                <el-button type="primary" id="save-btn" round>保存</el-button>
+                <el-button type="primary" id="save-btn" @click="saveCodeAndAlert()" round>保存</el-button>
                 <el-button type="primary" id="submit-btn" @click="submitDialogVisible=true" round>提交</el-button>
                 <el-button type="danger" id="clear-btn" @click="clear()" round>清空</el-button>
               </el-row>
@@ -63,7 +63,7 @@
       </el-main>
     </el-container>
        <el-dialog title="提示" :visible.sync="submitDialogVisible" width="30%" :before-close="handleClose">
-      <span>是否提交代码</span>
+      <span>是否提交本题代码</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="submitDialogVisible = false">取消</el-button>
         <!-- submit传题目ID -->
@@ -136,6 +136,7 @@
         sessionID: this.$route.query.sessionID,
 
         questionID: '', //当前问题的id 即item.value
+        pre_questionID: '', //记录变化前的id
         questionStatus: [], //每道题的提交状态
 
         interviewTime: parseInt(this.$route.query.time), //传给倒计时组件的,面试时长
@@ -195,6 +196,7 @@
         //socket: io('localhost:3001'),
       };
     },
+
     methods: {
       // 初始化
       _initialize() {
@@ -274,9 +276,39 @@
           });
         }
       },
-      //根据question显示相应题目信息 组件间通信
+      //根据questionID显示相应题目信息 组件间通信
       displayQuestionInfo() {
 
+      },
+      //点击保存按钮，保存本题代码
+      saveCode() {
+        var tmp = 'QuestionID' + this.questionID;
+        var codeStorage = this.coder.getValue();
+        sessionStorage.setItem(tmp, codeStorage);
+      },
+      saveCodeAndAlert() {
+        this.saveCode();
+        this.$message({
+          showClose: true,
+          message: '已保存该题代码',
+          type: 'success',
+          duration: 2300,
+        })
+      },
+      //切换题目时，保存编辑器中上一题的代码
+      saveLastCode() {
+        var tmp = 'QuestionID' + this.pre_questionID;
+        var codeStorage = this.coder.getValue();
+        sessionStorage.setItem(tmp, codeStorage);
+        this.clear();
+      },
+      //切换题目时，显示这一题的代码（之前保存的）
+      displayCode() {
+        var tmp = 'QuestionID' + this.questionID;
+        var codeStorage = sessionStorage.getItem(tmp);
+        if (codeStorage != null) {
+          this.coder.setValue(codeStorage);
+        }
       },
       //一点开即调用
       onStart() {
@@ -309,7 +341,16 @@
         data.username = this.username;
         data.sessionID = this.sessionID;
         data.questionID = questionID;
-        data.code = this.coder.getValue();
+
+        if (questionID == this.questionID) { //提交的题目为当前题目
+          data.code = this.coder.getValue();
+          this.saveCode();
+        } else { //提交的题目不是当前题目，交卷统一提交
+          var tmp = 'QuestionID' + questionID;
+          var codeStorage = sessionStorage.getItem(tmp);
+          data.code = codeStorage;
+        }
+
         this.$store.dispatch('submitCodeRequest', data).then(res => {
           var ifSuccess = res.ifSuccess;
           var msg = res.msg;
@@ -320,8 +361,9 @@
               type: 'success',
               duration: 2300,
             })
+            //更改题目的状态为 已提交
             for (var i = 0; i < this.questionStatus.length; i++) {
-              if(this.questionStatus[i].value == questionID){
+              if (this.questionStatus[i].value == questionID) {
                 this.questionStatus[i].status = true;
               }
             }
@@ -341,7 +383,6 @@
           //检查每道题是否提交过，没提交的就一起提交
           if (this.questionStatus[i].status == false) {
             this.submit(this.questionStatus[i].value);
-            console.log('提交',this.questionStatus[i].value)
           }
         }
         var newTime = new Date().getTime();
@@ -359,8 +400,8 @@
               duration: 2300,
             });
             //跳转回首页
-            this.$router.push('/applicant');
-          }else{
+            //this.$router.push('/applicant');
+          } else {
             this.$message({
               showClose: true,
               message: res.msg,
@@ -369,14 +410,37 @@
             });
           }
         })
+        this.finalDialogVisible = false;
+        //清除本地保存的代码
+        for (var i = 0; i < this.questionStatus.length; i++) {
+          var tmp = 'QuestionID' + this.questionStatus[i].value;
+          if (sessionStorage.getItem(tmp) != null) {
+            sessionStorage.removeItem(tmp);
+          }
+
+        }
       },
       clear() {
         this.coder.setValue('');
       },
+      //面试时间结束，交卷
+      timeUp() {
+        this.handin();
+      }
     },
+    
+    watch: {
+      // 此处监听questionID变量，当期有变化时执行
+      questionID(item1, item2) {
+        // item1为新值，item2为旧值
+        this.pre_questionID = item2;
+        this.saveLastCode();
+        this.displayCode();
+      },
+    },
+
     mounted: function () {
       this._initialize();
-      //let sessionID = this.$route.query.sessionID
       this.onStart();
       let that = this;
 

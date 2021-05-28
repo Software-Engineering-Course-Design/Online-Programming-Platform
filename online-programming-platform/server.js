@@ -123,16 +123,16 @@ app.post('/interviewList', (request, response) => {
             "sessionID": 3,
             "hr_username": "提前10分钟",
             "questionNumber": 3,
-            "startTime":'2021-05-28 19:30:00',
+            "startTime":'2021-05-28 22:00:00',
             "endTime":'2021-05-28 22:50:00',
             "time": 300
         },
         {
             "sessionID": 2,
-            "hr_username": "迟到十五分钟",
+            "hr_username": "测试交卷",
             "questionNumber": 2,
-            "startTime":'2021-05-28 18:40:00',
-            "endTime":'2021-05-28 20:30:00',
+            "startTime":'2021-05-28 22:00:00',
+            "endTime":'2021-05-28 22:06:00',
             "time": 300
         },
         {

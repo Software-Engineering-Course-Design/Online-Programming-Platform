@@ -33,6 +33,10 @@
       timeFormat(param) {
         return param < 10 ? '0' + param : param;
       },
+      //结束之后，向父组件发送提醒
+      endInterview() {
+        this.$emit('endInterview', 'end');
+      },
       //时间处理
       countDownAction(it) {
         var interval = setInterval(() => {
@@ -45,29 +49,30 @@
 
           let obj = null;
           //if (newTime - interviewStartTime > 0) {
-            // 如果活动未结束，对时间进行处理
-            if (interviewEndTime - newTime > 0) {
-              let time = (interviewEndTime - newTime) / 1000;
-              // 获取天、时、分、秒
-              let day = parseInt(time / (60 * 60 * 24));
-              let hour = parseInt(time % (60 * 60 * 24) / 3600);
-              let min = parseInt(time % (60 * 60 * 24) % 3600 / 60);
-              let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60);
-              obj = {
-                day: this.timeFormat(day),
-                hour: this.timeFormat(hour),
-                min: this.timeFormat(min),
-                sec: this.timeFormat(sec)
-              };
-            } else { // 活动已结束，全部设置为'00'
-              obj = {
-                day: '00',
-                hour: '00',
-                min: '00',
-                sec: '00'
-              };
-              clearInterval(interval);
-            }
+          // 如果活动未结束，对时间进行处理
+          if (interviewEndTime - newTime > 0) {
+            let time = (interviewEndTime - newTime) / 1000;
+            // 获取天、时、分、秒
+            let day = parseInt(time / (60 * 60 * 24));
+            let hour = parseInt(time % (60 * 60 * 24) / 3600);
+            let min = parseInt(time % (60 * 60 * 24) % 3600 / 60);
+            let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60);
+            obj = {
+              day: this.timeFormat(day),
+              hour: this.timeFormat(hour),
+              min: this.timeFormat(min),
+              sec: this.timeFormat(sec)
+            };
+          } else { // 活动已结束，全部设置为'00'
+            obj = {
+              day: '00',
+              hour: '00',
+              min: '00',
+              sec: '00'
+            };
+            this.endInterview();
+            clearInterval(interval);
+          }
           //} else {
           //  console.log('面试还没开始')
           //}
