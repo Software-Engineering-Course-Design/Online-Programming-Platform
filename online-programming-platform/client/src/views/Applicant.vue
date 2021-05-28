@@ -122,14 +122,20 @@
         var pre = 10 * 60000;
         var late = 15 * 60000;
         if (interviewStartTime - newTime > pre) {
-          alertMsg = '面试尚未开始，不能进入面试';
-          dialogVisible = true;
-        } else if (interviewStartTime - newTime <= pre || interviewStartTime == newTime || newTime - interviewStartTime <
-          late) {
+          this.alertMsg = '面试尚未开始，不能进入面试';
+          this.dialogVisible = true;
+        } else if (interviewStartTime - newTime <= pre && interviewStartTime - newTime >= 0) { //提前进场
+          this.jumpToInterviewURL(s_id, s_time, e_time, time);
+        } else if (newTime - interviewStartTime < late && newTime - interviewStartTime >= 0) { //迟到15分钟以内可进场
           this.jumpToInterviewURL(s_id, s_time, e_time, time);
         } else if (newTime - interviewStartTime > late) {
-          alertMsg = '您已迟到，无法再进入面试';
-          dialogVisible = true;
+          if(newTime - interviewEndTime > 0){
+            this.alertMsg = '面试已结束，无法再进入';
+          this.dialogVisible = true;
+          }else{
+            this.alertMsg = '您已迟到，无法再进入面试';
+          this.dialogVisible = true;
+          }
         }
 
       },

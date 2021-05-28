@@ -44,7 +44,7 @@
           let interviewEndTime = new Date(this.endTime).getTime();
 
           let obj = null;
-          if (newTime - interviewStartTime > 0) {
+          //if (newTime - interviewStartTime > 0) {
             // 如果活动未结束，对时间进行处理
             if (interviewEndTime - newTime > 0) {
               let time = (interviewEndTime - newTime) / 1000;
@@ -68,9 +68,9 @@
               };
               clearInterval(interval);
             }
-          } else {
-            console.log('面试还没开始')
-          }
+          //} else {
+          //  console.log('面试还没开始')
+          //}
 
           this.countDownList = obj.hour + '时' + obj.min + '分' + obj.sec + '秒';
         }, 1000);

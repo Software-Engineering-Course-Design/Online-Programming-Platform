@@ -121,20 +121,36 @@ app.post('/interviewList', (request, response) => {
     //可参加
     notjoin: [{
             "sessionID": 3,
-            "hr_username": "aaa",
+            "hr_username": "提前10分钟",
             "questionNumber": 3,
-            "startTime":'2021-05-28 17:50:00',
+            "startTime":'2021-05-28 19:00:00',
             "endTime":'2021-05-28 22:50:00',
             "time": 300
         },
         {
             "sessionID": 2,
-            "hr_username": "bbb",
+            "hr_username": "迟到十五分钟",
             "questionNumber": 2,
-            "startTime":'2021-05-28 17:50:00',
-            "endTime":'2021-05-28 22:50:00',
+            "startTime":'2021-05-28 18:40:00',
+            "endTime":'2021-05-28 20:30:00',
             "time": 300
-        }
+        },
+        {
+            "sessionID": 56,
+            "hr_username": "没开始",
+            "questionNumber": 6,
+            "startTime":'2021-05-29 17:50:00',
+            "endTime":'2021-05-29 18:50:00',
+            "time": 300
+        },
+        {
+            "sessionID": 6,
+            "hr_username": "已结束",
+            "questionNumber": 6,
+            "startTime":'2021-05-22 17:50:00',
+            "endTime":'2021-05-22 18:50:00',
+            "time": 300
+        },
     ]
     };
     let str = JSON.stringify(data);
