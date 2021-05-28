@@ -188,14 +188,65 @@ def initial_interview():
 def check_code():
     if request.method == 'POST':
         username = request.json.get("username")
-        result = request.json.get("result")
+        result_detail = request.json.get("result")
         sessionID = request.json.get("sessionID")
         connection = db.get_db()
-        for i in range(len(result)):
-            for j in range(len(result[0])):
-                query = "INSERT INTO code(result) values('{}') WHERE username='{}' AND questionID='{}'" \
-                    .format(result[i][[j][j]], result[i], result[i])
-                connection.execute(query)
-                connection.commit()
+        for i in range(len(result_detail)):
+            dict1 = result_detail[i]
+            username = dict1['examineeID']
+            answer = dict1['answer']
+            print('2', username)
+            for j in range(len(answer)):
+                dict2 = answer[j]
+                questionID = dict2["idx"]
+                result = dict2["value"]
+                query = "SELECT result FROM code WHERE username='{}' AND questionID='{}'".format(username, questionID)
+                result_before = query_db(query, one=True)
+                result_before = tuple(result_before)
+                print('3', result_before[0])
+                if result_before[0] == '0':
+                    # query = "INSERT INTO code(result,username,questionID) values('{}','{}','{}')"\
+                     # .format(result, username, questionID)
+                    query = "UPDATE code SET result='{}' WHERE username='{}' AND questionID='{}'" \
+                        .format(result, username, questionID)
+                    connection.execute(query)
+                    connection.commit()
+                    print('success')
+                else:
+                    return dict(ifSuccess=False, msg="该代码已被批改过，不可重复批改")
+        return dict(ifSuccess=True, msg="批改成功!")
+
     else:
-        return dict(ifSuccess=False, questionID=-1, msg="Permission denied!", commentList=[])
+        return dict(ifSuccess=False, msg="批改失败，网络发生故障")
+
+
+"""
+{
+    "username":"a",
+    "result":[{
+        "examineeID":"d",
+        "answer":[
+            {
+            "idx":"1",
+            "value":"ac"
+        },{
+            "idx":"2",
+            "value":"ac"
+        }
+        ]
+    },{
+        "examineeID":"b",
+        "answer":[
+            {
+            "idx":"1",
+            "value":"ac"
+        },{
+            "idx":"2",
+            "value":"ac"
+        }
+        ]
+    }],
+    
+    "sessionID":"1"
+}
+"""
