@@ -151,6 +151,8 @@ question是面试官输入的题目，支持富文本格式，类型暂定
 | questionNumber | int     |                                 | 面试题数目       |
 | questionID     | Array   |                                 | 面试题ID数组     |
 | createWay      | boolean | true：自主命题；false：系统抽题 | 命题方式         |
+| startTime      | string  | '2021-05-28 22:50:00'类似这种   | 面试开始时间     |
+| endTime        |         |                                 | 面试结束时间     |
 
 **将一场面试存入数据库之后，将表中的自增ID作为sessionID，用来做场次的ID**
 
@@ -202,7 +204,7 @@ status是提交代码的批改，默认为0，只有当result为0时，批改按
 
 格式如下：
 
-notjoin:  [{"sessionID":" ","hr_username":" ", "questionNumber":" ","time": " "}, {......}],
+notjoin:  [{"sessionID":" ","hr_username":" ", "questionNumber":" ","startTime":" ","endTime":" ","time": " "}, {......}],
 
 join:  [{"sessionID":" ","hr_username":" ", "questionNumber":" ","status": " ", "score":" "}, {......}]
 
@@ -210,10 +212,27 @@ join代表已参加的面试信息，里面每一场的信息成为一个json串
 
 notjoin代表未参加的面试信息，里面每一场的信息成为一个json串，sessionID是场次；hr_username是发起该场面试的面试官姓名；questionNumber是该场次的面试题数量；status是批改状态，数据类型是bool，false：未批改 true：已批改；score是面试成绩（这个score需要后端自己计算再发给前端，满分一百分，每道题的分数是 100/questionNumber，计算该面试者在这个场次AC了多少道题，这个后端还要判断一下该场面试是否已批改，未批改则返回0）
 
-**举例**notjoin:[{"sessionID":1,"hr_username":"Lisa", "questionNumber":3, "time": 90}, {"sessionID":2,"hr_username":"Joey", "questionNumber":2, "time": 60}],
+**举例**
 
-join:[{"sessionID":3,"hr_username":" Mary", "questionNumber":4,"status": true, "score":100}]
-意思为：该面试者还未参加的场次是第一场和第二场，已经参加的是第三场
+notjoin: [{
+
+​      "sessionID": 3,
+
+​      "hr_username": "aaa",
+
+​      "questionNumber": 3,
+
+​      "startTime":'2021-05-28 17:50:00',
+
+​      "endTime":'2021-05-28 22:50:00',
+
+​      "time": 300
+
+​    },
+
+]
+
+
 
 #### 在线编程题目显示模块
 
@@ -235,9 +254,9 @@ join:[{"sessionID":3,"hr_username":" Mary", "questionNumber":4,"status": true, "
 
 #### 在线编程代码模块
 
-可多次保存，但只能提交一次
-
 ##### 提交
+
+提交某一道题
 
 1.前端->后端
 
@@ -247,8 +266,6 @@ join:[{"sessionID":3,"hr_username":" Mary", "questionNumber":4,"status": true, "
 | sessionID  | int    |       | 面试场次ID   |
 | questionID | int    |       | 面试题目ID   |
 | code       |        |       | 提交代码     |
-
-只能提交一次
 
 2.后端->前端
 

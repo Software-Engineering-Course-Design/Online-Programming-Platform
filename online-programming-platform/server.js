@@ -125,7 +125,7 @@ app.post('/interviewList', (request, response) => {
             "questionNumber": 3,
             "startTime":'2021-05-28 17:50:00',
             "endTime":'2021-05-28 22:50:00',
-            "time": 150
+            "time": 300
         },
         {
             "sessionID": 2,
@@ -133,7 +133,7 @@ app.post('/interviewList', (request, response) => {
             "questionNumber": 2,
             "startTime":'2021-05-28 17:50:00',
             "endTime":'2021-05-28 22:50:00',
-            "time": 150
+            "time": 300
         }
     ]
     };
