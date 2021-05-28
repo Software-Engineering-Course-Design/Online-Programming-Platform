@@ -7,6 +7,7 @@ from .login import login
 from .comment import comment
 from .signup import signup
 from .interviewer import interviewer
+from .applicant import applicant
 
 
 def create_app(test_config=None):
@@ -18,6 +19,7 @@ def create_app(test_config=None):
     app.register_blueprint(comment,url_prefix='/comment') 
     app.register_blueprint(signup,url_prefix='/signup')
     app.register_blueprint(interviewer, url_prefix='/interviewer')
+    app.register_blueprint(applicant, url_prefix='/applicant')
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),

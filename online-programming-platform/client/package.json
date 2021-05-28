@@ -13,7 +13,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "codemirror": "^5.61.1",
-    "element-ui": "^2.15.1",
+    "element-ui": "^2.15.2",
     "flask": "^0.2.10",
     "highlight.js": "^10.7.2",
     "qs": "^6.10.1",
