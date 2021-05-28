@@ -91,7 +91,7 @@ export default new Router({
       component:resolve => require(['../views/addNewExam'],resolve),
     },
     {
-      path: '/viewResult',
+      path: '/applicant/viewResult',
       name: 'viewResult',
       component:resolve => require(['../views/viewResult'],resolve),
       meta: {

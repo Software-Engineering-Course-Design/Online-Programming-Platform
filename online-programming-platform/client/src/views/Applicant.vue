@@ -5,7 +5,7 @@
       <el-header>Hello,用户1111</el-header>
       <el-main>
         <el-tabs v-model="interviewName" @tab-click="handleClick">
-          <el-tab-pane label="可参加面试" name="first">
+          <el-tab-pane label="可参加面试" name="interview">
             <el-collapse v-model="sessionName1" accordion>
               <el-collapse-item v-for="(item, index) in interviewList" :key="index" :name="index">
                 <template slot="title">
@@ -14,12 +14,13 @@
                 <div>出题者：{{item.interviewer}}</div>
                 <div>题数：{{item.questionNumber}}</div>
                 <div>面试时长：{{item.time}}</div>
-                <el-button type="primary" class="start-btn" round>开始面试</el-button>
+                <el-button type="primary" class="start-btn" @click="jumpToInterviewURL(item.sessionID)" round>开始面试
+                </el-button>
               </el-collapse-item>
 
             </el-collapse>
           </el-tab-pane>
-          <el-tab-pane label="已参加面试" name="second">
+          <el-tab-pane label="已参加面试" name="result">
             <el-collapse v-model="sessionName2" accordion>
               <el-collapse-item v-for="(item, index) in resultList" :key="index" :name="index">
                 <template slot="title">
@@ -29,21 +30,12 @@
                 <div>题数：{{item.questionNumber}}</div>
                 <div>批改状态：{{item.status?'已批改':'未批改'}}</div>
                 <div>面试分数：{{item.score}}</div>
-                <el-button type="primary" class="check-btn" round>查看面试详情</el-button>
+                <el-button type="primary" class="check-btn" @click="jumpToResultURL(item.sessionID)" round>查看面试详情</el-button>
               </el-collapse-item>
 
             </el-collapse>
           </el-tab-pane>
         </el-tabs>
-        <!-- <el-row :gutter="10">
-          <el-col :span="12">
-            <h3>可参加面试</h3>
-          </el-col>
-
-          <el-col :span="12">
-            <h3>已参加面试</h3>
-          </el-col>
-        </el-row> -->
       </el-main>
     </el-container>
       
@@ -54,58 +46,74 @@
   export default {
     data() {
       return {
+        username: sessionStorage.getItem("username"),
         sessionName1: '0',
         sessionName2: '0',
-        interviewName: 'first',
-        new_session_arr: [],
-        old_session_arr: [],
-        new_info_arr: [],
-        old_info_arr: [],
-        interviewList: [],
-        resultList: [],
+        interviewName: 'interview',
+
+        interviewList: [],//可参加的面试场次
+        resultList: [],//已参加的面试场次
+
       };
     },
     methods: {
       handleClick(tab, event) {
         console.log(tab, event);
       },
-      //动态生成list
-      createInterviewList(s_arr, i_arr, list) {
-        for (var i = 0; i < s_arr.length; i++) {
+      //动态生成list 可参加面试
+      createInterviewList(arr, list) {
+        for (var i = 0; i < arr.length; i++) {
           list.push({
-            sessionID: s_arr[i],
-            interviewer: i_arr[i][0],
-            questionNumber: i_arr[i][1],
-            time: i_arr[i][2],
+            sessionID: arr[i].sessionID,
+            interviewer: arr[i].hr_username,
+            questionNumber: arr[i].questionNumber,
+            time: arr[i].time,
           });
         }
       },
-      createResultList(s_arr, i_arr, list) {
-        for (var i = 0; i < s_arr.length; i++) {
+      //动态生成list 已参加面试
+      createResultList(arr, list) {
+        for (var i = 0; i < arr.length; i++) {
           list.push({
-            sessionID: s_arr[i],
-            interviewer: i_arr[i][0],
-            questionNumber: i_arr[i][1],
-            status: i_arr[i][2],
-            score:i_arr[i][3],
+            sessionID: arr[i].sessionID,
+            interviewer: arr[i].hr_username,
+            questionNumber: arr[i].questionNumber,
+            status: arr[i].status,
+            score: arr[i].score,
           });
         }
+      },
+      //点击按钮跳转并传参
+      jumpToInterviewURL(s_id) {
+        this.$router.push({
+          path: '/applicant/interview',
+          query: {
+            username: this.username,
+            sessionID: s_id,
+          }
+        })
+      },
+      jumpToResultURL(s_id) {
+        this.$router.push({
+          path: '/applicant/viewResult',
+          query: {
+            username: this.username,
+            sessionID: s_id,
+          }
+        })
       },
       onStart() {
-        var username = 'aaa';
+        //var username = sessionStorage.getItem("username");
+        var username = "111";
         var postData = {
           'username': username,
         }
         //根据面试场次请求题目列表
         this.$store.dispatch('interviewListRequest', postData).then(res => {
           console.log(res);
-          this.new_session_arr = res.new_session_arr;
-          this.old_session_arr = res.old_session_arr;
-          this.new_info_arr = res.new_info_arr;
-          this.old_info_arr = res.old_info_arr;
 
-          this.createInterviewList(this.new_session_arr, this.new_info_arr, this.interviewList);
-          this.createResultList(this.old_session_arr,this.old_info_arr,this.resultList);
+          this.createInterviewList(res.join, this.interviewList);
+          this.createResultList(res.notjoin, this.resultList);
         })
 
       },

@@ -97,14 +97,22 @@
             this.$store.dispatch('loginRequest', loginData).then(res => {
               console.log(res);
               var ifExist = res.ifExist;
+              var userType = res.userType;
               var msg = res.msg;
               if (ifExist) {
                 //登录成功
                 console.log('登录成功')
                 this.$store.commit("userStatus", true);
                 //Vuex在用户刷新的时候userStatus会回到默认值false，所以需要用到HTML5储存
-                //设置一个名为LoginStatus，值为isLogin的字段，作用是如果LoginStatus有值且为isLogin的时候，证明用户已经登录了。
+                //记录登录状态、用户名、用户类型
                 sessionStorage.setItem("LoginStatus", "isLogin");
+                sessionStorage.setItem("username", that.validateForm.username);
+                if (userType) {
+                  sessionStorage.setItem("userType", "HR");
+                } else {
+                  sessionStorage.setItem("userType", "applicant");
+                }
+
                 this.$message({
                   showClose: true,
                   message: msg,
@@ -113,7 +121,12 @@
 
                 })
                 //登录成功后跳转到指定页面
-                this.$router.push("/home");
+
+                if (!userType) {//跳转到面试者首页
+                  this.$router.push("/applicant");
+                }else{//跳转到面试官首页
+                  this.$router.push("/home");
+                }
 
               } else {
                 //用户不存在，登录失败

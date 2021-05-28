@@ -7,7 +7,7 @@
     <router-link to="/interview/addNewQuestion">新建题目</router-link>|
     <router-link to="/interview/questionDetails">题目详情</router-link>|
     <router-link to="/interview/updateQuestion">修改题目</router-link>|
-    <router-link to="/viewResult">查看已参加面试</router-link>
+    <router-link to="/applicant/viewResult">查看已参加面试</router-link>
 
     <router-view></router-view>
 

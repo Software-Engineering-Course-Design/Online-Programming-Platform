@@ -123,9 +123,11 @@
 
         questionOptions: [], //
         submitDialogVisible: false,
-        username: '',
-        sessionID: 1,
-        questionID: 1,
+
+        username: this.$route.query.username,
+        sessionID: this.$route.query.sessionID,
+
+        questionID: 1,//当前问题的id 即item.value
         code: '',
         coder: null,
         mode: 'javascript',
@@ -291,6 +293,7 @@
         let data = {};
         data.username = this.username;
         data.sessionID = this.sessionID;
+
         data.questionID = this.questionID;
         data.code = this.coder.getValue();
 

@@ -21,8 +21,12 @@
     methods: {
       user_logout() {
         let getStatus = sessionStorage.getItem("LoginStatus");
+        let getUser = sessionStorage.getItem("username");
+        let getUserType = sessionStorage.getItem("userType");
         if (getStatus === 'isLogin') {
           sessionStorage.removeItem("LoginStatus");
+          sessionStorage.removeItem("username");
+          sessionStorage.removeItem("userType");
           this.dialogVisible = false;
           console.log('退出登录');
         }else{

@@ -54,9 +54,11 @@ app.get('/testget', (request, response) => {
 app.post('/questionList', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     const data = {
-        id_arr:[11,22,33,44],
-        heading_arr:['h1','h2','h3','h4'],
-        question_arr:['q1','q2','q3','q4'],
+        id_arr: [11, 22, 33, 44],
+        heading_arr: ['h1', 'h2', 'h3', 'h4'],
+        question_arr: ['q1', 'q2', 'q3', 'q4'],
+        
+
     };
     let str = JSON.stringify(data);
     response.send(str);
@@ -64,11 +66,34 @@ app.post('/questionList', (request, response) => {
 app.post('/viewResult', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     const data = {
-        id_arr:[11,22,33,44],
-        msg:{ "join":[{"sessionID":1, "hr_name":"aaa", "questionNumber":3, "time":1.5},
-            {"sessionID":2, "hr_name":"bbb", "questionNumber":2, "time":1}], 
-            "notjoin":[{"sessionID":3, "hr_name":"aaa", "questionNumber":3, "time":1.5},
-            {"sessionID":2, "hr_name":"bbb", "questionNumber":2, "time":1}]
+        id_arr: [11, 22, 33, 44],
+        msg: {
+            "join": [{
+                    "sessionID": 1,
+                    "hr_name": "aaa",
+                    "questionNumber": 3,
+                    "time": 1.5
+                },
+                {
+                    "sessionID": 2,
+                    "hr_name": "bbb",
+                    "questionNumber": 2,
+                    "time": 1
+                }
+            ],
+            "notjoin": [{
+                    "sessionID": 3,
+                    "hr_name": "aaa",
+                    "questionNumber": 3,
+                    "time": 1.5
+                },
+                {
+                    "sessionID": 2,
+                    "hr_name": "bbb",
+                    "questionNumber": 2,
+                    "time": 1
+                }
+            ]
         }
     };
     let str = JSON.stringify(data);
@@ -78,12 +103,32 @@ app.post('/viewResult', (request, response) => {
 app.post('/interviewList', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     const data = {
-        new_session_arr:[4,5],
-        old_session_arr:[1,3],
-        //[interviewer,questionNumber,time]
-        new_info_arr:[['面试官1',4,200],['面试官2',3,150]],
-        //[interviewer,questionNumber,status,score]
-        old_info_arr:[['面试官33','5',true,100],['面试官57','4',false,0]],
+        join: [{
+            "sessionID": 1,
+            "hr_username": "aaa",
+            "questionNumber": 3,
+            "time": 150
+        },
+        {
+            "sessionID": 2,
+            "hr_username": "bbb",
+            "questionNumber": 2,
+            "time": 1
+        }
+    ],
+    notjoin: [{
+            "sessionID": 3,
+            "hr_username": "aaa",
+            "questionNumber": 3,
+            "time": 1.5
+        },
+        {
+            "sessionID": 2,
+            "hr_username": "bbb",
+            "questionNumber": 2,
+            "time": 150
+        }
+    ]
     };
     let str = JSON.stringify(data);
     response.send(str);

@@ -6,6 +6,7 @@
         <el-tabs type="border-card">
           <el-tab-pane v-for="item in questionList" :key="item.value" :label="item.label" :value="item.value"
             :disabled="item.disabled">
+            <!-- 如何实现点击获取题目ID -->
             <span slot="label">{{item.label}}</span>
             <el-row :gutter="20">
               <el-col :span="10">
@@ -76,8 +77,8 @@
     data() {
       return {
         tabPosition: 'right',
-        username: '1',
-        sessionID: 1, //如何获取
+        username: this.$route.query.username,
+        sessionID: this.$route.query.sessionID,
         questionList: [],//存放题目题号
         allObj:[],//存放后端传来的数据
       };
