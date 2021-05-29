@@ -246,11 +246,23 @@ notjoin: [{
 
 | Column       | Type  | Value | Description    |
 | ------------ | ----- | ----- | -------------- |
-| id_arr       | Array |       | 面试题ID数组   |
-| heading_arr  | Array |       | 面试题标题数组 |
-| question_arr | Array |       | 面试题题目数组 |
+| question_list       | Array |       | 面试题信息数组   |
+
 
 将该场次的面试题返回给前端
+格式：
+    "question_list": [
+        {
+            "body": "write a Stack",
+            "heading": "Stack",
+            "questionID": 3
+        },
+        {
+            "body": "reverse the Linklist",
+            "heading": "Linklsit",
+            "questionID": 4
+        }
+    ]
 
 #### 在线编程代码模块
 
@@ -266,7 +278,6 @@ notjoin: [{
 | sessionID      | int     |                             | 面试场次ID       |
 | questionID     | int     |                             | 面试题目ID       |
 | code           |         |                             | 提交代码         |
-| questionStatus | boolean | true：已提交  false：未提交 | 该题目的提交状态 |
 
 questionStatus默认未提交，即false
 

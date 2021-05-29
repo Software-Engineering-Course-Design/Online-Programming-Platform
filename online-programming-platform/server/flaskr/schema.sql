@@ -33,6 +33,7 @@ CREATE TABLE comment (
 
 CREATE TABLE code(
     codeID INTEGER PRIMARY KEY AUTOINCREMENT,
+    sessionID INTEGER NOT NULL,
     questionID INTEGER  NOT NULL,
     username TEXT NOT NULL,  --面试者
     code TEXT,
