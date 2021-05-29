@@ -4,10 +4,10 @@
     <router-link to="/sign">登录注册</router-link>|
     <router-link to="/applicant">面试者首页</router-link>|
     <router-link to="/applicant/interview">面试模块</router-link>|
-    <router-link to="/interview/addNewQuestion">新建题目</router-link>|
-    <router-link to="/interview/questionDetails">题目详情</router-link>|
-    <router-link to="/interview/updateQuestion">修改题目</router-link>|
-    <router-link to="/applicant/viewResult">查看已参加面试</router-link>
+    <router-link to="/interviewer/addNewExam">发起面试</router-link>|
+    <router-link to="/interviewer/viewExamList">面试官查看面试</router-link>
+    <router-link to="/interviewer/addNewQuestion">新建题目</router-link>|
+    <router-link to="/interviewer/viewQuestionDetails">题目详情</router-link>|
 
     <router-view></router-view>
 

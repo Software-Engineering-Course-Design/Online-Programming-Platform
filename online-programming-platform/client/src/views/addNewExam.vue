@@ -3,12 +3,12 @@
     <el-header>发起面试页</el-header>
     <el-main>
       <el-form ref="form" :model="form" :rules="rules">
-        <el-form-item label="请选择题目数量" prop="num">
+        <el-form-item label="请选择题目数量" prop="num" required>
           <el-radio-group v-model="form.num">
             <el-radio-button v-for="n in 5" :label="n" :key="n"></el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="请选择出题类型" prop="type">
+        <el-form-item label="请选择出题类型" prop="type" required>
           <el-radio-group v-model="form.type">
             <el-radio-button v-for="(item,index) in options" :label="item.value" :key="index"></el-radio-button>
           </el-radio-group>
@@ -16,7 +16,19 @@
         <div v-if="form.type=='自主选题'">
           <div>test</div>
         </div>
-        <el-form-item label="请输入要邀请的面试者ID（可选）" prop="people">
+
+        <el-form-item label="请选择起止时间" required>
+            <el-form-item prop="time1">
+              <el-date-picker type="date" placeholder="选择日期" v-model="form.time1"></el-date-picker>
+            </el-form-item>
+
+            <el-form-item prop="time2">
+              <el-time-picker placeholder="选择时间" v-model="form.time2"></el-time-picker>
+            </el-form-item>
+
+        </el-form-item>
+
+        <el-form-item label="请输入要邀请的面试者ID" prop="people">
           <el-input v-model="form.people">
           </el-input>
         </el-form-item>
@@ -38,6 +50,8 @@ export default {
       form: {
         num: 'null',
         type: -1,
+        time1: '',
+        time2: '',
         people: '',
       },
       rules:{
@@ -46,6 +60,12 @@ export default {
         ],
         type:[
           { type:'string', require: true, message: '请选择出题方式'},
+        ],
+        time1: [
+          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        time2: [
+          { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
         ],
         people: [
           { message: '请输入面试者id', trigger: 'blur'}
@@ -62,7 +82,7 @@ export default {
     submit(){
       console.log(this.form);
       this.$refs.form.validate((valid) => {
-        if(valid()){
+        if(valid){
           console.log('submit!');
         }
         else {

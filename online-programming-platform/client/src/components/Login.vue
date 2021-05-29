@@ -45,9 +45,6 @@
 </template>
 
 <script>
-  import {
-    testget
-  } from '../store/api.js'
 
   export default {
     data() {
@@ -136,7 +133,7 @@
             })
 
             // this.axios.post(url, loginData).then(response => {
-            //   console.log(response.data) // 得到返回结果数据 
+            //   console.log(response.data) // 得到返回结果数据
             //   var ifExist = response.data.ifExist;
             //   var msg = response.data.msg;
             //   if(ifExist){

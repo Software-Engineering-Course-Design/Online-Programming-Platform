@@ -54,40 +54,40 @@ export default new Router({
     //   component:resolve=>require(['../views/AppResult.vue'],resolve),
     // },
     {
-      path: '/interview/addNewQuestion',
-      name: 'interviewToAddQuestion',
+      path: '/interviewer/addNewQuestion',
+      name: 'interviewerToAddQuestion',
       component: resolve => require(['../views/addNewQuestion'], resolve),
       meta: {
         isLogin: false
       },
     },
     {
-      path: '/interview/questionDetails',
-      name: 'interviewToQuestionDetails',
+      path: '/interviewer/viewQuestionDetails',
+      name: 'interviewerToQuestionDetails',
       component: resolve => require(['../views/viewQuestionDetails'], resolve),
       meta: {
         isLogin: false
       },
     },
     {
-      path: '/interview/updateQuestion',
-      name: 'interviewToUpdateQuestion',
+      path: '/interviewer/updateQuestion',
+      name: 'interviewerToUpdateQuestion',
       component: resolve => require(['../views/updateQuestion'], resolve),
       meta: {
         isLogin: false
       },
     },
     {
-      path: '/interview/viewQuestionCodeList',
-      name: 'interviewToViewQuestionCodeList',
+      path: '/interviewer/viewQuestionCodeList',
+      name: 'interviewerToViewQuestionCodeList',
       component: resolve => require(['../views/viewQuestionCodeList'], resolve),
       meta: {
         isLogin: false
       },
     },
     {
-      path: '/interview/addNewExam',
-      name: 'interviewToAddNewExam',
+      path: '/interviewer/addNewExam',
+      name: 'interviewerToAddNewExam',
       component:resolve => require(['../views/addNewExam'],resolve),
     },
     {
@@ -97,6 +97,21 @@ export default new Router({
       meta: {
         isLogin: false
       },
+    },
+    {
+      path: '/interviewer/inviteToExam',
+      name: 'interviewerToInvite',
+      component:resolve => require(['../views/inviteToExam'],resolve),
+    },
+    {
+      path: '/interviewer/viewExamList',
+      name: 'interviewerToViewExamList',
+      component:resolve => require(['../views/viewExamList'],resolve),
+    },
+    {
+      path: '/interviewer/checkExam',
+      name: 'interviewerToCheckExam',
+      component:resolve => require(['../views/checkExam'],resolve),
     },
   ]
 })

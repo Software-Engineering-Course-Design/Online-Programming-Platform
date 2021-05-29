@@ -1,7 +1,11 @@
 <template>
   <el-container>
-    <el-header>题目名称：{{ q_title }}</el-header>
-    <el-main>题目内容：{{ q_content }}</el-main>
+    <el-header>题目名称：{{ title }}</el-header>
+    <el-main>
+      <div>题目id：{{ id }}</div>
+      <div>题目内容：{{ content }}</div>
+      <div>时间： {{ time}}</div>
+    </el-main>
   </el-container>
 </template>
 
@@ -10,13 +14,23 @@
 export default {
   data(){
     return{
-      q_title: '我是题目',
-      q_content: '我是题目内容',
+      id: this.p_id,
+      title: this.p_title,
+      content: this.p_content,
+      time: this.p_time,
     }
   },
+  props:{
+    p_id: Number,
+    p_title: String,
+    p_content: String,
+    p_time: String
+  }
 }
 </script>
 
 <style scoped>
-
+.el-container{
+  overflow: auto;
+}
 </style>
