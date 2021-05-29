@@ -105,7 +105,7 @@
 | username | string |       | 面试官用户ID |
 | heading  | string |       | 面试题标题   |
 | question |        |       | 面试题内容   |
-|          |        |       | 正确答案     |
+| answer   |        |       | 正确答案     |
 
 question是面试官输入的题目，支持富文本格式，类型暂定
 
@@ -204,13 +204,39 @@ status是提交代码的批改，默认为0，只有当result为0时，批改按
 
 格式如下：
 
-notjoin:  [{"sessionID":" ","hr_username":" ", "questionNumber":" ","startTime":" ","endTime":" ","timeUsed": " "}, {......}],
+notjoin:  [{"**sessionID**":" ","**hr_username**":" ", "**questionNumber**":" ","**startTime**":" ","**endTime**":" ","**timeUsed**": " "}, {......}],
 
-join:  [{"sessionID":" ","hr_username":" ", "questionNumber":" ","status": " ", "score":" "}, {......}]
+join:  [{"**sessionID**":" ","**hr_username**":" ", "**questionNumber**":" ","**status**": " ", "**score**":" ","**startTime**":" ","**endTime**":" "}, {......}]
 
-notjoin代表未参加的面试信息，里面每一场的信息成为一个json串，sessionID是场次；hr_username是发起该场面试的面试官姓名；questionNumber是该场次的面试题数量；startTime是面试开始时间；endTime是面试结束时间；timeUsed是该场次面试所需的时间，用endTime-startTime（这个timeUsed需要后端自己计算然后发给前端，单位是分钟，数据类型是string,这个类型int还是string随便，反正前端只是显示一下，暂定string，看怎样方便怎样用）。
+**notjoin**代表未参加的面试信息，里面每一场的信息成为一个json串，
 
-join代表已参加的面试信息，里面每一场的信息成为一个json串，sessionID是场次；hr_username是发起该场面试的面试官姓名；questionNumber是该场次的面试题数量；status是批改状态，数据类型是bool，false：未批改 true：已批改；score是面试成绩（这个score需要后端自己计算再发给前端，满分一百分，每道题的分数是 100/questionNumber，计算该面试者在这个场次AC了多少道题，这个后端还要判断一下该场面试是否已批改，未批改则返回0）
+sessionID是场次；
+
+hr_username是发起该场面试的面试官姓名；
+
+questionNumber是该场次的面试题数量；
+
+startTime是面试开始时间；
+
+endTime是面试结束时间；
+
+timeUsed是该场次面试所需的时间，用endTime-startTime（这个timeUsed需要后端自己计算然后发给前端，单位是分钟，数据类型是string,这个类型int还是string随便，反正前端只是显示一下，暂定string，看怎样方便怎样用）。
+
+**join**代表已参加的面试信息，里面每一场的信息成为一个json串，
+
+sessionID是场次；
+
+hr_username是发起该场面试的面试官姓名；
+
+questionNumber是该场次的面试题数量；
+
+status是批改状态，数据类型是bool，false：未批改 true：已批改；
+
+score是面试成绩（这个score需要后端自己计算再发给前端，满分一百分，每道题的分数是 100/questionNumber，计算该面试者在这个场次AC了多少道题，这个后端还要判断一下该场面试是否已批改，未批改则返回0）
+
+startTime是面试开始时间；
+
+endTime是面试结束时间；
 
 **举例**
 
@@ -224,9 +250,9 @@ notjoin: [{
 
 ​      "startTime":'2021-05-28 17:50:00',
 
-​      "endTime":'2021-05-28 22:50:00',
+​      "endTime":'2021-05-28 18:50:00',
 
-​      "time": 300
+​      "timeUsed": 60
 
 ​    },
 
@@ -247,7 +273,6 @@ notjoin: [{
 | Column       | Type  | Value | Description    |
 | ------------ | ----- | ----- | -------------- |
 | question_list       | Array |       | 面试题信息数组   |
-
 
 将该场次的面试题返回给前端
 格式：
@@ -330,7 +355,7 @@ questionStatus默认未提交，即false
 | answer_arr   |        |                             | 标准答案数组       |
 | result_arr   | string | 0：未批改    1：AC    2：WA | 代码结果数组       |
 
-###### 
+
 
 ## **四——评论区模块** 
 
