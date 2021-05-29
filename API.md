@@ -264,9 +264,10 @@ notjoin: [{
 
 1.前端->后端
 
-| Column    | Type | Value | Description |
-| --------- | ---- | ----- | ----------- |
-| sessionID | int  |       | 面试场次ID  |
+| Column    | Type   | Value | Description |
+| --------- | ------ | ----- | ----------- |
+| sessionID | int    |       | 面试场次ID  |
+| username  | string |       | 用户名      |
 
 2.后端->前端
 
@@ -274,7 +275,7 @@ notjoin: [{
 | ------------ | ----- | ----- | -------------- |
 | question_list       | Array |       | 面试题信息数组   |
 
-将该场次的面试题返回给前端
+将该场次的面试题返回给前端，并把该用户该场次的面试设为已参加状态
 格式：
     "question_list": [
         {
@@ -324,7 +325,6 @@ questionStatus默认未提交，即false
 | username    | string   |       | 面试者用户ID   |
 | sessionID   | int      |       | 面试场次ID     |
 | submit_time | Datetime |       | 交卷的日期时间 |
-|             |          |       |                |
 
 2.后端->前端
 

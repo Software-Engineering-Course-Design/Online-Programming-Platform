@@ -314,6 +314,7 @@
       onStart() {
         var postData = {
           'sessionID': this.sessionID,
+          'username':this.username,
         }
         //根据面试场次请求题目列表
         this.$store.dispatch('questionListRequest', postData).then(res => {
