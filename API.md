@@ -348,12 +348,42 @@ questionStatus默认未提交，即false
 
 | Column       | Type   | Value                       | Description        |
 | ------------ | ------ | --------------------------- | ------------------ |
-| id_arr       | Array  |                             | 该场次面试题ID数组 |
-| heading_arr  | string |                             | 面试题标题数组     |
-| question_arr | string |                             | 面试题题目数组     |
-| code_arr     |        |                             | 提交的代码数组     |
-| answer_arr   |        |                             | 标准答案数组       |
-| result_arr   | string | 0：未批改    1：AC    2：WA | 代码结果数组       |
+|   interview_result_list  | Array |                     |     用户某场次面试的结果         |
+将某用户某场次的面试信息返回，格式如下：
+    "interview_result_list": [
+        {
+
+            "answer": "answer1",
+
+            "body": "body1",
+
+            "code": "#include<iostream>",
+
+            "heading": "Stack",
+
+            "questionID": 1,
+
+            "result": "0"
+
+        },
+        {
+            "answer": "answer2",
+
+            "body": "body2",
+
+            "code": null,
+
+            "heading": "Queue",
+
+            "questionID": 2,
+
+            "result": "AC"
+
+        }
+    ]
+
+其中questionID是面试题ID，heading是面试题题目，body是该面试题内容，answer是标准答案，code是面试者提交的代码，result是代码结果（0：未批改    1：AC    2：WA）
+
 
 
 
