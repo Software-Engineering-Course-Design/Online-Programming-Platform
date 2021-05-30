@@ -35,11 +35,11 @@ CREATE TABLE code(
     codeID INTEGER PRIMARY KEY AUTOINCREMENT,
     sessionID INTEGER NOT NULL,
     questionID INTEGER  NOT NULL,
-    username TEXT NOT NULL,  --面试者
+    applicant TEXT NOT NULL,  --面试者
     code TEXT,
     result TEXT  NOT NULL,  --0：未批改 /AC /WA
     FOREIGN KEY (questionID) REFERENCES question(questionID),
-    FOREIGN KEY (username) REFERENCES user(username)
+    FOREIGN KEY (applicant) REFERENCES user(username)
 );
 
 CREATE TABLE interview(
