@@ -62,6 +62,31 @@
 
 **h_id_arr格式如下：[[1,heading_one],[2,heading_two]……]，两层数组，第一个参数是questionID，第二个参数是面试题标题**
 
+#### 面试官查看面试情况
+
+前端->后端
+
+| Column   | Type   | Value | Description  |
+| -------- | ------ | ----- | ------------ |
+| username | string |       | 面试官用户ID |
+
+后端->前端
+
+| Column          | Type  | Value | Description            |
+| --------------- | ----- | ----- | ---------------------- |
+| unread | Array |       | 未批改的面试场次信息 |
+| read | Array | | 已批改的面试场次信息 |
+
+unread/read:  [{"**sessionID**":" ", "**sessionTitle**":" ", "**status**": " ", "**content**":" ","**startTime**":" ","**endTime**":" "}, {......}]
+
+sessionID：面试id
+sessionTitle：面试标题
+status：面试批阅情况 true/false
+content：面试内容，是包含面试中题目信息的数组
+startTime：面试开始时间
+endTime：面试结束时间
+
+
 #### 面试题详情
 
 此页面即在面试官首页中点击列表中的题目时，跳转到具体题目内容的页面

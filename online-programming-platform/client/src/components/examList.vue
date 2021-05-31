@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-collapse v-for="(e, idx) in eList" v-model="activeName" accordion :key="idx">
-      <el-collapse-item  :title="e.title">
-        <div>{{e.time}}</div>
-        <el-button v-if="check_flag==true" @click="check(e.id, idx)">批改</el-button>
+      <el-collapse-item  :title="e.sessionTitle">
+        <div>{{e.content}}</div>
+        <el-button v-if="check_flag==true" @click="check(e.sessionID, idx)">批改</el-button>
       </el-collapse-item>
     </el-collapse>
     <el-pagination
@@ -11,6 +11,7 @@
       layout="prev, pager, next"
       :total="50">
     </el-pagination>
+    <el-button @click="test">test</el-button>
   </div>
 </template>
 
@@ -20,37 +21,14 @@ export default {
   data(){
     return{
       activeName: '1',
-      eList:[
-        {
-          title: '我是面试标题1',
-          time: '我是时间1',
-          id: 1,
-        },
-        {
-          title: '我是面试标题2',
-          time: '我是时间2',
-          id: 2,
-        },
-        {
-          title: '我是面试标题3',
-          time: '我是时间3',
-          id: 3,
-        },
-        {
-          title: '我是面试标题4',
-          time: '我是时间4',
-          id: 4,
-        },
-        {
-          title: '我是面试标题5',
-          time: '我是时间5',
-          id: 5,
-        },
-      ],
+      eList: this.p_eList,
       check_flag:this.p_check,
     }
   },
   methods:{
+    test(){
+      console.log(this.eList)
+    },
     check(eID, idx){
       const that = this;
       this.$router.push({
@@ -64,6 +42,7 @@ export default {
   },
   props:{
     p_check: Boolean,//true:显示批改按钮
+    p_eList: Array,
   },
 }
 </script>

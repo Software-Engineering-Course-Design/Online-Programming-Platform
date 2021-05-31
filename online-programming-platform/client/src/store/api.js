@@ -19,6 +19,8 @@ const url = {
   viewResult:'http://127.0.0.1:8000/viewResult',//查看已参加面试详情
   handin:'http://127.0.0.1:8000/handin',//交卷
   submitJudge:'http://127.0.0.1:8000/submitJudge',//判断代码是否已提交过
+
+  examList: 'http://127.0.0.1:8000/viewExamList',
 };
 
 
@@ -85,6 +87,11 @@ export default {
       state
     }, postData) => {
       return post(url.submitJudge, postData);
+    },
+    viewExamListRequest:({
+                           state
+                         }, postData) => {
+      return post(url.examList, postData);
     },
   }
 

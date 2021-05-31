@@ -3,7 +3,7 @@
     <el-header>题目名称：{{ title }}</el-header>
     <el-main>
       <div>题目内容：</div>
-      <div v-html="content"></div>
+      <div v-html="content" v-highlight></div>
     </el-main>
   </el-container>
 </template>

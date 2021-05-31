@@ -6,7 +6,6 @@
         :p_id="q_id"
         :p_title="q_title"
         :p_content="q_content"
-        :p_time="q_time"
       ></question-details>
     </el-main>
     <el-footer>
@@ -28,7 +27,6 @@ export default {
       q_id: 123,
       q_title: '我是题目',
       q_content: '<p><strong><s>好耶</s></strong></p>',
-      q_time: '我是时间',
     }
   },
   components:{
