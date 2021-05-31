@@ -51,6 +51,19 @@ app.post('/handin', (request, response) => {
     let str = JSON.stringify(data);
     response.send(data);
 });
+app.post('/submitJudge', (request, response) => {
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    // const data = {
+    //     ifExist: true,
+    //     msg: '您已提交过一次，不能重复提交哦！'
+    // };
+    const data = {
+        ifExist: false,
+        msg: '可以提交！'
+    };
+    let str = JSON.stringify(data);
+    response.send(data);
+});
 app.post('/questionList', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     const data = {
@@ -120,7 +133,7 @@ app.post('/interviewList', (request, response) => {
                 "sessionID": 3,
                 "hr_username": "提前10分钟",
                 "questionNumber": 3,
-                "startTime": '2021-05-31 17:30:00',
+                "startTime": '2021-05-31 18:30:00',
                 "endTime": '2021-05-31 22:50:00',
                 "timeUsed": 300
             },

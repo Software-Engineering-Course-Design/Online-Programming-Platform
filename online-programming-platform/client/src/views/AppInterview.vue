@@ -68,7 +68,7 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="submitDialogVisible = false">取消</el-button>
         <!-- submit传题目ID -->
-        <el-button type="primary" @click="submit(questionID)">确定</el-button>
+        <el-button type="primary" @click="submitJudge(questionID)">确定</el-button>
       </span>
     </el-dialog>
       <el-dialog title="提示" :visible.sync="finalDialogVisible" width="30%" :before-close="handleClose">
@@ -336,6 +336,33 @@
           })
           .catch(_ => {});
       },
+      submitJudge(questionID) {
+        // var status = false;
+        // for (var i = 0; i < this.questionObj.length; i++) {
+        //   if (this.questionObj[i].questionID == questionID) {
+        //     status = this.questionObj[i].questionStatus; //获取当前题目的提交状态
+        //     break;
+        //   }
+        // }
+        var data = {
+          username: this.username,
+          sessionID: this.sessionID,
+          questionID: questionID,
+        };
+        this.$store.dispatch('submitJudgeRequest', data).then(res => {
+          if (res.ifExist) { //已经提交过，不能再提交
+            this.$message({
+              showClose: true,
+              message: res.msg,
+              type: 'warning',
+              duration: 2300,
+            })
+          } else { //提交
+            this.submit(questionID);
+          }
+        })
+      },
+
       submit(questionID) { //传入题目ID，提交该题代码
 
         this.submitDialogVisible = true;

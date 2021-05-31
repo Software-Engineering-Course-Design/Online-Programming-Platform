@@ -18,6 +18,7 @@ const url = {
   submitCode: 'http://127.0.0.1:8000/submitCode',//提交代码
   viewResult:'http://127.0.0.1:8000/viewResult',//查看已参加面试详情
   handin:'http://127.0.0.1:8000/handin',//交卷
+  submitJudge:'http://127.0.0.1:8000/submitJudge',//判断代码是否已提交过
 };
 
 
@@ -79,6 +80,11 @@ export default {
       state
     }, postData) => {
       return post(url.handin, postData);
+    },
+    submitJudgeRequest: ({
+      state
+    }, postData) => {
+      return post(url.submitJudge, postData);
     },
   }
 
