@@ -9,7 +9,7 @@
         <span slot="label">{{item.label}}</span>
         <el-row :gutter="20">
           <el-col :span="10">
-            <question-details></question-details>
+            <question-details :p_title="item.heading" :p_content="item.body"></question-details>
           </el-col>
           <!-- <el-divider direction="vertical"></el-divider> -->
           <el-col :span="14" id="right-side">
@@ -75,17 +75,18 @@
     },
     data() {
       return {
+        questionID:'',
         tabPosition: 'right',
         username: this.$route.query.username,
         sessionID: this.$route.query.sessionID,
         allObj: [], //存放后端传来的数据
+
+        p_title: '',
+        p_content: '',
       };
     },
-    methods: {
-      //根据后端传来的数据动态显示题目
-      displayQuestions() {
 
-      },
+    methods: {
       onStart() {
         var postData = {
           'username': this.username,
@@ -111,9 +112,10 @@
               //题目选项卡
               label: tmp,
             })
-
+           
             //显示代码、答案、结果
           }
+          this.questionID = interview_result_list[0].questionID;
         })
       },
 
@@ -121,6 +123,7 @@
     mounted() {
       this.onStart();
     },
+    
   }
 
 </script>

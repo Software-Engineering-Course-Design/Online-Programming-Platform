@@ -34,7 +34,8 @@
       <el-main>
         <el-row :gutter="10">
           <el-col :span="12">
-            <question-details></question-details>
+            <question-details :p_title="p_title" :p_content="p_content"></question-details>
+
           </el-col>
 
           <el-col :span="12">
@@ -127,7 +128,6 @@
     },
     data() {
       return {
-        //question: '', //当前问题
 
         questionOptions: [], //selector题号显示
         questionObj: [], //存放题目
@@ -140,6 +140,9 @@
         questionID: '', //当前问题的id 即item.value
         pre_questionID: '', //记录变化前的id
 
+
+        p_title: '',
+        p_content: '',
 
         interviewTime: parseInt(this.$route.query.time), //传给倒计时组件的,面试时长
         startTime: this.$route.query.startTime, //传给倒计时组件的,面试开始时间
@@ -265,8 +268,15 @@
       },
 
       //根据questionID显示相应题目信息 组件间通信
-      displayQuestionInfo() {
-
+      displayQuestionInfo(questionID) {
+        
+        for (var i = 0; i < this.questionObj.length; i++) {
+          if (this.questionObj[i].questionID == questionID) {
+            this.p_title = this.questionObj[i].heading;
+            this.p_content = this.questionObj[i].body;
+            break;
+          }
+        }
       },
       //点击保存按钮，保存本题代码
       saveCode() {
@@ -325,6 +335,8 @@
           //默认显示第一题
           this.questionID = this.questionObj[0].questionID;
           this.currentQuestion();
+          this.displayQuestionInfo(this.questionID);
+          
         })
 
         //学习组件间通信，将题目内容传到questionDetails组件上
@@ -464,6 +476,7 @@
       questionID(item1, item2) {
         // item1为新值，item2为旧值
         this.pre_questionID = item2;
+        this.displayQuestionInfo(item1);
         this.saveLastCode();
         this.displayCode();
       },
