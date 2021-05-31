@@ -34,7 +34,7 @@ import logout from "../components/UserQuit.vue"
         // this.$store.dispatch('testget', obj).then(res=>{
         //   console.log(res);
         // })
-        let getFlag = localStorage.getItem("LoginStatus");
+        let getFlag = this.$cookies.get("LoginStatus");
         this.msg = getFlag;
       }
     },

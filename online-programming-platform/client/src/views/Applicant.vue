@@ -59,7 +59,7 @@
   export default {
     data() {
       return {
-        username: sessionStorage.getItem("username"),
+        username: this.$cookies.get("username"),
         sessionName1: '0',
         sessionName2: '0',
         interviewName: 'interview',
