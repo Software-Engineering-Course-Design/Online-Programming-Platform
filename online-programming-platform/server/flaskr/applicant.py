@@ -17,6 +17,7 @@ def query_db(query, args=(), one=False):
 def join_message():
 	if request.method == 'POST':
 		interviewee=request.json.get("username") 
+		#notjoin序列，没参加
 		# 0.写sql
 		#status True已参加 False未参加
 		query = "SELECT distinct sessionID, username, questionNumber, startTime, endTime, TimeUsed FROM interview WHERE applicant='{}' AND status='False'".format(interviewee)
@@ -27,9 +28,105 @@ def join_message():
 		for i in range(length):  
 			item=dict(result[i])  
 			temp.append(item)
-		notjoin_list=dict(notjoinlist=tuple(temp))
-		json.dumps(notjoin_list)
-		return notjoin_list
+		join_message_list=dict(notjoin=tuple(temp))
+
+		#join序列 已参加
+		query = "SELECT distinct sessionID, username, questionNumber, startTime, endTime FROM interview WHERE applicant='{}' AND status='True'".format(interviewee)
+		result = query_db(query) 
+		#print(result['sessionID'])sssssss
+		temp=[]
+		length=len(result)  #对每条数据库信息进行处理
+		for i in range(length):  
+			score = 0
+			AC_number = 0
+			item=dict(result[i]) 
+
+			#先把状态和分数置为true和-1
+			item['status'] = 'true'
+			item['score'] = 0
+
+			temp_sessionID = item['sessionID']
+			temp_questionNumber = item["questionNumber"]
+			print("sessionID",temp_sessionID)
+			print("questionnumber",temp_questionNumber)
+			#查每一场的代码批改结果
+			temp_query = "SELECT result FROM code WHERE applicant='{}' AND sessionID='{}'".format(interviewee, temp_sessionID)
+			temp_result = query_db(temp_query) 
+			#temp_temp=[]
+			temp_length=len(temp_result)
+			for j in range(temp_length):
+				temp_item = dict(temp_result[j])
+				print("result",temp_item['result'])
+
+				if temp_item['result'] == '0':
+					item['status'] = 'false';#有一道题没有批改，状态就是false未批改
+					item['score'] = -1
+					break;
+				elif temp_item['result'] == 'AC':#有题目AC，AC数加一
+					AC_number = AC_number+1
+
+			if item['status'] == 'true':
+				item['score'] = 100*AC_number/temp_questionNumber
+
+			temp.append(item)
+		join_message_list['join']=tuple(temp)
+
+		json.dumps(join_message_list)
+		return join_message_list
+
+# @applicant.route('/join_message',methods=['GET','POST'])
+# @cross_origin()
+# def join_message():
+# 	if request.method == 'POST':
+# 		interviewee=request.json.get("username") 
+# 		# 0.写sql
+# 		#status True已参加 False未参加
+# 		query = "SELECT distinct sessionID, username, questionNumber, startTime, endTime FROM interview WHERE applicant='{}' AND status='True'".format(interviewee)
+# 		result = query_db(query) 
+# 		#print(result['sessionID'])sssssss
+# 		temp=[]
+# 		length=len(result)  #对每条数据库信息进行处理
+# 		for i in range(length):  
+# 			score = 0
+# 			AC_number = 0
+# 			item=dict(result[i]) 
+
+# 			item['status'] = 'true'
+# 			item['score'] = 0
+
+# 			temp_sessionID = item['sessionID']
+# 			temp_questionNumber = item["questionNumber"]
+# 			print("sessionID",temp_sessionID)
+# 			print("questionnumber",temp_questionNumber)
+# 			temp_query = "SELECT result FROM code WHERE applicant='{}' AND sessionID='{}'".format(interviewee, temp_sessionID)
+# 			temp_result = query_db(temp_query) 
+# 			temp_temp=[]
+# 			temp_length=len(temp_result)
+# 			for j in range(temp_length):
+# 				temp_item = dict(temp_result[j])
+# 				print("result",temp_item['result'])
+
+# 				if temp_item['result'] == '0':
+# 					item['status'] = 'false';#有一道题没有批改，状态就是false未批改
+# 					item['score'] = -1
+# 					break;
+# 				elif temp_item['result'] == 'AC':
+# 					AC_number = AC_number+1
+
+# 			if item['status'] == 'true':
+# 				item['score'] = 100*AC_number/temp_questionNumber
+
+# 			temp.append(item)
+# 		join_list=dict(joinlist=tuple(temp))
+# 		json.dumps(join_list)
+# 		return join_list
+
+
+
+# 		#notjoin_list=dict(notjoinlist=tuple(temp))
+# 		#json.dumps(notjoin_list)
+# 		return '1'
+
 
 #在线编程题目显示模块
 #将该场次的面试题返回给前端，并把该用户该场次的面试设为已参加状态 
