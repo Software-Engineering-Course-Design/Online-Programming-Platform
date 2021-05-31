@@ -102,12 +102,16 @@
                 this.$store.commit("userStatus", true);
                 //Vuex在用户刷新的时候userStatus会回到默认值false，所以需要用到HTML5储存
                 //记录登录状态、用户名、用户类型
-                sessionStorage.setItem("LoginStatus", "isLogin");
-                sessionStorage.setItem("username", that.validateForm.username);
+                // sessionStorage.setItem("LoginStatus", "isLogin");
+                // sessionStorage.setItem("username", that.validateForm.username);
+                this.$cookies.set("LoginStatus", "isLogin");
+                this.$cookies.set("username", that.validateForm.username);
                 if (userType) {
-                  sessionStorage.setItem("userType", "HR");
+                  // sessionStorage.setItem("userType", "HR");
+                  this.$cookies.set("userType", "HR");
                 } else {
-                  sessionStorage.setItem("userType", "applicant");
+                  // sessionStorage.setItem("userType", "applicant");
+                  this.$cookies.set("userType", "applicant");
                 }
 
                 this.$message({
