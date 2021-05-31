@@ -14,9 +14,9 @@
                 <div>出题者：{{item.interviewer}}</div>
                 <div>题数：{{item.questionNumber}}</div>
                 <div>面试开始时间：{{item.startTime}}</div>
-                <div>面试时长：{{item.time}}分钟</div>
+                <div>面试时长：{{item.timeUsed}}分钟</div>
                 <el-button type="primary" class="start-btn"
-                  @click="startInterview(item.sessionID,item.startTime,item.endTime,item.time)" round>
+                  @click="startInterview(item.sessionID,item.startTime,item.endTime,item.timeUsed)" round>
                   开始面试
                 </el-button>
               </el-collapse-item>
@@ -31,8 +31,10 @@
                 </template>
                 <div>出题者：{{item.interviewer}}</div>
                 <div>题数：{{item.questionNumber}}</div>
+                <div>面试时间：{{item.startTime}} —— {{item.endTime}}</div>
                 <div>批改状态：{{item.status?'已批改':'未批改'}}</div>
-                <div>面试分数：{{item.score}}</div>
+                <!-- 状态为已批改的时候显示面试分数 -->
+                <div v-if="item.status">面试分数：{{item.score}}</div>
                 <el-button type="primary" class="check-btn" @click="jumpToResultURL(item.sessionID)" round>查看面试详情
                 </el-button>
               </el-collapse-item>
@@ -81,7 +83,7 @@
             questionNumber: arr[i].questionNumber,
             startTime: arr[i].startTime,
             endTime: arr[i].endTime,
-            time: arr[i].time,
+            timeUsed: arr[i].timeUsed,
           });
         }
       },
@@ -94,6 +96,8 @@
             questionNumber: arr[i].questionNumber,
             status: arr[i].status,
             score: arr[i].score,
+            startTime: arr[i].startTime,
+            endTime: arr[i].endTime,
           });
         }
       },

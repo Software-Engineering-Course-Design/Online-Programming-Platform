@@ -15,17 +15,18 @@
             </div>
           </el-col>
           <el-col :span="4">
-            <div class="grid-content bg-purple"></div>
+            <div class="grid-content"></div>
           </el-col>
           <el-col :span="8">
-            <div class="grid-content bg-purple"></div>
+            <div class="grid-content"></div>
           </el-col>
           <el-col :span="4">
             <el-button type="primary" id="final-btn" @click="finalDialogVisible=true" round>结束面试</el-button>
           </el-col>
           <!-- 倒计时 -->
           <el-col :span="4">
-            <count-down :interviewTime="interviewTime" :startTime="startTime" :endTime="endTime" @endInterview="timeUp"></count-down>
+            <count-down :interviewTime="interviewTime" :startTime="startTime" :endTime="endTime" @endInterview="timeUp">
+            </count-down>
           </el-col>
         </el-row>
 
@@ -63,7 +64,7 @@
       </el-main>
     </el-container>
        <el-dialog title="提示" :visible.sync="submitDialogVisible" width="30%" :before-close="handleClose">
-      <span>是否提交本题代码</span>
+      <span>每题只允许提交一次，是否提交本题代码？</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="submitDialogVisible = false">取消</el-button>
         <!-- submit传题目ID -->
@@ -71,7 +72,7 @@
       </span>
     </el-dialog>
       <el-dialog title="提示" :visible.sync="finalDialogVisible" width="30%" :before-close="handleClose">
-      <span>是否结束面试</span>
+      <span>是否结束面试,您尚未提交的题目将会一起提交</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="finalDialogVisible = false">取消</el-button>
         <el-button type="primary" @click="handin()">确定</el-button>
@@ -129,6 +130,7 @@
         //question: '', //当前问题
 
         questionOptions: [], //selector题号显示
+        questionObj: [], //存放题目
         submitDialogVisible: false,
         finalDialogVisible: false,
 
@@ -137,7 +139,7 @@
 
         questionID: '', //当前问题的id 即item.value
         pre_questionID: '', //记录变化前的id
-        questionStatus: [], //每道题的提交状态
+
 
         interviewTime: parseInt(this.$route.query.time), //传给倒计时组件的,面试时长
         startTime: this.$route.query.startTime, //传给倒计时组件的,面试开始时间
@@ -261,21 +263,7 @@
           }
         }
       },
-      //动态生成题目选项，初始化题目提交状态——未提交
-      createOptions(id_arr) {
-        for (var i = 0; i < id_arr.length; i++) {
-          var tmp = 'Question' + (i + 1);
-          this.questionOptions.push({
-            value: id_arr[i],
-            label: tmp,
-            disabled: false,
-          });
-          this.questionStatus.push({
-            value: id_arr[i],
-            status: false,
-          });
-        }
-      },
+
       //根据questionID显示相应题目信息 组件间通信
       displayQuestionInfo() {
 
@@ -314,19 +302,31 @@
       onStart() {
         var postData = {
           'sessionID': this.sessionID,
-          'username':this.username,
+          'username': this.username,
         }
         //根据面试场次请求题目列表
         this.$store.dispatch('questionListRequest', postData).then(res => {
-          console.log(res);
-          var id_arr = res.id_arr;
-          var heading_arr = res.heading_arr;
-          var question_arr = res.question_arr; //富文本格式题目暂时还没写
-          this.questionID = id_arr[0];
-          this.createOptions(id_arr);
+          var question_list = res.question_list;
+          for (var i = 0; i < question_list.length; i++) {
+            this.questionObj.push({
+              heading: question_list[i].heading,
+              body: question_list[i].body,
+              questionID: question_list[i].questionID,
+              questionStatus: false, //代码提交状态，false是未提交
+            })
+            //题号selector显示
+            var tmp = 'Question' + (i + 1);
+            this.questionOptions.push({
+              value: question_list[i].questionID,
+              label: tmp,
+              disabled: false,
+            })
+          }
+          //默认显示第一题
+          this.questionID = this.questionObj[0].questionID;
           this.currentQuestion();
         })
-        //默认显示第一题
+
         //学习组件间通信，将题目内容传到questionDetails组件上
       },
       handleClose(done) {
@@ -337,6 +337,7 @@
           .catch(_ => {});
       },
       submit(questionID) { //传入题目ID，提交该题代码
+
         this.submitDialogVisible = true;
         var data = {};
         data.username = this.username;
@@ -363,9 +364,10 @@
               duration: 2300,
             })
             //更改题目的状态为 已提交
-            for (var i = 0; i < this.questionStatus.length; i++) {
-              if (this.questionStatus[i].value == questionID) {
-                this.questionStatus[i].status = true;
+            for (var i = 0; i < this.questionObj.length; i++) {
+              if (this.questionObj[i].questionID == questionID) {
+                this.questionObj[i].questionStatus = true;
+                break;
               }
             }
           } else {
@@ -380,10 +382,10 @@
         })
       },
       handin() {
-        for (var i = 0; i < this.questionStatus.length; i++) {
-          //检查每道题是否提交过，没提交的就一起提交
-          if (this.questionStatus[i].status == false) {
-            this.submit(this.questionStatus[i].value);
+        for (var i = 0; i < this.questionObj.length; i++) {
+          //检查每道题是否提交过，没提交的就一起提交    
+          if (this.questionObj[i].questionStatus == false) {
+            this.submit(this.questionObj[i].questionID);
           }
         }
         var newTime = new Date().getTime();
@@ -413,8 +415,8 @@
         })
         this.finalDialogVisible = false;
         //清除本地保存的代码
-        for (var i = 0; i < this.questionStatus.length; i++) {
-          var tmp = 'QuestionID' + this.questionStatus[i].value;
+        for (var i = 0; i < this.questionObj.length; i++) {
+          var tmp = 'QuestionID' + this.questionObj[i].questionID;
           if (sessionStorage.getItem(tmp) != null) {
             sessionStorage.removeItem(tmp);
           }
@@ -429,7 +431,7 @@
         this.handin();
       }
     },
-    
+
     watch: {
       // 此处监听questionID变量，当期有变化时执行
       questionID(item1, item2) {

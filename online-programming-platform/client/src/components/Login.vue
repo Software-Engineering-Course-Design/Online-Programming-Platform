@@ -122,7 +122,7 @@
                 if (!userType) {//跳转到面试者首页
                   this.$router.push("/applicant");
                 }else{//跳转到面试官首页
-                  this.$router.push("/home");
+                  this.$router.push("/home");//以后更改路径
                 }
 
               } else {
