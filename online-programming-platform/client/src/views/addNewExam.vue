@@ -21,9 +21,20 @@
             <el-form-item prop="time1">
               <el-date-picker type="date" placeholder="选择日期" v-model="form.time1"></el-date-picker>
             </el-form-item>
-
+<!--
             <el-form-item prop="time2">
               <el-time-picker placeholder="选择时间" v-model="form.time2"></el-time-picker>
+            </el-form-item>
+-->
+            <el-form-item>
+              <el-time-picker
+                is-range
+                v-model="form.time2"
+                range-separator="至"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                placeholder="选择时间范围">
+              </el-time-picker>
             </el-form-item>
 
         </el-form-item>
@@ -65,7 +76,7 @@ export default {
           { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
         ],
         time2: [
-          { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+          { type: 'Array', required: true, message: '请选择时间', trigger: 'change' }
         ],
         people: [
           { message: '请输入面试者id', trigger: 'blur'}

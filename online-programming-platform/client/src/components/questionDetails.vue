@@ -3,7 +3,8 @@
     <el-header>题目名称：{{ title }}</el-header>
     <el-main>
       <div>题目id：{{ id }}</div>
-      <div>题目内容：{{ content }}</div>
+      <div>题目内容：</div>
+      <div v-html="content"></div>
       <div>时间： {{ time}}</div>
     </el-main>
   </el-container>

@@ -8,6 +8,7 @@
       @ready="onEditorReady($event)"
       @change="onEditorChange($event)">
   </quill-editor>
+    <el-button @click="test2">test2</el-button>
   </el-container>
 </template>
 
@@ -21,7 +22,7 @@ export default {
   name: "editor",
   data(){
     return {
-      content: '',
+      content: this.p_content,
       editorOption: {
         placeholder: '请输入题目描述',
         theme: 'snow', // 主题
@@ -50,6 +51,10 @@ export default {
     Quill
   },
   methods:{
+    test2(){
+      this.$emit('updateContent',this.content);
+      console.log(this.content);
+    },
     onEditorBlur(editor) {
       },
     onEditorFocus(editor) {
@@ -60,11 +65,18 @@ export default {
       this.content = editor.html;
     },
   },
+
   computed: {
     editor() {
       return this.$refs.myTextEditor.quillEditor;
     }
   },
+  props:{
+    p_content: { type: String},
+  },
+  mounted () {
+    console.log(this.$emit('update:q_content',this.content));
+  }
 }
 </script>
 
