@@ -83,9 +83,9 @@ def questionID():
 @cross_origin()
 def code():
     if request.method == 'POST':
-        username = request.json.get("applicant")
+        applicant = request.json.get("applicant")
         questionID = request.json.get("questionID")
-        query = "SELECT * FROM code WHERE questionID='{}' or username='{}'".format(questionID, username)
+        query = "SELECT * FROM code WHERE questionID='{}' or applicant='{}'".format(questionID, applicant)
         query = query_db(query, one=True)
         if query is None:
             return dict(message="查询失败，不存在该用户提交的代码")
