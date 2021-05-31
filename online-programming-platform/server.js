@@ -88,7 +88,7 @@ app.post('/viewResult', (request, response) => {
         interview_result_list: [{
                 "answer": "answer1",
                 "body": "body1",
-                "code": "#include<iostream>",
+                "code": "console.log('第一行')↵↵↵↵console.log('2')",
                 "heading": "Stack",
                 "questionID": 1,
                 "result": 0
@@ -133,7 +133,7 @@ app.post('/interviewList', (request, response) => {
                 "sessionID": 3,
                 "hr_username": "提前10分钟",
                 "questionNumber": 3,
-                "startTime": '2021-05-31 18:55:00',
+                "startTime": '2021-05-31 19:35:00',
                 "endTime": '2021-05-31 22:50:00',
                 "timeUsed": 300
             },

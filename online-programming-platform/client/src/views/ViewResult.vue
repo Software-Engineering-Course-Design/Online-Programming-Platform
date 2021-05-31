@@ -14,8 +14,7 @@
           <!-- <el-divider direction="vertical"></el-divider> -->
           <el-col :span="14" id="right-side">
             <el-tabs :tab-position="tabPosition" style="height: 200px;" type="card">
-              <el-tab-pane label="代码">
-                {{item.code}}
+              <el-tab-pane label="代码" v-html="item.code">
               </el-tab-pane>
               <el-tab-pane label="答案">
                 {{item.answer}}

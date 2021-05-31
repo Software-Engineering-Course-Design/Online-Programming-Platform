@@ -15,6 +15,10 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
+import hljs from 'highlight.js' //导入代码高亮文件
+import 'highlight.js/styles/monokai-sublime.css'  //导入代码高亮样式
+
+
 import { Message } from 'element-ui';
 Vue.use(VueQuillEditor, {
   placeholder: '请输入内容',
@@ -40,6 +44,13 @@ new Vue({
     App
   },
   template: '<App/>'
+})
+//自定义一个代码高亮指令
+Vue.directive('highlight',function (el) {
+  let highlight = el.querySelectorAll('pre code');
+  highlight.forEach((block)=>{
+      hljs.highlightBlock(block)
+  })
 })
 
 // router.beforeEach((to, from, next) => {
