@@ -21,7 +21,7 @@ def query_db(query, args=(), one=False):
 def interviewer_info():
     if request.method == 'GET':
         question_num = "SELECT count(*) FROM question"
-        interviewer_num = "SELECT count(id) FROM user WHERE usertype='False'"
+        interviewer_num = "SELECT count(id) FROM user WHERE usertype=False"
         h_id_arr = "SELECT questionID, heading FROM question"
 
         question_num = query_db(question_num, one=True)
@@ -104,6 +104,7 @@ def add_question():
     if request.method == 'POST':
         username = request.json.get("username")
         heading = request.json.get("heading")
+        question=request.json.get("question")
         body = request.json.get("question")
         answer = request.json.get("answer")
         query = "SELECT * FROM question WHERE heading='{}'".format(heading)
