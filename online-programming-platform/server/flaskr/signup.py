@@ -23,7 +23,7 @@ def signup_info():
 
             if password!=checkpwd:
                 return dict(ifExist=True, msg="fail! password and checkpwd are not same!")
-            if userType=="true" and hr_code!="666666":
+            if userType==True and hr_code!="666666":
                 return dict(ifExist=True, msg="fail! hr_code is wrong!")
             
             # 0.写sql
@@ -35,7 +35,7 @@ def signup_info():
             if result is None:#数据库里没有该用户，加到数据库
                 print('here')
                 connection = db.get_db()
-                query = "INSERT INTO user(usertype,username,password) values('{}','{}','{}')".format(userType,username,password)
+                query = "INSERT INTO user(usertype,username,password) values({},'{}','{}')".format(userType,username,password)
                 connection.execute(query)
                 connection.commit()
                 return  dict(ifExist=False,msg = "success")

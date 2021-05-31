@@ -28,11 +28,11 @@ def comment_add():
             connection.execute(query_in)
             connection.commit()
         except Exception as e:
-            return dict(ifSuccess=False,msg="New comment added failed!")
+            return dict(ifSuccess=False,msg="评论添加失败！")
         else:
-            return  dict(ifSuccess=True,msg = "true") 
+            return  dict(ifSuccess=True,msg = "评论成功！") 
     else:
-        return dict(ifSuccess=False,msg = "Permission denied!") 
+        return dict(ifSuccess=False,msg = "您没有权限！") 
  
 @comment.route('/comment_search',methods=['GET','POST'])
 @cross_origin()
@@ -48,11 +48,11 @@ def comment_search():
         for i in range(length):   #对每条数据库信息进行处理
             item=dict(result[i])  
             temp.append(item)
-        return_info=dict(ifSuccess=True,questionID=qid,msg="Success!")
+        return_info=dict(ifSuccess=True,questionID=qid,msg="获取成功！")
         return_info['commentList']=tuple(temp)
         json.dumps(return_info)   #转换成json格式
         return return_info  
     else:
-        return dict(ifSuccess=False,questionID=-1,msg = "Permission denied!",commentList=[]) 
+        return dict(ifSuccess=False,questionID=-1,msg = "您没有权限！",commentList=[]) 
 
 

@@ -51,14 +51,33 @@ app.post('/handin', (request, response) => {
     let str = JSON.stringify(data);
     response.send(data);
 });
+app.post('/submitJudge', (request, response) => {
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    // const data = {
+    //     ifExist: true,
+    //     msg: '您已提交过一次，不能重复提交哦！'
+    // };
+    const data = {
+        ifExist: false,
+        msg: '可以提交！'
+    };
+    let str = JSON.stringify(data);
+    response.send(data);
+});
 app.post('/questionList', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     const data = {
-        id_arr: [11, 22, 33, 44],
-        heading_arr: ['h1', 'h2', 'h3', 'h4'],
-        question_arr: ['q1', 'q2', 'q3', 'q4'],
-        
-
+        question_list: [{
+                "body": "write a Stack",
+                "heading": "Stack",
+                "questionID": 3
+            },
+            {
+                "body": "reverse the Linklist",
+                "heading": "Linklsit",
+                "questionID": 4
+            }
+        ]
     };
     let str = JSON.stringify(data);
     response.send(str);
@@ -66,92 +85,83 @@ app.post('/questionList', (request, response) => {
 app.post('/viewResult', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     const data = {
-        id_arr: [11, 22, 33, 44],
-        msg: {
-            "join": [{
-                    "sessionID": 1,
-                    "hr_name": "aaa",
-                    "questionNumber": 3,
-                    "time": 1.5
-                },
-                {
-                    "sessionID": 2,
-                    "hr_name": "bbb",
-                    "questionNumber": 2,
-                    "time": 1
-                }
-            ],
-            "notjoin": [{
-                    "sessionID": 3,
-                    "hr_name": "aaa",
-                    "questionNumber": 3,
-                    "time": 1.5
-                },
-                {
-                    "sessionID": 2,
-                    "hr_name": "bbb",
-                    "questionNumber": 2,
-                    "time": 1
-                }
-            ]
-        }
+        interview_result_list: [{
+                "answer": "answer1",
+                "body": "body1",
+                "code": "console.log('第一行')↵↵↵↵console.log('2')",
+                "heading": "Stack",
+                "questionID": 1,
+                "result": 0
+            },
+            {
+                "answer": "answer2",
+                "body": "body2",
+                "code": null,
+                "heading": "Queue",
+                "questionID": 2,
+                "result": "AC"
+            }
+        ]
     };
     let str = JSON.stringify(data);
-    console.log(data);
     response.send(str);
 });
 app.post('/interviewList', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     const data = {
         join: [{
-            "sessionID": 1,
-            "hr_username": "aaa",
-            "questionNumber": 3,
-            "status": 150,
-            "score":100,
-        },
-        {
-            "sessionID": 2,
-            "hr_username": "bbb",
-            "questionNumber": 2,
-            "status": 1,
-            "score":80,
-        }
-    ],
-    //可参加
-    notjoin: [{
-            "sessionID": 3,
-            "hr_username": "提前10分钟",
-            "questionNumber": 3,
-            "startTime":'2021-05-28 22:00:00',
-            "endTime":'2021-05-28 22:50:00',
-            "time": 300
-        },
-        {
-            "sessionID": 2,
-            "hr_username": "测试交卷",
-            "questionNumber": 2,
-            "startTime":'2021-05-28 22:00:00',
-            "endTime":'2021-05-28 22:06:00',
-            "time": 300
-        },
-        {
-            "sessionID": 56,
-            "hr_username": "没开始",
-            "questionNumber": 6,
-            "startTime":'2021-05-29 17:50:00',
-            "endTime":'2021-05-29 18:50:00',
-            "time": 300
-        },
-        {
-            "sessionID": 6,
-            "hr_username": "已结束",
-            "questionNumber": 6,
-            "startTime":'2021-05-22 17:50:00',
-            "endTime":'2021-05-22 18:50:00',
-            "time": 300
-        },
-    ]
+                "sessionID": 1,
+                "hr_username": "aaa",
+                "questionNumber": 3,
+                "startTime": '2021-05-28 17:30:00',
+                "endTime": '2021-05-28 22:50:00',
+                "status": true,
+                "score": 100,
+            },
+            {
+                "sessionID": 2,
+                "hr_username": "bbb",
+                "questionNumber": 2,
+                "startTime": '2021-05-28 18:00:00',
+                "endTime": '2021-05-28 22:50:00',
+                "status": false,
+                "score": -1,
+            }
+        ],
+        //可参加
+        notjoin: [{
+                "sessionID": 3,
+                "hr_username": "提前10分钟",
+                "questionNumber": 3,
+                "startTime": '2021-05-31 19:35:00',
+                "endTime": '2021-05-31 22:50:00',
+                "timeUsed": 300
+            },
+            {
+                "sessionID": 2,
+                "hr_username": "测试交卷",
+                "questionNumber": 2,
+                "startTime": '2021-05-31 18:00:00',
+                "endTime": '2021-05-31 22:06:00',
+                "timeUsed": 300
+            },
+            {
+                "sessionID": 56,
+                "hr_username": "没开始",
+                "questionNumber": 6,
+                "startTime": '2021-05-31 17:50:00',
+                "endTime": '2021-05-31 18:50:00',
+                "timeUsed": 300
+            },
+            {
+                "sessionID": 6,
+                "hr_username": "已结束",
+                "questionNumber": 6,
+                "startTime": '2021-05-22 17:50:00',
+                "endTime": '2021-05-22 18:50:00',
+                "timeUsed": 300
+            },
+        ]
     };
     let str = JSON.stringify(data);
     response.send(str);

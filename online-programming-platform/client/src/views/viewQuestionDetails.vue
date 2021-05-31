@@ -27,7 +27,7 @@ export default {
       msg: "Updating the question!",
       q_id: 123,
       q_title: '我是题目',
-      q_content: '我是题目内容',
+      q_content: '<p><strong><s>好耶</s></strong></p>',
       q_time: '我是时间',
     }
   },

@@ -54,7 +54,6 @@
     </el-row>
     <!-- 提示框 -->
       <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-      <span>这是一段信息</span>
       <span>{{alertMsg}}</span>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogVisible = false">确定</el-button>
@@ -125,7 +124,6 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            //console.log("success");
             let that = this;
             let signupData = {
               username: that.validateForm.username,
@@ -134,20 +132,20 @@
               userType: that.validateForm.userType,
               hr_code: that.validateForm.hr_code,
             };
-            console.log(signupData);
-
-            // 测试一下axios能不能用，以后再改
-
+            // axios请求
             this.$store.dispatch('signupRequest', signupData).then(res => {
               console.log(res);
               var ifExist = res.ifExist;
               var msg = res.msg;
               if (!ifExist) {
                 //注册成功，可以登录了
+                this.alertMsg = '注册成功！请前往登录';
+                this.dialogVisible = true;
 
               } else {
                 //用户已存在，重新取一个用户名
-                this.alertMsg = msg;
+                //this.alertMsg = msg;
+                this.alertMsg = '注册失败！该用户名已存在，请更换用户名';
                 this.dialogVisible = true;
               }
             })

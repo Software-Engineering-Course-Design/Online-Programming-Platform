@@ -33,7 +33,7 @@ export default new Router({
     },
     //后面都用懒加载，防止组件加载过慢
     {
-      path: '/applicant',
+      path: '/applicant',//面试者首页
       name: 'applicant',
       component: resolve => require(['../views/Applicant.vue'], resolve),
       meta: {
@@ -41,18 +41,13 @@ export default new Router({
       },
     },
     {
-      path: '/applicant/interview',
+      path: '/applicant/interview',//面试页面
       name: 'appInterview',
       component: resolve => require(['../views/AppInterview.vue'], resolve),
       meta: {
         isLogin: false
       },
     },
-    // {
-    //   path: '/applicant/result',
-    //   name: 'appResult',
-    //   component:resolve=>require(['../views/AppResult.vue'],resolve),
-    // },
     {
       path: '/interviewer/addNewQuestion',
       name: 'interviewerToAddQuestion',
@@ -91,7 +86,7 @@ export default new Router({
       component:resolve => require(['../views/addNewExam'],resolve),
     },
     {
-      path: '/applicant/viewResult',
+      path: '/applicant/viewResult',//面试者查看已面试结果的页面
       name: 'viewResult',
       component:resolve => require(['../views/viewResult'],resolve),
       meta: {

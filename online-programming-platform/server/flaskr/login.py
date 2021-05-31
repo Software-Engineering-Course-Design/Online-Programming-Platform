@@ -20,16 +20,17 @@ def login_info():
             query = "SELECT * FROM user WHERE username='{}'".format(username)
             #通过用户的id来查询用户资料（one=True返回第一条数据）
             result = query_db(query,one=True) 
+            
             if result is None:
-                return  dict(ifExist=False,usertype=2,msg = "User doesn't exist!")
+                return  dict(ifExist=False,usertype=2,msg = "用户不存在！")
             else:
                 password_match=result['password']
                 if password_match==password:
-                    userType=result['usertype']
-                    msg="success"
-                    return dict(ifExist=True,userType=userType,msg=msg)
+                    userType=result['usertype'] 
+                    msg="登陆成功！" 
+                    return dict(ifExist=True,userType=bool(userType),msg=msg)
                 else:
-                    return dict(ifExist=True,userType=result['usertype'],msg="Fail!Wrong password!")
+                    return dict(ifExist=True,userType=bool(result['usertype']),msg="密码错误！")
     else:
-        return dict(ifExist=False,usertype=2,msg = "permission denied!")
+        return dict(ifExist=False,usertype=2,msg = "您没有权限!")
  

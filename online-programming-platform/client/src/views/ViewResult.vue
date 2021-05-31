@@ -1,44 +1,41 @@
 <template>
-    <div>
-        <el-container>
-      <el-header>
-        <!-- 题号 -->
-        <el-tabs type="border-card">
-          <el-tab-pane v-for="item in questionList" :key="item.value" :label="item.label" :value="item.value"
-            :disabled="item.disabled">
-            <!-- 如何实现点击获取题目ID -->
-            <span slot="label">{{item.label}}</span>
-            <el-row :gutter="20">
-              <el-col :span="10">
-                <question-details></question-details>
-              </el-col>
-              <el-col :span="14">
-                <el-tabs :tab-position="tabPosition" style="height: 200px;">
-                  <el-tab-pane label="已提交代码">
+    <div class="view-result">
+    <!--     <el-container> -->
+    <!-- <el-header> -->
 
-                  </el-tab-pane>
-                  <el-tab-pane label="标准答案">
+    <el-tabs type="border-card" class="view-card">
+      <el-tab-pane v-for="item in allObj" :key="item.questionID" :label="item.label" :value="item.questionID">
+        <!-- 如何实现点击获取题目ID -->
+        <span slot="label">{{item.label}}</span>
+        <el-row :gutter="20">
+          <el-col :span="10">
+            <question-details :p_title="item.heading" :p_content="item.body"></question-details>
+          </el-col>
+          <!-- <el-divider direction="vertical"></el-divider> -->
+          <el-col :span="14" id="right-side">
+            <el-tabs :tab-position="tabPosition" style="height: 200px;" type="card">
+              <el-tab-pane label="代码" v-html="item.code">
+              </el-tab-pane>
+              <el-tab-pane label="答案">
+                {{item.answer}}
+              </el-tab-pane>
+              <el-tab-pane label="结果">
+                <div>
+                  批改结果：{{item.result}}
+                  <div>注意：0表示尚未批改，AC表示通过，WA表示错误</div>
+                </div>
+              </el-tab-pane>
 
-                  </el-tab-pane>
-                  <el-tab-pane label="结果查询">
-                    <div>
-                      批改结果：
-                    </div>
-                    <div>
-                      批改面试官：
-                    </div>
-                  </el-tab-pane>
+            </el-tabs>
+          </el-col>
 
-                </el-tabs>
-              </el-col>
-
-            </el-row>
-          </el-tab-pane>
-        </el-tabs>
-      </el-header>
-      <!-- 内容，左边是题目内容，右边通过标签页切换 提交的代码、标准答案、成绩状态等 -->
-      <el-main>
-        <!-- <el-row :gutter="20">
+        </el-row>
+      </el-tab-pane>
+    </el-tabs>
+    <!-- </el-header> -->
+    <!-- 内容，左边是题目内容，右边通过标签页切换 提交的代码、标准答案、成绩状态等 -->
+    <!-- <el-main> -->
+    <!-- <el-row :gutter="20">
           <el-col :span="10">
             <question-details></question-details>
           </el-col>
@@ -63,9 +60,10 @@
           </el-col>
 
         </el-row> -->
-      </el-main>
-    </el-container>
-      </div>
+    <!-- </el-main>
+    </el-container> -->
+      
+  </div>
 </template>
 
 <script>
@@ -76,27 +74,18 @@
     },
     data() {
       return {
+        questionID:'',
         tabPosition: 'right',
         username: this.$route.query.username,
         sessionID: this.$route.query.sessionID,
-        questionList: [],//存放题目题号
-        allObj:[],//存放后端传来的数据
+        allObj: [], //存放后端传来的数据
+
+        p_title: '',
+        p_content: '',
       };
     },
+
     methods: {
-      //动态生成题目选项
-      createOptions(id_arr) {
-        for (var i = 0; i < id_arr.length; i++) {
-          var tmp = 'Question' + (i + 1);
-          this.questionList.push({
-            value: id_arr[i],
-            label: tmp,
-            disabled: false,
-          });
-        }
-        console.log(this.questionList)
-      },
-      //处理后端传
       onStart() {
         var postData = {
           'username': this.username,
@@ -104,16 +93,28 @@
         }
         this.$store.dispatch('viewResultRequest', postData).then(res => {
           console.log(res);
-          var id_arr = res.id_arr;
-
-          //var msg = res.msg;
-          //console.log(msg);
-          this.createOptions(id_arr);
-        //   var heading_arr = res.heading_arr;
-        //   var question_arr = res.question_arr;
-        //   var code_arr = res.code_arr;
-        //   var answer_arr = res.answer_arr;
-        //   var result_arr = res.result_arr;
+          //处理后端传的数据
+          var interview_result_list = res.interview_result_list;
+          for (var i = 0; i < interview_result_list.length; i++) {
+            var tmp = 'Question' + (i + 1);
+            this.allObj.push({
+              //题目
+              questionID: interview_result_list[i].questionID,
+              heading: interview_result_list[i].heading,
+              body: interview_result_list[i].body,
+              //代码
+              code: interview_result_list[i].code,
+              //答案
+              answer: interview_result_list[i].answer,
+              //该题结果（0：未批改，AC,WA）
+              result: interview_result_list[i].result,
+              //题目选项卡
+              label: tmp,
+            })
+           
+            //显示代码、答案、结果
+          }
+          this.questionID = interview_result_list[0].questionID;
         })
       },
 
@@ -121,10 +122,17 @@
     mounted() {
       this.onStart();
     },
+    
   }
 
 </script>
 
 <style>
+  .view-card {
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+  }
 
 </style>
