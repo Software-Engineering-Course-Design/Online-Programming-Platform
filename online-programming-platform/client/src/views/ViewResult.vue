@@ -14,10 +14,11 @@
           <!-- <el-divider direction="vertical"></el-divider> -->
           <el-col :span="14" id="right-side">
             <el-tabs :tab-position="tabPosition" style="height: 200px;" type="card">
-              <el-tab-pane label="代码" v-html="item.code">
+              <el-tab-pane label="代码" v-highlight>
+                <code>{{item.code}}</code>
               </el-tab-pane>
-              <el-tab-pane label="答案">
-                {{item.answer}}
+              <el-tab-pane label="答案" v-highlight>
+                <code>{{item.answer}}</code>
               </el-tab-pane>
               <el-tab-pane label="结果">
                 <div>
@@ -74,7 +75,7 @@
     },
     data() {
       return {
-        questionID:'',
+        questionID: '',
         tabPosition: 'right',
         username: this.$route.query.username,
         sessionID: this.$route.query.sessionID,
@@ -111,7 +112,7 @@
               //题目选项卡
               label: tmp,
             })
-           
+
             //显示代码、答案、结果
           }
           this.questionID = interview_result_list[0].questionID;
@@ -122,7 +123,7 @@
     mounted() {
       this.onStart();
     },
-    
+
   }
 
 </script>

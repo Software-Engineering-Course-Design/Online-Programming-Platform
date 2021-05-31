@@ -17,7 +17,8 @@ import 'quill/dist/quill.bubble.css'
 
 import hljs from 'highlight.js' //导入代码高亮文件
 import 'highlight.js/styles/monokai-sublime.css'  //导入代码高亮样式
-
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 
 import { Message } from 'element-ui';
 Vue.use(VueQuillEditor, {
@@ -49,10 +50,10 @@ new Vue({
 Vue.directive('highlight',function (el) {
   let highlight = el.querySelectorAll('pre code');
   highlight.forEach((block)=>{
-      hljs.highlightBlock(block)
+      hljs.highlightBlock(block);
   })
 })
-
+//this.$cookies.config('3d')
 // router.beforeEach((to, from, next) => {
 //   //获取用户登录成功后储存的登录标志
 //   let getFlag = localStorage.getItem("Flag");

@@ -86,17 +86,17 @@ app.post('/viewResult', (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     const data = {
         interview_result_list: [{
-                "answer": "answer1",
+                "answer": "console.log('第2行')",
                 "body": "body1",
-                "code": "console.log('第一行')↵↵↵↵console.log('2')",
+                "code": "console.log('第一行')",
                 "heading": "Stack",
                 "questionID": 1,
                 "result": 0
             },
             {
-                "answer": "answer2",
+                "answer": "<code>console.log('第3行')</code>",
                 "body": "body2",
-                "code": null,
+                "code": "<code>console.log('第4行')</code>",
                 "heading": "Queue",
                 "questionID": 2,
                 "result": "AC"
@@ -133,7 +133,7 @@ app.post('/interviewList', (request, response) => {
                 "sessionID": 3,
                 "hr_username": "提前10分钟",
                 "questionNumber": 3,
-                "startTime": '2021-05-31 19:35:00',
+                "startTime": '2021-05-31 20:35:00',
                 "endTime": '2021-05-31 22:50:00',
                 "timeUsed": 300
             },
@@ -141,7 +141,7 @@ app.post('/interviewList', (request, response) => {
                 "sessionID": 2,
                 "hr_username": "测试交卷",
                 "questionNumber": 2,
-                "startTime": '2021-05-31 18:00:00',
+                "startTime": '2021-05-31 20:40:00',
                 "endTime": '2021-05-31 22:06:00',
                 "timeUsed": 300
             },
@@ -149,8 +149,8 @@ app.post('/interviewList', (request, response) => {
                 "sessionID": 56,
                 "hr_username": "没开始",
                 "questionNumber": 6,
-                "startTime": '2021-05-31 17:50:00',
-                "endTime": '2021-05-31 18:50:00',
+                "startTime": '2021-05-31 22:50:00',
+                "endTime": '2021-05-31 23:50:00',
                 "timeUsed": 300
             },
             {

@@ -16,7 +16,7 @@ def query_db(query, args=(), one=False):
 
 
 # 面试官首页
-@interviewer.route('/interviewer_info', methods=['GET', 'POST'])
+@interviewer.route('/interviewer_info', methods=['GET'])
 @cross_origin()
 def interviewer_info():
     if request.method == 'GET':
@@ -63,7 +63,7 @@ def questionID():
             username = result['username']
 
             # 面试者数组（返回提交了该题的面试者用户ID）
-            id_arr = "SELECT username FROM interview WHERE status='True' AND questionID='{}'".format(uid)
+            id_arr = "SELECT applicant FROM code WHERE code is not null AND questionID={}".format(uid)
             id_arr = query_db(id_arr)
             temp = []
             for i in range(len(id_arr)):  # 对每条数据库信息进行处理
@@ -83,9 +83,9 @@ def questionID():
 @cross_origin()
 def code():
     if request.method == 'POST':
-        username = request.json.get("applicant")
+        applicant = request.json.get("applicant")
         questionID = request.json.get("questionID")
-        query = "SELECT * FROM code WHERE questionID='{}' or username='{}'".format(questionID, username)
+        query = "SELECT * FROM code WHERE questionID={} or applicant='{}'".format(questionID, applicant)
         query = query_db(query, one=True)
         if query is None:
             return dict(message="查询失败，不存在该用户提交的代码")
@@ -133,14 +133,14 @@ def edit_question():
             questionID = request.json.get("questionID")
             heading = request.json.get("newHeading")
             body = request.json.get("newQuestion")
-            query = "SELECT * FROM question WHERE questionID='{}'".format(questionID)
+            query = "SELECT * FROM question WHERE questionID={}".format(questionID)
             # 通过questionID来查询题目详情（one=True返回第一条数据）
             result = query_db(query, one=True)
             if result is None:  # 数据库里没有该面试题
                 return dict(ifSuccess=False, msg="修改失败,不存在该面试题")
             else:  # 数据库里有该面试题
                 connection = db.get_db()
-                query = "UPDATE question SET heading="'{}'", body="'{}'" WHERE questionID='{}'"\
+                query = "UPDATE question SET heading='{}', body='{}' WHERE questionID={}"\
                     .format(heading, body, questionID)
                 connection.execute(query)
                 connection.commit()
@@ -165,7 +165,7 @@ def initial_interview():
         # 通过用户的id来查询用户资料（one=True返回第一条数据）
         result = query_db(query, one=True)
         sessionID = tuple(result)[0]
-        status = "False"  # 面试状态初始为未参加状态
+        status = False  # 面试状态初始为未参加状态
 
         startTime = datetime.strptime(startTime, '%Y-%m-%d %H:%M:%S')
         endTime = datetime.strptime(endTime, '%Y-%m-%d %H:%M:%S')
@@ -189,7 +189,7 @@ def initial_interview():
             for i in range(questionNumber):
                 for j in range(len(applicant)):
                     query = "INSERT INTO interview(sessionID,username,applicant, questionNumber, questionID, createWay, status, startTime, endTime, timeUsed) " \
-                            "values('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')"\
+                            "values({},'{}','{}',{},{},{},{},'{}','{}','{}')"\
                         .format(sessionID, username, applicant[j], questionNumber, questionID[i], createWay, status, startTime, endTime, timeUsed)
                     connection.execute(query)
                     connection.commit()
@@ -205,7 +205,7 @@ def initial_interview():
     "applicant":["d","b"],
     "questionNumber":2,
     "questionID":[1,2],
-    "createWay":"true",
+    "createWay":true,
     "startTime":"2004-01-01 02:34:56",
     "endTime":"2004-01-01 03:34:56"
 }'''
@@ -222,22 +222,22 @@ def check_code():
         connection = db.get_db()
         for i in range(len(result_detail)):
             dict1 = result_detail[i]
-            username = dict1['examineeID']
+            applicant = dict1['examineeID']
             answer = dict1['answer']
-            print('2', username)
+
             for j in range(len(answer)):
                 dict2 = answer[j]
                 questionID = dict2["idx"]
                 result = dict2["value"]
-                query = "SELECT result FROM code WHERE username='{}' AND questionID='{}' AND sessionID='{}'".format(username, questionID, sessionID)
+                query = "SELECT result FROM code WHERE applicant='{}' AND questionID={} AND sessionID={}".format(applicant, questionID, sessionID)
                 result_before = query_db(query, one=True)
                 result_before = tuple(result_before)
                 print('3', result_before[0])
                 if result_before[0] == '0':
                     # query = "INSERT INTO code(result,username,questionID) values('{}','{}','{}')"\
                      # .format(result, username, questionID)
-                    query = "UPDATE code SET result='{}' WHERE username='{}' AND questionID='{}' AND sessionID='{}'" \
-                        .format(result, username, questionID, sessionID)
+                    query = "UPDATE code SET result='{}' WHERE applicant='{}' AND questionID={} AND sessionID={}" \
+                        .format(result, applicant, questionID, sessionID)
                     connection.execute(query)
                     connection.commit()
                     print('success')
@@ -256,10 +256,10 @@ def check_code():
         "examineeID":"d",
         "answer":[
             {
-            "idx":"1",
+            "idx":1,
             "value":"ac"
         },{
-            "idx":"2",
+            "idx":2,
             "value":"ac"
         }
         ]
@@ -267,15 +267,15 @@ def check_code():
         "examineeID":"b",
         "answer":[
             {
-            "idx":"1",
+            "idx":1,
             "value":"ac"
         },{
-            "idx":"2",
+            "idx":2,
             "value":"ac"
         }
         ]
     }],
     
-    "sessionID":"1"
+    "sessionID":1
 }
 """
