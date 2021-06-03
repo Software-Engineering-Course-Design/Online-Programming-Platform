@@ -33,11 +33,21 @@ def interviewer_info():
 
         # 面试题数组（返回所有面试题标题、questionID）
         temp = []
+        id_arr = []
         for i in range(len(h_id_arr)):   # 对每条数据库信息进行处理
             item = dict(h_id_arr[i])
             temp.append(item)
-        return_info = dict(question_num=question_num[0], interviewer_num=interviewer_num[0])
-        return_info['h_id_arr'] = tuple(temp)
+
+        for k in range(len(temp)):
+            temp1 = []
+            dict1 = temp[k]
+            questionID = dict1['questionID']
+            heading = dict1['heading']
+            temp1.append(questionID)
+            temp1.append(heading)
+            id_arr.append(temp1)
+        return_info = dict(question_num=question_num[0], interviewer_num=interviewer_num[0], id_arr=id_arr)
+        #return_info['id_arr'] = tuple(temp)
         json.dumps(return_info)   # 转换成json格式
         return return_info
 
@@ -66,14 +76,101 @@ def questionID():
             id_arr = "SELECT applicant FROM code WHERE code is not null AND questionID={}".format(uid)
             id_arr = query_db(id_arr)
             temp = []
+            h_id_arr = []
             for i in range(len(id_arr)):  # 对每条数据库信息进行处理
                 item = dict(id_arr[i])
                 temp.append(item)
-            return_info = dict(username=username, heading=heading, body=body, questionID=uid)
-            return_info['h_id_arr'] = tuple(temp)
+            for k in range(len(temp)):
+                dict1 = temp[k]
+                applicant = dict1['applicant']
+                h_id_arr.append(applicant)
+            return_info = dict(username=username, heading=heading, body=body, questionID=uid, h_id_arr=h_id_arr)
+            #return_info['h_id_arr'] = tuple(temp)
             json.dumps(return_info)  # 转换成json格式
             return return_info
 
+    else:
+        return dict(msg="查询失败，网络发生故障")
+
+
+# 面试官查看面试情况
+@interviewer.route('/interview_info', methods=['POST'])
+@cross_origin()
+def interview_info():
+    if request.method == 'POST':
+        username = request.json.get("username")
+        query1 = "SELECT distinct sessionID FROM interview WHERE username='{}'".format(username)
+        sessionID = query_db(query1)
+        temp1 = []
+        for i in range(len(sessionID)):  # 对每条数据库信息进行处理
+            item = dict(sessionID[i])
+            temp1.append(item)  # temp1：得到该面试官的所有sessionID
+        print(temp1)
+        read_session = []
+        unread_session = []
+
+        for i in range(len(temp1)):
+            dict1 = temp1[i]
+            sessionID = dict1['sessionID']
+            print(sessionID)
+            query2 = "SELECT result FROM code WHERE sessionID='{}'".format(sessionID)
+            result = query_db(query2)
+            temp2 = []
+            for j in range(len(result)):
+                item = dict(result[j])
+                temp2.append(item)  # temp2：得到第i个面试的所有代码的批改情况
+            print(temp2)
+
+            for k in range(len(temp2)):
+                dict2 = temp2[k]
+                result = dict2['result']  # result：得到第i个面试的第k个代码的批改情况
+                if result == '0':  # 若某个代码未批改，则认为该场面试未被批改
+                    unread_session.append(sessionID)
+                    break
+                if k == len(temp2) - 1:  # 若第i场面试的代码均被批改，则认为该场面试已批改
+                    read_session.append(sessionID)
+        read = []
+        unread = []
+        for i in range(len(unread_session)):
+            query3 = "SELECT distinct startTime, endTime FROM interview WHERE sessionID='{}'".format(unread_session[i])
+            unread_info1 = query_db(query3, one=True)
+            startTime = unread_info1['startTime']
+            endTime = unread_info1['endTime']
+            query4 = "SELECT questionID FROM interview WHERE sessionID='{}'".format(unread_session[i])
+            unread_info2 = query_db(query4)
+            temp3 = []
+            content = []
+            for j in range(len(unread_info2)):
+                item = dict(unread_info2[j])
+                temp3.append(item)  # temp3：得到第i场未批改面试的所有questionID
+            for k in range(len(temp3)):
+                dict1 = temp3[k]
+                questionID = dict1['questionID']
+                content.append(questionID)
+            return_info = dict(sessionID=unread_session[i], content=content, startTime=startTime, endTime=endTime)
+            unread.append(return_info)
+
+        for i in range(len(read_session)):
+            query3 = "SELECT distinct startTime, endTime FROM interview WHERE sessionID='{}'".format(read_session[i])
+            read_info1 = query_db(query3, one=True)
+            startTime = read_info1['startTime']
+            endTime = read_info1['endTime']
+            query4 = "SELECT distinct questionID FROM interview WHERE sessionID='{}'".format(read_session[i])
+            read_info2 = query_db(query4)
+            temp3 = []
+            content = []
+            for j in range(len(read_info2)):
+                item = dict(read_info2[j])
+                temp3.append(item)  # temp3：得到第i场已批改面试的所有questionID
+            for k in range(len(temp3)):
+                dict1 = temp3[k]
+                questionID = dict1['questionID']
+                content.append(questionID)
+            return_info = dict(sessionID=read_session[i], content=content, startTime=startTime, endTime=endTime)
+            read.append(return_info)
+        print(unread, read)
+        return dict(unread=unread, read=read)
+    
     else:
         return dict(msg="查询失败，网络发生故障")
 
@@ -188,8 +285,8 @@ def initial_interview():
             connection = db.get_db()
             for i in range(questionNumber):
                 for j in range(len(applicant)):
-                    query = "INSERT INTO interview(sessionID,username,applicant, questionNumber, questionID, createWay, status, startTime, endTime, timeUsed) " \
-                            "values({},'{}','{}',{},{},{},{},'{}','{}','{}')"\
+                    query = "INSERT INTO interview(sessionID,username,applicant, questionNumber, questionID, createWay, status," \
+                            " startTime, endTime, timeUsed) values({},'{}','{}',{},{},{},{},'{}','{}','{}')"\
                         .format(sessionID, username, applicant[j], questionNumber, questionID[i], createWay, status, startTime, endTime, timeUsed)
                     connection.execute(query)
                     connection.commit()

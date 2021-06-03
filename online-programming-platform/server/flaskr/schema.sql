@@ -48,7 +48,7 @@ CREATE TABLE interview(
     username TEXT  NOT NULL, 	--面试官
     applicant TEXT, 	--面试者数组
     questionNumber INTEGER  NOT NULL,
-    questionID TEXT NOT NULL,	--面试题ID数组
+    questionID INTEGER NOT NULL,	--面试题ID数组
     createWay boolean NOT NULL,  --true：自主命题；false：系统抽题
     status boolean  NOT NULL,  --面试者参加面试状态 true：已参加；false：未参加
     startTime text NOT NULL,--面试开始时间
