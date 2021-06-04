@@ -2,7 +2,7 @@
   <div>
     <el-collapse v-for="(e, idx) in eList" v-model="activeName" accordion :key="idx">
       <el-collapse-item  title="我是面试">
-        <div>{{e.content}}</div>
+        <div>面试场次：{{e.sessionID}} </div>
         <el-button v-if="check_flag==true" @click="check(e.sessionID, idx)">批改</el-button>
       </el-collapse-item>
     </el-collapse>
@@ -11,7 +11,7 @@
       layout="prev, pager, next"
       :total="50">
     </el-pagination>
-    <el-button @click="test">test</el-button>
+
   </div>
 </template>
 
@@ -26,16 +26,14 @@ export default {
     }
   },
   methods:{
-    test(){
-      console.log(this.eList)
-    },
+
     check(eID, idx){
       const that = this;
       this.$router.push({
         name: 'interviewerToCheckExam',
         params: {
           id: eID,
-          title: that.eList[idx].title
+          content: that.eList[idx].content
         }
       });
     },
