@@ -201,7 +201,7 @@ def add_question():
     if request.method == 'POST':
         username = request.json.get("username")
         heading = request.json.get("heading")
-        question=request.json.get("question")
+        #question=request.json.get("question")
         body = request.json.get("question")
         answer = request.json.get("answer")
         query = "SELECT * FROM question WHERE heading='{}'".format(heading)
