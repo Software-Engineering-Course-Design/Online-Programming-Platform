@@ -56,12 +56,11 @@ def interviewer_info():
 
 
 # 面试题详情
-@interviewer.route('/questionID', methods=['GET'])
+@interviewer.route('/questionID', methods=['POST'])
 @cross_origin()
 def questionID():
-    if request.method == 'GET':
-        # name = request.args.get('name', '')
-        uid = request.args.get('uid')  # 获取questionID
+    if request.method == 'POST':
+        uid = request.json.get("uid")  # 获取questionID
         query = "SELECT * FROM question WHERE questionID={}".format(uid)
         # 通过questionID来查询面试题详情（one=True返回第一条数据）
         result = query_db(query, one=True)
@@ -84,7 +83,7 @@ def questionID():
                 dict1 = temp[k]
                 applicant = dict1['applicant']
                 h_id_arr.append(applicant)
-            return_info = dict(username=username, heading=heading, body=body, questionID=uid, h_id_arr=h_id_arr)
+            return_info = dict(username=username, heading=heading, question=body, questionID=uid, id_arr=h_id_arr)
             #return_info['h_id_arr'] = tuple(temp)
             json.dumps(return_info)  # 转换成json格式
             return return_info

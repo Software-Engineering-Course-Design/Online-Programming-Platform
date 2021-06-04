@@ -21,7 +21,7 @@ const url = {
   submitJudge:'http://127.0.0.1:8000/submitJudge',//判断代码是否已提交过
 
   examList: 'http://127.0.0.1:8000/viewExamList',
-  questionContent: 'http://127.0.0.1:5000/interviewer/questionID?uid=1',
+  questionContent: 'http://127.0.0.1:5000/interviewer/questionID',
 
 };
 

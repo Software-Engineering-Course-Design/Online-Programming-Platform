@@ -25,9 +25,9 @@ export default {
     return{
       msg: "Updating the question!",
       username: 'testusr',
-      q_id: 123,
-      q_title: '我是题目',
-      q_content: '<p><strong><s>好耶</s></strong></p>',
+      q_id: 3,
+      q_title: '',
+      q_content: '',
       id_applicant: [],
       /*
       username
@@ -44,6 +44,7 @@ export default {
   },
   methods:{
     onStart(){
+      console.log(this.q_id);
       const postData = {
       //'username': this.username,
       'uid': this.q_id,
@@ -72,6 +73,9 @@ export default {
       })
     },
   },
+  mounted(){
+    this.onStart();
+  }
 
 }
 </script>
