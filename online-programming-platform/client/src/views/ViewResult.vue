@@ -1,77 +1,55 @@
 <template>
     <div class="view-result">
-    <!--     <el-container> -->
-    <!-- <el-header> -->
+    <el-container style="height:100%;">
+      <el-header>
+        <h2 class="header">Hello,用户 {{username}}!</h2>
+      </el-header>
+      <el-main>
+        <el-tabs type="border-card" class="view-card">
+          <el-tab-pane v-for="item in allObj" :key="item.questionID" :label="item.label" :value="item.questionID">
+            <!-- 如何实现点击获取题目ID -->
+            <span slot="label">{{item.label}}</span>
+            <el-row :gutter="10" class="el-row">
+              <el-col :span="10">
+                <question-details :p_title="item.heading" :p_content="item.body"></question-details>
+              </el-col>
+              <!-- <el-divider direction="vertical"></el-divider> -->
+              <el-col :span="14" id="right-side">
+                <el-tabs :tab-position="tabPosition" type="card">
+                  <el-tab-pane label="代码">
+                    <!-- <code>{{item.code}}</code> -->
+                    <code-editor :value="item.code"></code-editor>
+                  </el-tab-pane>
+                  <el-tab-pane label="答案">
+                    <!-- <code>{{item.answer}}</code> -->
+                    <code-editor :value="item.answer"></code-editor>
+                  </el-tab-pane>
+                  <el-tab-pane label="结果">
+                    <div>
+                      批改结果：{{item.result}}
+                      <div>注意：0表示尚未批改，AC表示通过，WA表示错误</div>
+                    </div>
+                  </el-tab-pane>
 
-    <el-tabs type="border-card" class="view-card">
-      <el-tab-pane v-for="item in allObj" :key="item.questionID" :label="item.label" :value="item.questionID">
-        <!-- 如何实现点击获取题目ID -->
-        <span slot="label">{{item.label}}</span>
-        <el-row :gutter="20">
-          <el-col :span="10">
-            <question-details :p_title="item.heading" :p_content="item.body"></question-details>
-          </el-col>
-          <!-- <el-divider direction="vertical"></el-divider> -->
-          <el-col :span="14" id="right-side">
-            <el-tabs :tab-position="tabPosition" style="height: 200px;" type="card">
-              <el-tab-pane label="代码" v-highlight>
-                <code>{{item.code}}</code>
-              </el-tab-pane>
-              <el-tab-pane label="答案" v-highlight>
-                <code>{{item.answer}}</code>
-              </el-tab-pane>
-              <el-tab-pane label="结果">
-                <div>
-                  批改结果：{{item.result}}
-                  <div>注意：0表示尚未批改，AC表示通过，WA表示错误</div>
-                </div>
-              </el-tab-pane>
+                </el-tabs>
+              </el-col>
 
-            </el-tabs>
-          </el-col>
-
-        </el-row>
-      </el-tab-pane>
-    </el-tabs>
-    <!-- </el-header> -->
-    <!-- 内容，左边是题目内容，右边通过标签页切换 提交的代码、标准答案、成绩状态等 -->
-    <!-- <el-main> -->
-    <!-- <el-row :gutter="20">
-          <el-col :span="10">
-            <question-details></question-details>
-          </el-col>
-          <el-col :span="14">
-            <el-tabs :tab-position="tabPosition" style="height: 200px;">
-              <el-tab-pane label="已提交代码">
-
-              </el-tab-pane>
-              <el-tab-pane label="标准答案">
-
-              </el-tab-pane>
-              <el-tab-pane label="结果查询">
-                <div>
-                  批改结果：
-                </div>
-                <div>
-                  批改面试官：
-                </div>
-              </el-tab-pane>
-
-            </el-tabs>
-          </el-col>
-
-        </el-row> -->
-    <!-- </el-main>
-    </el-container> -->
-      
+            </el-row>
+          </el-tab-pane>
+        </el-tabs>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 <script>
   import questionDetails from '../components/questionDetails.vue'
+  import codeEditor from '../components/CodeEditor.vue'
+
   export default {
     components: {
       questionDetails,
+      codeEditor,
     },
     data() {
       return {
@@ -83,6 +61,7 @@
 
         p_title: '',
         p_content: '',
+
       };
     },
 
@@ -119,9 +98,11 @@
         })
       },
 
+
     },
     mounted() {
       this.onStart();
+
     },
 
   }
@@ -129,11 +110,24 @@
 </script>
 
 <style>
+  .view-result {
+    height: 100%;
+  }
+
   .view-card {
     padding: 0px;
-    margin: 0px;
-    height: 100%;
+    margin: 10px;
+    min-height: 600px;
     width: 100%;
+  }
+
+  .header {
+    font-size: 25px;
+    text-align: center;
+  }
+
+  .el-row {
+    height: 100%;
   }
 
 </style>

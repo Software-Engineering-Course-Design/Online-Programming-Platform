@@ -1,7 +1,7 @@
 <template>
     <div id="app-interview">
     <el-container>
-      <el-header>
+      <el-header class="top-header">
         <el-row :gutter="20">
           <el-col :span="4">
             <div>
@@ -20,8 +20,8 @@
           <el-col :span="8">
             <div class="grid-content"></div>
           </el-col>
-          <el-col :span="4">
-            <el-button type="primary" id="final-btn" @click="finalDialogVisible=true" round>结束面试</el-button>
+          <el-col :span="4" class="close">
+            <el-button type="primary" id="final-btn" @click="finalDialogVisible=true" plain>结束面试</el-button>
           </el-col>
           <!-- 倒计时 -->
           <el-col :span="4">
@@ -55,11 +55,11 @@
             <div class="btn-box">
               <el-row>
                 <!-- <el-button type="primary" id="run-btn" round>运行</el-button> -->
-                <el-button type="primary" id="save-btn" @click="saveCodeAndAlert()" :disabled="ifDisabled" round>保存
+                <el-button type="primary" id="save-btn" @click="saveCodeAndAlert()" :disabled="ifDisabled" plain>保存
                 </el-button>
                 <el-button type="primary" id="submit-btn" @click="submitDialogVisible=true" :disabled="ifDisabled"
-                  round>提交</el-button>
-                <el-button type="danger" id="clear-btn" @click="clear()" :disabled="ifDisabled" round>清空</el-button>
+                  plain>提交</el-button>
+                <el-button type="danger" id="clear-btn" @click="clear()" :disabled="ifDisabled" plain>清空</el-button>
               </el-row>
               <p>{{submit_msg}}</p>
             </div>
@@ -203,7 +203,7 @@
           smartIndent: true, //自动缩进
           matchBrackets: true,
           lineNumbers: true, //行数
-          lineWrapping: true,
+          //lineWrapping: true,
           autoRefresh: true,
           foldGutter: true,
           styleActiveLine: true,
@@ -551,20 +551,19 @@
 </script>
 
 <style>
+  .close {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .btn-box {
+    margin-top: 2.5%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
   .el-col {
     border-radius: 4px;
-  }
-
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-
-  .bg-purple {
-    background: #d3dce6;
-  }
-
-  .bg-purple-light {
-    background: #e5e9f2;
   }
 
   .grid-content {
@@ -582,21 +581,36 @@
   }
 
   .editor {
-    /* width: 50%; */
     flex-grow: 1;
     display: flex;
     position: relative;
+    height: 100%;
   }
 
+  .top-header {
+    padding: 10px 20px;
+  }
+
+  .el-container {
+    margin-bottom: 40px;
+  }
 
   .CodeMirror {
     flex-grow: 1;
     z-index: 1;
-
+    height: 600px;
+    
   }
 
+  /* .CodeMirror-scroll {
+    height: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
+  } */
+
   .CodeMirror-code {
-    line-height: 19px;
+    line-height: 23px;
+    font-size: 17px;
   }
 
 

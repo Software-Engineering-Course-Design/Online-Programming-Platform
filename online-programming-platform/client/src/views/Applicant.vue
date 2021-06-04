@@ -2,8 +2,15 @@
     <div class="applicant">
     <el-container>
       <!-- header显示用户id和用户类型 -->
-      <el-header>Hello,用户 {{username}}!</el-header>
+      <el-header>
+        <h2 class="header">Hello,用户 {{username}}!</h2>
+      </el-header>
       <el-main>
+        <div class="top">
+          <el-button @click="drawer = true" type="primary" icon="el-icon-warning" id="info-btn">
+            查看面试注意事项
+          </el-button>
+        </div>
         <el-tabs v-model="interviewName" @tab-click="handleClick">
           <el-tab-pane label="可参加面试" name="interview">
             <el-collapse v-model="sessionName1" accordion>
@@ -53,9 +60,18 @@
             </el-collapse>
           </el-tab-pane>
         </el-tabs>
-        <!-- <el-drawer title="我是标题" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
-          <span>我来啦!</span>
-        </el-drawer> -->
+        <!-- 面试信息提示 -->
+        <el-drawer title="面试须知" :visible.sync="drawer" :direction="direction" size="50%" :before-close="handleClose">
+          <ol class="tips">
+            <li>请在面试开始前10分钟内进入面试，若已迟到，在面试开始之后15分钟内仍可进入面试；</li>
+            <li>若没有在面试开始前10分钟到面试开始后15分钟内进入面试，则失去该场次的面试资格；</li>
+            <li>进入面试之后，切勿退出页面；</li>
+            <li>点击左上角的选择框切换题目，切换时，编辑器中的代码将自动保存；</li>
+            <li>每道题目只有一次提交机会，一旦提交，不能再修改该题，提交之前请谨慎选择；</li>
+            <li>可点击“结束面试”按钮提前结束面试，结束面试将自动提交尚未提交的题目；</li>
+            <li>右上角有时间提示，若到点尚未结束面试将自动结束面试回到首页。</li>
+          </ol>
+        </el-drawer>
       </el-main>
     </el-container>
       
@@ -82,6 +98,8 @@
         resultList: [], //已参加的面试场次
         dialogVisible: false,
         alertMsg: '',
+        drawer: true, //面试提示
+        direction: 'rtl',
       };
     },
     methods: {
@@ -197,6 +215,25 @@
 </script>
 
 <style>
+  #info-btn {
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .top {
+    display: flex;
+    justify-content: flex-end;
+
+  }
+
+  .header {
+    font-size: 25px;
+    text-align: center;
+  }
+
   .interviewInfo {
     display: flex;
     justify-content: space-between;
@@ -209,6 +246,11 @@
 
   .info {
     font-size: 15px;
+  }
+
+  .tips {
+    font-size: 20px;
+    line-height: 35px;
   }
 
 </style>
