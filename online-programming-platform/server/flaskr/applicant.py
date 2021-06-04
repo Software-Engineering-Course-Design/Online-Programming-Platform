@@ -20,7 +20,7 @@ def join_message():
 		#notjoin序列，没参加
 		# 0.写sql
 		#status True已参加 False未参加
-		query = "SELECT distinct sessionID, username, questionNumber, startTime, endTime, TimeUsed FROM interview WHERE applicant='{}' AND status='False'".format(interviewee)
+		query = "SELECT distinct sessionID, username, questionNumber, startTime, endTime, TimeUsed FROM interview WHERE applicant='{}' AND status=0".format(interviewee)
 		result = query_db(query) 
 		#print(result['sessionID'])sssssss
 		temp=[]
@@ -31,7 +31,7 @@ def join_message():
 		join_message_list=dict(notjoin=tuple(temp))
 
 		#join序列 已参加
-		query = "SELECT distinct sessionID, username, questionNumber, startTime, endTime FROM interview WHERE applicant='{}' AND status='True'".format(interviewee)
+		query = "SELECT distinct sessionID, username, questionNumber, startTime, endTime FROM interview WHERE applicant='{}' AND status=1".format(interviewee)
 		result = query_db(query) 
 		#print(result['sessionID'])sssssss
 		temp=[]
@@ -138,7 +138,7 @@ def question_message():
 		applicant = request.json.get("username")#面试者
 		#改状态
 		connection = db.get_db()
-		query = "UPDATE interview SET status='True' WHERE sessionID='{}' AND applicant='{}'".format(sessionID, applicant)
+		query = "UPDATE interview SET status=1 WHERE sessionID='{}' AND applicant='{}'".format(sessionID, applicant)
 		connection.execute(query)
 		connection.commit()		
 		#返回该场次的面试题信息
@@ -204,3 +204,19 @@ def interview_result():
 		interview_result_list=dict(interview_result_list=tuple(temp))
 		json.dumps(interview_result_list)
 		return interview_result_list
+
+#代码只能提交一次，判断是否已经提交过了
+@applicant.route('/submit_message',methods=['GET','POST'])
+@cross_origin()
+def submit_message():
+	if request.method == 'POST':
+		sessionID = request.json.get("sessionID")
+		applicant = request.json.get("username")
+		questionID = request.json.get("questionID")
+		query = "SELECT * FROM code WHERE sessionID='{}' AND applicant='{}' AND questionID='{}'".format(sessionID, applicant, questionID)
+		result = query_db(query,one=True) 
+		#print(result['code'])
+		if result['code'] is None:
+			return  dict(ifExist=False,msg = "可提交")
+		else:
+			return  dict(ifExist=True,msg = "已提交过，不可重复提交")
