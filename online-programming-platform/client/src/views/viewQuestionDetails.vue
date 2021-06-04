@@ -24,9 +24,18 @@ export default {
   data(){
     return{
       msg: "Updating the question!",
+      username: 'testusr',
       q_id: 123,
       q_title: '我是题目',
       q_content: '<p><strong><s>好耶</s></strong></p>',
+      id_applicant: [],
+      /*
+      username
+      questionID
+      heading
+      question
+      id_arr
+      * */
     }
   },
   components:{
@@ -34,6 +43,18 @@ export default {
     updateQuestion
   },
   methods:{
+    onStart(){
+      const postData = {
+      //'username': this.username,
+      'uid': this.q_id,
+      };
+      this.$store.dispatch('viewExamListRequest',postData).then(res => {
+        console.log(res);
+        this.q_title = res.heading;
+        this.q_content = res.question;
+        this.id_applicant = res.id_arr;
+      });
+    },
     invite(){
       this.$router.push('./inviteToExam');
     },
@@ -50,7 +71,8 @@ export default {
         }
       })
     },
-  }
+  },
+
 }
 </script>
 

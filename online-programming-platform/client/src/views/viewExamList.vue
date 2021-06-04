@@ -41,14 +41,14 @@ export default {
         console.log(temp_elist);
         for(var i=0;i<temp_elist.length;i++){
           this.eList.push({
-              title: temp_elist[i].title,
-              id: temp_elist[i].id,
-              sessionTitle: temp_elist[i].sessionTitle,
+              //title: temp_elist[i].title,
+              //id: temp_elist[i].id,
+              //sessionTitle: temp_elist[i].sessionTitle,
               sessionID: temp_elist[i].sessionID,
               content: temp_elist[i].content,
               startTime: temp_elist[i].startTime,
               endTime: temp_elist[i].endTime,
-              status: temp_elist[i].status,
+              //status: temp_elist[i].status,
           });
           console.log(this.eList);
         }

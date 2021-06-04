@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-collapse v-for="(e, idx) in eList" v-model="activeName" accordion :key="idx">
-      <el-collapse-item  :title="e.sessionTitle">
+      <el-collapse-item  title="我是面试">
         <div>{{e.content}}</div>
         <el-button v-if="check_flag==true" @click="check(e.sessionID, idx)">批改</el-button>
       </el-collapse-item>

@@ -77,11 +77,9 @@
 | unread | Array |       | 未批改的面试场次信息 |
 | read | Array | | 已批改的面试场次信息 |
 
-unread/read:  [{"**sessionID**":" ", "**sessionTitle**":" ", "**status**": " ", "**content**":" ","**startTime**":" ","**endTime**":" "}, {......}]
+unread/read:  [{"**sessionID**":" ", "**content**":" ","**startTime**":" ","**endTime**":" "}, {......}]
 
 sessionID：面试id
-sessionTitle：面试标题
-status：面试批阅情况 true/false
 content：面试内容，是包含面试中题目信息的数组
 startTime：面试开始时间
 endTime：面试结束时间
