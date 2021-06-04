@@ -9,16 +9,21 @@
             <el-collapse v-model="sessionName1" accordion>
               <el-collapse-item v-for="(item, index) in interviewList" :key="index" :name="index">
                 <template slot="title">
-                  <h3>面试场次{{item.sessionID}}</h3>
+                  <h3 class="interviewTitle">面试场次{{item.sessionID}}</h3>
                 </template>
-                <div>出题者：{{item.interviewer}}</div>
-                <div>题数：{{item.questionNumber}}</div>
-                <div>面试开始时间：{{item.startTime}}</div>
-                <div>面试时长：{{item.timeUsed}}分钟</div>
-                <el-button type="primary" class="start-btn"
-                  @click="startInterview(item.sessionID,item.startTime,item.endTime,item.timeUsed)" round>
-                  开始面试
-                </el-button>
+                <div class="interviewInfo">
+                  <div class="info">
+                    <div>出题者：{{item.interviewer}}</div>
+                    <div>题数：{{item.questionNumber}}</div>
+                    <div>面试开始时间：{{item.startTime}}</div>
+                    <div>面试时长：{{item.timeUsed}}分钟</div>
+                  </div>
+                  <el-button type="primary" class="start-btn"
+                    @click="startInterview(item.sessionID,item.startTime,item.endTime,item.timeUsed)" plain>
+                    开始面试
+                  </el-button>
+                </div>
+
               </el-collapse-item>
 
             </el-collapse>
@@ -27,21 +32,30 @@
             <el-collapse v-model="sessionName2" accordion>
               <el-collapse-item v-for="(item, index) in resultList" :key="index" :name="index">
                 <template slot="title">
-                  <h3>面试场次{{item.sessionID}}</h3>
+                  <h3 class="interviewTitle">面试场次{{item.sessionID}}</h3>
                 </template>
-                <div>出题者：{{item.interviewer}}</div>
-                <div>题数：{{item.questionNumber}}</div>
-                <div>面试时间：{{item.startTime}} —— {{item.endTime}}</div>
-                <div>批改状态：{{item.status?'已批改':'未批改'}}</div>
-                <!-- 状态为已批改的时候显示面试分数 -->
-                <div v-if="item.status">面试分数：{{item.score}}</div>
-                <el-button type="primary" class="check-btn" @click="jumpToResultURL(item.sessionID)" round>查看面试详情
-                </el-button>
+                <div class="interviewInfo">
+                  <div class="info">
+                    <div>出题者：{{item.interviewer}}</div>
+                    <div>题数：{{item.questionNumber}}</div>
+                    <div>面试时间：{{item.startTime}} —— {{item.endTime}}</div>
+                    <div>批改状态：{{item.status?'已批改':'未批改'}}</div>
+                    <!-- 状态为已批改的时候显示面试分数 -->
+                    <div v-if="item.status">面试分数：{{item.score}}</div>
+                  </div>
+                  <el-button type="primary" class="check-btn" @click="jumpToResultURL(item.sessionID)" plain>查看面试详情
+                  </el-button>
+                </div>
+
+
               </el-collapse-item>
 
             </el-collapse>
           </el-tab-pane>
         </el-tabs>
+        <!-- <el-drawer title="我是标题" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
+          <span>我来啦!</span>
+        </el-drawer> -->
       </el-main>
     </el-container>
       
@@ -133,12 +147,12 @@
         } else if (newTime - interviewStartTime < late && newTime - interviewStartTime >= 0) { //迟到15分钟以内可进场
           this.jumpToInterviewURL(s_id, s_time, e_time, time);
         } else if (newTime - interviewStartTime > late) {
-          if(newTime - interviewEndTime > 0){
+          if (newTime - interviewEndTime > 0) {
             this.alertMsg = '面试已结束，无法再进入';
-          this.dialogVisible = true;
-          }else{
+            this.dialogVisible = true;
+          } else {
             this.alertMsg = '您已迟到，无法再进入面试';
-          this.dialogVisible = true;
+            this.dialogVisible = true;
           }
         }
 
@@ -183,5 +197,18 @@
 </script>
 
 <style>
+  .interviewInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .interviewTitle {
+    font-size: 20px;
+  }
+
+  .info {
+    font-size: 15px;
+  }
 
 </style>
