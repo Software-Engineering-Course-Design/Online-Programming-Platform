@@ -4,7 +4,7 @@
       <el-header>
         <el-row :gutter="20">
           <el-col :span="4">
-            <div class="grid-content">
+            <div>
               <el-select v-model="questionID" @change="currentQuestion">
                 <el-option v-for="item in questionOptions" :key="item.value" :label="item.label" :value="item.value"
                   :disabled="item.disabled">
@@ -96,7 +96,7 @@
   // 核心样式
   import 'codemirror/lib/codemirror.css'
   // 引入主题后还需要在 options 中指定主题才会生效
-  import 'codemirror/theme/cobalt.css'
+  import 'codemirror/theme/material-darker.css'
 
   import 'codemirror/addon/scroll/annotatescrollbar.js'
   import 'codemirror/addon/search/matchesonscrollbar.js'
@@ -196,15 +196,19 @@
         }],
         options: {
           mode: 'javascript',
-          theme: 'cobalt',
+          theme: 'material-darker',
+          indentUnit: 2, //缩进
+          tabSize: 4,
+          indentWithTabs: true,
+          smartIndent: true, //自动缩进
+          matchBrackets: true,
           lineNumbers: true, //行数
           lineWrapping: true,
-          indentUnit: 4, //缩进
+          autoRefresh: true,
           foldGutter: true,
           styleActiveLine: true,
-          gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
+          // gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
         }
-        //socket: io('localhost:3001'),
       };
     },
 
@@ -525,7 +529,6 @@
       this.onStart();
       let that = this;
 
-
       //实时
       // this.coder.on('change', (coder, option) => {
       //   let newCode = coder.getValue();
@@ -567,7 +570,7 @@
   .grid-content {
     border-radius: 4px;
     min-height: 36px;
-    text-align: center;
+    /* text-align: center; */
   }
 
   #code-editor-all {
