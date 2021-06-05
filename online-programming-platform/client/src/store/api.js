@@ -12,13 +12,13 @@ const url = {
   login: 'http://127.0.0.1:5000/login/login_info',
   // signup: 'http://127.0.0.1:8000/signup',
   // login: 'http://127.0.0.1:8000/login',
-  questionList: 'http://127.0.0.1:8000/questionList',//面试模块，请求面试题目
-  interviewList: 'http://127.0.0.1:8000/interviewList',//面试者首页，请求可参加的和已参加的面试场次信息
+  questionList: 'http://127.0.0.1:8000/questionList', //面试模块，请求面试题目
+  interviewList: 'http://127.0.0.1:8000/interviewList', //面试者首页，请求可参加的和已参加的面试场次信息
   //resultList: 'http://127.0.0.1:8000/resultList',//面试者首页，请求已参加的面试场次信息
-  submitCode: 'http://127.0.0.1:8000/submitCode',//提交代码
-  viewResult:'http://127.0.0.1:8000/viewResult',//查看已参加面试详情
-  handin:'http://127.0.0.1:8000/handin',//交卷
-  submitJudge:'http://127.0.0.1:8000/submitJudge',//判断代码是否已提交过
+  submitCode: 'http://127.0.0.1:8000/submitCode', //提交代码
+  viewResult: 'http://127.0.0.1:8000/viewResult', //查看已参加面试详情
+  handin: 'http://127.0.0.1:8000/handin', //交卷
+  submitJudge: 'http://127.0.0.1:8000/submitJudge', //判断代码是否已提交过
 
   examList: 'http://127.0.0.1:8000/viewExamList',
   questionContent: 'http://127.0.0.1:5000/interviewer/questionID',
@@ -29,20 +29,29 @@ const url = {
 export default {
   state: {
     isLogin: false,
+    userType: false,
   },
   getters: {
     //获取登录状态
     isLogin: state => state.isLogin,
+    //获取用户类型
+    userType: state => state.userType,
   },
   mutations: {
     //保存登录状态
     userStatus(state, flag) {
       state.isLogin = flag
     },
+    //保存用户类型
+    setUserType(state,flag){
+      state.userType = flag
+    }
   },
   actions: {
     //获取登录状态
-    setUser({commit}, flag) {
+    setUser({
+      commit
+    }, flag) {
       commit("userStatus", flag)
     },
     signupRequest: ({
@@ -90,14 +99,14 @@ export default {
     }, postData) => {
       return post(url.submitJudge, postData);
     },
-    viewExamListRequest:({
-                           state
-                         }, postData) => {
+    viewExamListRequest: ({
+      state
+    }, postData) => {
       return post(url.examList, postData);
     },
-    viewQuestionRequest:({
-                           state
-                         }, postData) => {
+    viewQuestionRequest: ({
+      state
+    }, postData) => {
       return post(url.questionContent, postData);
     },
 

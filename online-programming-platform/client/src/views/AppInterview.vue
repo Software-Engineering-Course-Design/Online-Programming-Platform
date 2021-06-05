@@ -361,12 +361,27 @@
         this.$store.dispatch('questionListRequest', postData).then(res => {
           var question_list = res.question_list;
           for (var i = 0; i < question_list.length; i++) {
-            this.questionObj.push({
-              heading: question_list[i].heading,
-              body: question_list[i].body,
-              questionID: question_list[i].questionID,
-              questionStatus: false, //代码提交状态，false是未提交
-            })
+            var str = 'Status' + question_list[i].questionID;
+            var tmp_status = sessionStorage.getItem(str); //代码提交状态放在sessionStorage里面
+            console.log("初始化:", tmp_status);
+            if (tmp_status == null) { //代码没有提交过
+              this.questionObj.push({
+                heading: question_list[i].heading,
+                body: question_list[i].body,
+                questionID: question_list[i].questionID,
+                questionStatus: false, //代码提交状态，false是未提交
+              })
+            } else {
+              this.questionObj.push({
+                heading: question_list[i].heading,
+                body: question_list[i].body,
+                questionID: question_list[i].questionID,
+                questionStatus: true, //代码提交状态，true是已提交
+              })
+            }
+
+
+
             //题号selector显示
             var tmp = 'Question' + (i + 1);
             this.questionOptions.push({
@@ -441,6 +456,9 @@
             for (var i = 0; i < this.questionObj.length; i++) {
               if (this.questionObj[i].questionID == questionID) {
                 this.questionObj[i].questionStatus = true;
+                var str = 'Status' + questionID;
+                sessionStorage.setItem(str, true); //代码提交状态放在sessionStorage里面
+                //console.log('submit ', questionID, "set session:", str, " ", sessionStorage.getItem(str));
                 break;
               }
             }
@@ -482,6 +500,17 @@
               type: 'success',
               duration: 2300,
             });
+            //清除本地保存的代码、本地保存的代码提交状态
+            for (var i = 0; i < this.questionObj.length; i++) {
+              var tmp = 'QuestionID' + this.questionObj[i].questionID;
+              if (sessionStorage.getItem(tmp) != null) {
+                sessionStorage.removeItem(tmp);
+              }
+              var tmp_status = 'Status' + this.questionObj[i].questionID;
+              if (sessionStorage.getItem(tmp_status) != null) {
+                sessionStorage.removeItem(tmp_status);
+              }
+            }
             //跳转回首页
             //this.$router.push('/applicant');
           } else {
@@ -494,14 +523,7 @@
           }
         })
         this.finalDialogVisible = false;
-        //清除本地保存的代码
-        for (var i = 0; i < this.questionObj.length; i++) {
-          var tmp = 'QuestionID' + this.questionObj[i].questionID;
-          if (sessionStorage.getItem(tmp) != null) {
-            sessionStorage.removeItem(tmp);
-          }
 
-        }
       },
       clear() {
         this.coder.setValue('');
@@ -599,7 +621,7 @@
     flex-grow: 1;
     z-index: 1;
     height: 600px;
-    
+
   }
 
   /* .CodeMirror-scroll {

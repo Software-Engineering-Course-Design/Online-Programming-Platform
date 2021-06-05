@@ -33,19 +33,21 @@ export default new Router({
     },
     //后面都用懒加载，防止组件加载过慢
     {
-      path: '/applicant',//面试者首页
+      path: '/applicant', //面试者首页
       name: 'applicant',
       component: resolve => require(['../views/Applicant.vue'], resolve),
       meta: {
-        isLogin: false
+        isLogin: true,
+        userType: false,
       },
     },
     {
-      path: '/applicant/interview',//面试页面
+      path: '/applicant/interview', //面试页面
       name: 'appInterview',
       component: resolve => require(['../views/AppInterview.vue'], resolve),
       meta: {
-        isLogin: false
+        isLogin: true,
+        userType: false,
       },
     },
     {
@@ -53,7 +55,8 @@ export default new Router({
       name: 'interviewerToAddQuestion',
       component: resolve => require(['../views/addNewQuestion'], resolve),
       meta: {
-        isLogin: false
+        isLogin: true,
+        userType: true,
       },
     },
     {
@@ -61,7 +64,8 @@ export default new Router({
       name: 'interviewerToQuestionDetails',
       component: resolve => require(['../views/viewQuestionDetails'], resolve),
       meta: {
-        isLogin: false
+        isLogin: true,
+        userType: true,
       },
     },
     {
@@ -69,7 +73,8 @@ export default new Router({
       name: 'interviewerToUpdateQuestion',
       component: resolve => require(['../views/updateQuestion'], resolve),
       meta: {
-        isLogin: false
+        isLogin: true,
+        userType: true,
       },
     },
     {
@@ -77,36 +82,54 @@ export default new Router({
       name: 'interviewerToViewQuestionCodeList',
       component: resolve => require(['../views/viewQuestionCodeList'], resolve),
       meta: {
-        isLogin: false
+        isLogin: true,
+        userType: true,
       },
     },
     {
       path: '/interviewer/addNewExam',
       name: 'interviewerToAddNewExam',
-      component:resolve => require(['../views/addNewExam'],resolve),
+      component: resolve => require(['../views/addNewExam'], resolve),
+      meta: {
+        isLogin: true,
+        userType: true,
+      },
     },
     {
-      path: '/applicant/viewResult',//面试者查看已面试结果的页面
+      path: '/applicant/viewResult', //面试者查看已面试结果的页面
       name: 'viewResult',
-      component:resolve => require(['../views/viewResult'],resolve),
+      component: resolve => require(['../views/viewResult'], resolve),
       meta: {
-        isLogin: false
+        isLogin: true,
+        userType: false,
       },
     },
     {
       path: '/interviewer/inviteToExam',
       name: 'interviewerToInvite',
-      component:resolve => require(['../views/inviteToExam'],resolve),
+      component: resolve => require(['../views/inviteToExam'], resolve),
+      meta: {
+        isLogin: true,
+        userType: true,
+      },
     },
     {
       path: '/interviewer/viewExamList',
       name: 'interviewerToViewExamList',
-      component:resolve => require(['../views/viewExamList'],resolve),
+      component: resolve => require(['../views/viewExamList'], resolve),
+      meta: {
+        isLogin: true,
+        userType: true,
+      },
     },
     {
       path: '/interviewer/checkExam',
       name: 'interviewerToCheckExam',
-      component:resolve => require(['../views/checkExam'],resolve),
+      component: resolve => require(['../views/checkExam'], resolve),
+      meta: {
+        isLogin: true,
+        userType: true,
+      },
     },
   ]
 })

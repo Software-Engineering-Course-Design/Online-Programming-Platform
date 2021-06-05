@@ -25,16 +25,18 @@
           this.$cookies.remove("LoginStatus");
           this.$cookies.remove("username");
           this.$cookies.remove("userType");
+          this.$store.commit("userStatus", false);
+          this.$store.commit("setUserType", false);
           this.dialogVisible = false;
           console.log('退出登录');
-        }else{
-            this.$message({
-              showClose: true,
-              message: '您尚未登录，无法退出登录',
-              type: 'warning',
-              duration: 2300,
+        } else {
+          this.$message({
+            showClose: true,
+            message: '您尚未登录，无法退出登录',
+            type: 'warning',
+            duration: 2300,
 
-            })
+          })
         }
 
       },

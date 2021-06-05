@@ -98,8 +98,8 @@
               var msg = res.msg;
               if (ifExist) {
                 //登录成功
-                console.log('登录成功')
                 this.$store.commit("userStatus", true);
+                this.$store.commit("setUserType", userType);
                 //Vuex在用户刷新的时候userStatus会回到默认值false，所以需要用到HTML5储存
                 //记录登录状态、用户名、用户类型
                 // sessionStorage.setItem("LoginStatus", "isLogin");
