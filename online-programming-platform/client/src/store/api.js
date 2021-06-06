@@ -10,15 +10,19 @@ import {
 const url = {
   signup: 'http://127.0.0.1:5000/signup/signup_info',
   login: 'http://127.0.0.1:5000/login/login_info',
-  // signup: 'http://127.0.0.1:8000/signup',
-  // login: 'http://127.0.0.1:8000/login',
-  questionList: 'http://127.0.0.1:8000/questionList', //面试模块，请求面试题目
-  interviewList: 'http://127.0.0.1:8000/interviewList', //面试者首页，请求可参加的和已参加的面试场次信息
-  //resultList: 'http://127.0.0.1:8000/resultList',//面试者首页，请求已参加的面试场次信息
-  submitCode: 'http://127.0.0.1:8000/submitCode', //提交代码
-  viewResult: 'http://127.0.0.1:8000/viewResult', //查看已参加面试详情
-  handin: 'http://127.0.0.1:8000/handin', //交卷
-  submitJudge: 'http://127.0.0.1:8000/submitJudge', //判断代码是否已提交过
+
+  // questionList: 'http://127.0.0.1:8000/questionList', //面试模块，请求面试题目
+  // interviewList: 'http://127.0.0.1:8000/interviewList', //面试者首页，请求可参加的和已参加的面试场次信息
+  // submitCode: 'http://127.0.0.1:8000/submitCode', //提交代码
+  // viewResult: 'http://127.0.0.1:8000/viewResult', //查看已参加面试详情
+  // handin: 'http://127.0.0.1:8000/handin', //交卷
+  // submitJudge: 'http://127.0.0.1:8000/submitJudge', //判断代码是否已提交过
+  questionList: 'http://127.0.0.1:5000/applicant/question_message', //面试模块，请求面试题目
+  interviewList: 'http://127.0.0.1:5000/applicant/join_message', //面试者首页，请求可参加的和已参加的面试场次信息
+  submitCode: 'http://127.0.0.1:5000/applicant/commit_code', //提交代码
+  viewResult: 'http://127.0.0.1:5000/applicant/interview_result', //查看已参加面试详情
+  handin: 'http://127.0.0.1:5000/applicant/end_session', //交卷
+  submitJudge: 'http://127.0.0.1:5000/applicant/submit_message', //判断代码是否已提交过
 
   examList: 'http://127.0.0.1:8000/viewExamList',
   questionContent: 'http://127.0.0.1:5000/interviewer/questionID',

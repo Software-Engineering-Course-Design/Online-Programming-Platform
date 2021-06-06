@@ -205,7 +205,7 @@
         }
         //根据面试场次请求题目列表
         this.$store.dispatch('interviewListRequest', postData).then(res => {
-          console.log(res);
+          console.log(res.notjoin);
 
           this.createInterviewList(res.notjoin, this.interviewList);
           this.createResultList(res.join, this.resultList);
