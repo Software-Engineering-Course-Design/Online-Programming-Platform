@@ -1,8 +1,11 @@
 <template>
     <div class="view-result">
-    <el-container style="height:100%;">
+    <el-page-header @back="goBack" class="goback">
+    </el-page-header>
+    <logout :username="username"></logout>
+    <el-container >
       <el-header>
-        <h2 class="header">Hello,用户 {{username}}!</h2>
+        <h3 class="header">面试场次{{sessionID}}结果</h3>
       </el-header>
       <el-main>
         <el-tabs type="border-card" class="view-card">
@@ -45,11 +48,12 @@
 <script>
   import questionDetails from '../components/questionDetails.vue'
   import codeEditor from '../components/CodeEditor.vue'
-
+import logout from "../components/UserQuit.vue"
   export default {
     components: {
       questionDetails,
       codeEditor,
+      logout,
     },
     data() {
       return {
@@ -66,6 +70,9 @@
     },
 
     methods: {
+      goBack() {
+        this.$router.push('/applicant');
+      },
       onStart() {
         var postData = {
           'username': this.username,
@@ -128,6 +135,12 @@
 
   .el-row {
     height: 100%;
+  }
+
+  .goback {
+    position: absolute;
+    top: 10px;
+    left: 10px;
   }
 
 </style>

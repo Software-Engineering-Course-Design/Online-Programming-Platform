@@ -1,9 +1,10 @@
 <template>
     <div class="applicant">
-    <el-container>
-      <!-- header显示用户id和用户类型 -->
+    <logout :username="username"></logout>
+    <!-- <i class="el-icon-user-solid">{{username}}</i> -->
+    <el-container class="container">
       <el-header>
-        <h2 class="header">Hello,用户 {{username}}!</h2>
+        <h2 class="header">在线编程面试平台</h2>
       </el-header>
       <el-main>
         <div class="top">
@@ -62,6 +63,7 @@
         </el-tabs>
         <!-- 面试信息提示 -->
         <el-drawer title="面试须知" :visible.sync="drawer" :direction="direction" size="50%" :before-close="handleClose">
+          <p class="wel">欢迎{{username}}参与面试！</p>
           <ol class="tips">
             <li>请在面试开始前10分钟内进入面试，若已迟到，在面试开始之后15分钟内仍可进入面试；</li>
             <li>若没有在面试开始前10分钟到面试开始后15分钟内进入面试，则失去该场次的面试资格；</li>
@@ -86,7 +88,11 @@
 </template>
 
 <script>
+  import logout from "../components/UserQuit.vue"
   export default {
+    components: {
+      logout
+    },
     data() {
       return {
         username: this.$cookies.get("username"),
@@ -253,4 +259,19 @@
     line-height: 35px;
   }
 
+  .wel {
+    text-indent: 2em;
+    font-size: 20px;
+    line-height: 35px;
+  }
+.container{
+  margin-left: 1.5%;
+  margin-right: 1.5%;
+}
+/* .el-icon-user-solid{
+  font-size: 20px;
+  position: absolute;
+  top:10px;
+  right: 10px;
+} */
 </style>

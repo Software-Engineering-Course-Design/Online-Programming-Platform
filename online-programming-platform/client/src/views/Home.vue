@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <logout></logout>
+    <!-- <logout></logout> -->
     <img alt="Vue logo" src="../assets/logo.png">
     <p>
       If Element is successfully added to this project, you'll see an

@@ -1,9 +1,10 @@
 <template>
   <div>
-    <el-button type="primary" id="logout-btn" @click="dialogVisible=true" round>退出登录</el-button>
-    <!-- 提示框 -->
+    <el-button type="primary" id="logout-btn" @click="dialogVisible=true" icon="el-icon-user-solid" plain>{{username}}
+    </el-button>
       <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-      <span>是否退出登录？</span>
+      <p class="para">尊敬的用户 {{username}}:</p>
+      <p class="para" id="in">是否退出登录？</p>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="user_logout()">确定</el-button>
@@ -13,6 +14,11 @@
 </template>
 <script>
   export default {
+    props: {
+      username: {
+        type: String,
+      },
+    },
     data() {
       return {
         dialogVisible: false,
@@ -26,9 +32,10 @@
           this.$cookies.remove("username");
           this.$cookies.remove("userType");
           this.$store.commit("userStatus", false);
-          this.$store.commit("setUserType", false);
+          this.$store.commit("setUserType", '');
           this.dialogVisible = false;
-          console.log('退出登录');
+          //跳转回登录注册页面
+          this.$router.push('/sign');
         } else {
           this.$message({
             showClose: true,
@@ -53,11 +60,20 @@
 </script>
 <style>
   #logout-btn {
-    position: fixed;
+    position: absolute;
     padding: 5px;
     text-align: center;
-    left: 10px;
+    right: 10px;
     top: 10px;
+    font-size: 22px;
+  }
+
+  .para {
+    font-size: 20px;
+  }
+
+  #in {
+    text-indent: 2em;
   }
 
 </style>

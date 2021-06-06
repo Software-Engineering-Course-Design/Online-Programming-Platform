@@ -512,7 +512,7 @@
               }
             }
             //跳转回首页
-            //this.$router.push('/applicant');
+            this.$router.push('/applicant');
           } else {
             this.$message({
               showClose: true,

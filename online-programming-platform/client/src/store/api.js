@@ -29,7 +29,7 @@ const url = {
 export default {
   state: {
     isLogin: false,
-    userType: false,
+    userType: '',
   },
   getters: {
     //获取登录状态
@@ -43,16 +43,21 @@ export default {
       state.isLogin = flag
     },
     //保存用户类型
-    setUserType(state,flag){
+    setUserType(state, flag) {
       state.userType = flag
     }
   },
   actions: {
-    //获取登录状态
-    setUser({
+    //登录状态
+    setStatus({
       commit
     }, flag) {
       commit("userStatus", flag)
+    },
+    setType({
+      commit
+    }, flag) {
+      commit("setUserType", flag)
     },
     signupRequest: ({
       state

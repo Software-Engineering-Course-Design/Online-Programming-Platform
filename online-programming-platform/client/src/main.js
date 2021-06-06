@@ -16,11 +16,13 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
 import hljs from 'highlight.js' //导入代码高亮文件
-import 'highlight.js/styles/monokai-sublime.css'  //导入代码高亮样式
+import 'highlight.js/styles/monokai-sublime.css' //导入代码高亮样式
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 
-import { Message } from 'element-ui';
+import {
+  Message
+} from 'element-ui';
 Vue.use(VueQuillEditor, {
   placeholder: '请输入内容',
 })
@@ -47,56 +49,45 @@ new Vue({
   template: '<App/>'
 })
 //自定义一个代码高亮指令
-Vue.directive('highlight',function (el) {
+Vue.directive('highlight', function (el) {
   let highlight = el.querySelectorAll('pre code');
-  highlight.forEach((block)=>{
-      hljs.highlightBlock(block);
+  highlight.forEach((block) => {
+    hljs.highlightBlock(block);
   })
 })
-//this.$cookies.config('3d')
-// router.beforeEach((to, from, next) => {
-//   //获取用户登录成功后储存的登录标志
-//   let getFlag = localStorage.getItem("Flag");
-//   //用户已登录
-//   if (getFlag === "isLogin") {
-//     //设置vuex登录状态为已登录
-//     store.state.isLogin = true
-//     next()
-//     //如果已登录，还想想进入登录注册界面，则定向回首页
-//     if (!to.meta.isLogin) {
-//       //提示
-//       Message({
-//         showClose: true,
-//         message: '您已登录，无法进入登录注册界面',
-//         type: 'warning',
-//         duration: 2300,
-//       })
-//       next({
-//         path: '/home'
-//       })
-//     }
-//     //如果登录标志不存在，即未登录
-//   } else {
-//     //用户想进入需要登录的页面，则定向回登录注册界面
-//     if (to.meta.isLogin) {
-//       next({
-//         path: '/sign',
-//       })
-//       //提示
-//       Message({
-//         showClose: true,
-//         message: '您尚未登录，请先登录',
-//         type: 'warning',
-//         duration: 2300,
+//VueCookies.config('3d')
+router.beforeEach((to, from, next) => {
+  //刷新后vuex state数据会被还原，用cookie解决
+  if (VueCookies.get("LoginStatus") == 'isLogin') {
+    store.commit("userStatus", true);
+  }
+  if (VueCookies.get("userType") == 'HR') {
+    store.commit("setUserType", true);
+  } else if (VueCookies.get("userType") == 'applicant') {
+    store.commit("setUserType", false);
+  }
 
-//       })
-//       //用户进入无需登录的界面，则跳转继续
-//     } else {
-//       next()
-//     }
-//   }
+  if (to.meta.isLogin == true & to.meta.userType == true) { //需要面试官权限的页面
+    if (store.getters.isLogin == true & store.getters.userType == true) { //已登录+用户类型面试官
+      next();
+    } else {
+      next({
+        path: '/sign'
+      })
+    }
+  } else if (to.meta.isLogin == true & to.meta.userType == false) { //需要面试者权限的页面
+    if (store.getters.isLogin == true & store.getters.userType == false) { //已登录+用户类型面试者
+      next();
+    } else {
+      next({
+        path: '/sign'
+      })
+    }
+  } else {
+    next();
+  }
 
-// });
+});
 
 // router.afterEach(route => {
 //   window.scroll(0, 0);
