@@ -1,6 +1,7 @@
 <template>
   <el-container id="tab">
-    <el-header>修改题目页</el-header>
+    <el-header><h1>在线编程平台</h1></el-header>
+    <el-page-header @back="goBack" content="修改题目"></el-page-header>
     <el-main>
       <div v-for="(item, idx) in info" :class="{ open:active[idx]}" :key="idx">
         <el-row type="flex" class="row-bg" justify="space-around">
@@ -33,10 +34,6 @@ export default {
     return{
       info:[
         {
-          name:'id',
-          value:'',
-        },
-        {
           name:'title',
           value:'',
         },
@@ -45,14 +42,14 @@ export default {
           value:'',
         },
       ],
-      button:['修改', '修改', '修改'],
-      active:[false, false, false],
+      button:[ '修改', '修改'],
+      active:[ false, false],
     }
   },
   created() {
-    this.info.splice(0,1,{name: 'id',value: this.$route.params.id});
-    this.info.splice(1,1,{name: 'title',value: this.$route.params.title});
-    this.info.splice(2,1,{name: 'content',value: this.$route.params.content});
+    //this.info.splice(0,1,{name: 'id',value: this.$route.params.id});
+    this.info.splice(0,1,{name: 'title',value: this.$route.params.title});
+    this.info.splice(1,1,{name: 'content',value: this.$route.params.content});
   },
   methods:{
     change(idx){

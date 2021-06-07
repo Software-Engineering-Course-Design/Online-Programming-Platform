@@ -24,9 +24,10 @@ const url = {
   handin: 'http://127.0.0.1:5000/applicant/end_session', //交卷
   submitJudge: 'http://127.0.0.1:5000/applicant/submit_message', //判断代码是否已提交过
 
-  examList: 'http://127.0.0.1:8000/viewExamList',
+  examList: 'http://127.0.0.1:5000/interviewer/interviewer_info',//查看面试情况
   questionContent: 'http://127.0.0.1:5000/interviewer/questionID',
-
+  questionLibrary: 'http://127.0.0.1:5000/interviewer/interviewer_info',//查看面试题目列表
+  addNewExam: 'http://127.0.0.1:5000/interviewer/add_question',//新建题目
 };
 
 
@@ -117,6 +118,19 @@ export default {
       state
     }, postData) => {
       return post(url.questionContent, postData);
+    },
+    // viewQuestionListRequest:({
+    //   state
+    // },postData) =>{
+    //   return post(url.questionLibrary,postData);
+    // },
+    viewQuestionListRequest:(state) =>{
+      return get(url.questionLibrary);
+    },
+    addNewExamRequest:({
+                               state
+                             },postData) =>{
+      return post(url.addNewExam,postData);
     },
 
   }

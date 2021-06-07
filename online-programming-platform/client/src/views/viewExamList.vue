@@ -1,7 +1,15 @@
 <template>
   <el-container id="tab">
-    <el-header>查看面试页</el-header>
-    <el-tabs @tab-click="">
+    <el-header><h1>在线编程平台</h1></el-header>
+
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+      <el-menu-item index="1">面试情况</el-menu-item>
+      <el-menu-item index="2" @click="toAddNewQuestion">新建题目</el-menu-item>
+      <el-menu-item index="3" @click="toAddNewExam">发起新面试</el-menu-item>
+      <el-menu-item index="4" @click="toViewQuestionList">查看题库</el-menu-item>
+    </el-menu>
+
+    <el-tabs>
       <el-tab-pane label="已批改面试" name="first">
         <exam-list :p_check="false" :p_e-list="readList"></exam-list>
 
@@ -23,7 +31,8 @@ export default {
   },
   data(){
     return{
-      username: 'testusr',
+      activeIndex: '1',
+      username: 'qzx',
       sessionID: '',
       unreadList: [],
       readList: [],
@@ -36,7 +45,7 @@ export default {
         //'sessionID': this.sessionID,
       };
       this.$store.dispatch('viewExamListRequest',postData).then(res => {
-        console.log(res);
+        //console.log(res);
         //处理后端传的数据
         const unread_eList = res.unreadList;
         const read_eList = res.readList;
@@ -59,6 +68,26 @@ export default {
         }
       })
     },
+    handleSelect(key){
+      console.log(key);
+    },
+    toAddNewQuestion(){
+      this.$router.push({
+        name:'interviewerToAddQuestion',
+        //params：用户id
+      });
+    },
+    toAddNewExam(){
+      this.$router.push({
+        name:'interviewerToAddNewExam',
+        //params：用户id
+      })
+    },
+    toViewQuestionList(){
+      this.$router.push({
+        name:'interviewerToViewQuestionList'
+      })
+    }
   },
   mounted() {
     this.onStart();

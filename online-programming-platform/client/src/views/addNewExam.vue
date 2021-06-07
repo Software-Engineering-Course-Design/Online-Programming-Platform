@@ -1,6 +1,9 @@
 <template>
   <el-container id="tab">
-    <el-header>发起面试页</el-header>
+
+    <el-header><h1>在线编程平台</h1></el-header>
+    <el-page-header @back="goBack" content="发起面试页">
+    </el-page-header>
     <el-main>
       <el-form ref="form" :model="form" :rules="rules">
         <el-form-item label="请选择题目数量" prop="num" required>
@@ -92,6 +95,9 @@ export default {
     }
   },
   methods:{
+    goBack(){
+      this.$router.go(-1);
+    },
     submit(){
       console.log(this.form);
       this.$refs.form.validate((valid) => {

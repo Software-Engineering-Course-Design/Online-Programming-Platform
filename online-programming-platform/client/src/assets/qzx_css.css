@@ -1,29 +1,22 @@
 #tab {
-  width: 60%;
 
-  margin: auto;
-  box-shadow: 0 0 10px 2px darkgray;
-  border-radius: 3px;
+  width: 95%;
+  margin: 0 auto;
   overflow: hidden;/*父元素影响子元素圆角*/
 }
 .el-container{
-  background-color: #C0C4CC;
-  color: #000000;
+
 
 }
 .el-aside {
-  background-color: #909399;
-  text-align: center;
-  line-height: 60px;
+
 }
 
 .el-header, .el-footer {
-  text-align: center;
-  line-height: 60px;
+  margin: 0 auto;
 }
 .el-header {
-  background-color: #303133;
-  color: #FFFFFF;
+
 }
 
 

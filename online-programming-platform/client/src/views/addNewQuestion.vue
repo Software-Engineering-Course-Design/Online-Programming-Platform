@@ -1,20 +1,25 @@
 <template>
   <el-container id="tab">
-    <el-header>新建题目页</el-header>
-    <el-container>
-      <el-aside width="150px">Aside</el-aside>
+    <el-header><h1>在线编程平台</h1></el-header>
+      <el-page-header @back="goBack" content="新建题目页"></el-page-header>
       <el-main>
-        <el-input  v-model="q_title" placeholder="请输入题目标题"></el-input>
-        <editor :p_content="q_content" @updateContent="getContent" style="position: relative;left: 30px;"></editor>
         <el-form>
+          <el-form-item>
+            <el-input  v-model="q_title" placeholder="请输入题目标题"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="q_answer" placeholder="请输入正确答案"></el-input>
+          </el-form-item>
+          <editor :p_content="q_content" @updateContent="getContent" style="position: relative;left: 30px;"></editor>
+
           <el-form-item>
             <el-button type="primary" @click="submit">立即创建</el-button>
             <el-button @click="cancel">取消</el-button>
           </el-form-item>
         </el-form>
       </el-main>
-      <el-button @click="test">test</el-button>
-    </el-container>
+
+
   </el-container>
 </template>
 
@@ -24,16 +29,19 @@ import editor from "../components/editor";
 export default {
   data() {
     return{
+      username: 'testusr',
       q_title: '',
-      //q_keyWords: '',
-      //q_forbiddenWords: '',
       q_content: '',
+      q_answer: '我是答案',
     }
   },
   components: {
     editor,
   },
   methods: {
+    goBack(){
+      this.$router.go(-1);
+    },
     getContent(content){
       this.q_content=content;
       console.log(this.q_content);
@@ -42,7 +50,21 @@ export default {
       console.log(this.q_content);
     },
     submit(){
-
+      const temp_q = {
+        username: this.username,
+        heading: this.q_title,
+        question: this.q_content,
+        answer: this.q_answer,
+      };
+      const postData = {
+        "username": this.username,
+        "heading": this.heading,
+        "question": this.question,
+        "answer": this.answer,
+      };
+      this.$store.dispatch('addNewExamRequest',postData).then(res => {
+        console.log(res);
+      })
     },
     cancel(){
 

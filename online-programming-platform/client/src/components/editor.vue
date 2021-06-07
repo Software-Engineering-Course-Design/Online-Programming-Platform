@@ -8,7 +8,7 @@
       @ready="onEditorReady($event)"
       @change="onEditorChange($event)">
   </quill-editor>
-    <el-button @click="test2">test2</el-button>
+
   </el-container>
 </template>
 
