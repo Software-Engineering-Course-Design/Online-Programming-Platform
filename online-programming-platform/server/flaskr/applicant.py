@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, redirect,request
 from . import db
 from flask_cors import *
 import json
+from datetime import datetime
+from datetime import timedelta
 
 applicant = Blueprint('applicant',__name__)
 
@@ -22,13 +24,32 @@ def join_message():
 		#status True已参加 False未参加
 		query = "SELECT distinct sessionID, username, questionNumber, startTime, endTime, TimeUsed FROM interview WHERE applicant='{}' AND status=0".format(interviewee)
 		result = query_db(query) 
+
+
 		#print(result['sessionID'])sssssss
 		temp=[]
 		length=len(result)  #对每条数据库信息进行处理
-		for i in range(length):  
-			item=dict(result[i])  
-			temp.append(item)
+
+		for i in range(length):
+			item=dict(result[i])
+			startTime = item['startTime']
+			print(startTime)
+			print(type(startTime))
+			startTime = datetime.strptime(startTime, '%Y-%m-%d %H:%M:%S') + timedelta(minutes=15)
+			nowTime = datetime.now()
+			print(startTime)
+			print(nowTime)
+			Ispast = (startTime-nowTime ).total_seconds()
+			print(Ispast)
+			print(type(Ispast))
+			if Ispast>=0:
+				temp.append(item)
 		join_message_list=dict(notjoin=tuple(temp))
+
+#		for i in range(length):  
+#			item=dict(result[i])  
+#			temp.append(item)
+#		join_message_list=dict(notjoin=tuple(temp))
 
 		#join序列 已参加
 		query = "SELECT distinct sessionID, username, questionNumber, startTime, endTime FROM interview WHERE applicant='{}' AND status=1".format(interviewee)
