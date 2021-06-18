@@ -13,7 +13,7 @@
         </div>
       </el-collapse>
       <br />
-      <chat :p_username="username"></chat>
+      <chat :p_username="username" :p_question-i-d="questionID" :p_user-type="userType"></chat>
     </el-main>
     <el-footer> <el-button  @click="goBack">返回</el-button> </el-footer>
 
@@ -28,6 +28,9 @@ export default {
     return{
       activeName: '',
       username: '',
+      questionID:'',
+      userType:true,
+      id_applicant:[],
       codeList:[
         {
           id:"0000",
@@ -44,7 +47,8 @@ export default {
           value:"print('hello world2!')",
           currShowStatus:false,
         }
-      ]
+      ],
+
     }
   },
   methods:{
@@ -57,6 +61,11 @@ export default {
   },
   created() {
     this.username=this.$route.params.username;
+    this.questionID=this.$route.params.q_id;
+    this.id_applicant=this.$route.params.id_applicant;
+    /*username: '',
+      questionID:'',
+      userType:'',*/
   }
 }
 </script>

@@ -1,6 +1,7 @@
 <template>
   <el-container id="tab">
     <el-header><h1>在线编程平台</h1></el-header>
+    <user-quit :username="username"></user-quit>
       <el-page-header @back="goBack" content="新建题目页"></el-page-header>
       <el-main>
         <el-form>
@@ -10,12 +11,13 @@
           <el-form-item>
             <el-input v-model="q_answer" placeholder="请输入正确答案"></el-input>
           </el-form-item>
-          <editor :p_content="q_content" @updateContent="getContent" style="position: relative;left: 30px;"></editor>
-
+          <div>
+          <editor :p_content="q_content" @updateContent="getContent" style=""></editor>
           <el-form-item>
             <el-button type="primary" @click="submit">立即创建</el-button>
             <el-button @click="cancel">取消</el-button>
           </el-form-item>
+          </div>
         </el-form>
       </el-main>
 
@@ -26,10 +28,11 @@
 <script>
 //by qzx
 import editor from "../components/editor";
+import UserQuit from "../components/UserQuit";
 export default {
   data() {
     return{
-      username: 'testusr',
+      username: '',
       q_title: '',
       q_content: '',
       q_answer: '我是答案',
@@ -37,6 +40,8 @@ export default {
   },
   components: {
     editor,
+    UserQuit,
+
   },
   methods: {
     goBack(){
@@ -58,11 +63,12 @@ export default {
       };
       const postData = {
         "username": this.username,
-        "heading": this.heading,
-        "question": this.question,
-        "answer": this.answer,
+        "heading": this.q_title,
+        "question": this.q_content,
+        "answer": this.q_answer,
       };
-      this.$store.dispatch('addNewExamRequest',postData).then(res => {
+      console.log(postData);
+      this.$store.dispatch('addNewQuestionRequest',postData).then(res => {
         console.log(res);
       })
     },
@@ -71,9 +77,9 @@ export default {
     },
 
   },
-  computed:{
-
-  }
+  created() {
+    this.username = this.$route.params.username;
+  },
 
 }
 </script>

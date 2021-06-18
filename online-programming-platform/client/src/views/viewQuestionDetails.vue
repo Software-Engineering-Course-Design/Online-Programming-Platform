@@ -49,12 +49,12 @@ export default {
       this.$router.go(-1);
     },
     onStart(){
-      console.log(this.q_id);
+      //console.log(this.q_id);
       const postData = {
       //'username': this.username,
       'uid': this.q_id,
       };
-      this.$store.dispatch('viewExamListRequest',postData).then(res => {
+      this.$store.dispatch('viewQuestionRequest',postData).then(res => {
         console.log(res);
         this.q_title = res.heading;
         this.q_content = res.question;
@@ -92,6 +92,7 @@ export default {
   },
   created(){
     this.q_id = this.$route.params.qID;
+    this.q_title = this.$route.params.title;
   },
   mounted(){
     this.onStart();

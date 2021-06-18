@@ -8,7 +8,7 @@
       @ready="onEditorReady($event)"
       @change="onEditorChange($event)">
   </quill-editor>
-
+    <el-button @click="save">上传</el-button>
   </el-container>
 </template>
 
@@ -51,7 +51,7 @@ export default {
     Quill
   },
   methods:{
-    test2(){
+    save(){
       this.$emit('updateContent',this.content);
       console.log(this.content);
     },

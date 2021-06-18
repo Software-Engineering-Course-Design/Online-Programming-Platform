@@ -3,17 +3,8 @@
     <el-header><h1>在线编程平台</h1></el-header>
     <el-page-header @back="goBack" content="修改题目"></el-page-header>
     <el-main>
-      <div v-for="(item, idx) in info" :class="{ open:active[idx]}" :key="idx">
-        <el-row type="flex" class="row-bg" justify="space-around">
-          <div v-if="button[idx]=='完成'">
-            <el-input v-model="item.value"></el-input>
-          </div>
-          <div v-else-if="button[idx]=='修改'">
-            <el-col :span="16" :pull="2">{{ item.name }} : {{ item.value }}</el-col>
-          </div>
-          <el-col :span="4"><el-button @click="change(idx)" size="small"> {{ button[idx] }}</el-button></el-col>
-        </el-row>
-      </div>
+      <el-input v-model="heading"></el-input>
+      <editor :p_content="content" @updateContent="getContent"></editor>
     </el-main>
     <el-footer>
       <el-form>
@@ -29,9 +20,13 @@
 
 <script>
 //by qzx
+import editor from "../components/editor";
 export default {
   data(){
     return{
+      questionID:0,
+      heading:'',
+      content:'',
       info:[
         {
           name:'title',
@@ -48,10 +43,16 @@ export default {
   },
   created() {
     //this.info.splice(0,1,{name: 'id',value: this.$route.params.id});
-    this.info.splice(0,1,{name: 'title',value: this.$route.params.title});
-    this.info.splice(1,1,{name: 'content',value: this.$route.params.content});
+    this.username = this.$route.params.username;
+    this.questionID = this.$route.params.id;
+    this.heading = this.$route.params.title;
+    this.content = this.$route.params.content;
   },
   methods:{
+    test(){
+      console.log(this.content);
+      console.log(this.questionID);
+    },
     change(idx){
       if(this.button[idx]=='修改'){
         this.button.splice(idx, 1,'完成');
@@ -64,12 +65,27 @@ export default {
       }
     },
     submit(){
-
+      const postData = {
+        "username": this.username,
+        "questionID": this.questionID,
+        "newHeading": this.heading,
+        "newQuestion": this.content,
+      }
+      this.$store.dispatch('updateQuestionRequest', postData).then(res => {
+        //console.log(postData);
+        console.log(res);
+      })
+    },
+    getContent(content){
+      this.content=content;
     },
     goBack(){
       this.$router.back();
     },
-  }
+  },
+  components:{
+    editor
+  },
 }
 </script>
 

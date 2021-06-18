@@ -24,10 +24,13 @@ const url = {
   handin: 'http://127.0.0.1:5000/applicant/end_session', //交卷
   submitJudge: 'http://127.0.0.1:5000/applicant/submit_message', //判断代码是否已提交过
 
-  examList: 'http://127.0.0.1:5000/interviewer/interviewer_info',//查看面试情况
-  questionContent: 'http://127.0.0.1:5000/interviewer/questionID',
+  examList: 'http://127.0.0.1:5000/interviewer/interview_info',//查看面试情况
+  questionContent: 'http://127.0.0.1:5000/interviewer/questionID',//查看面试题详情
   questionLibrary: 'http://127.0.0.1:5000/interviewer/interviewer_info',//查看面试题目列表
-  addNewExam: 'http://127.0.0.1:5000/interviewer/add_question',//新建题目
+  addNewQuestion: 'http://127.0.0.1:5000/interviewer/add_question',//新建题目
+  addNewExam: 'http://127.0.0.1:5000/interviewer/initial_interview',//发起面试
+  updateQuestion: 'http://127.0.0.1:5000/interviewer/edit_question',//修改面试题
+  chatPage: 'http://127.0.0.1:5000/comment/comment_search',//查看评论列表
 };
 
 
@@ -127,10 +130,25 @@ export default {
     viewQuestionListRequest:(state) =>{
       return get(url.questionLibrary);
     },
-    addNewExamRequest:({
+    addNewQuestionRequest:({
                                state
                              },postData) =>{
+      return post(url.addNewQuestion,postData);
+    },
+    addNewExamRequest:({
+      state
+    },postData) => {
       return post(url.addNewExam,postData);
+    },
+    updateQuestionRequest:({
+                         state
+                       },postData) => {
+      return post(url.updateQuestion,postData);
+    },
+    discussRequest:({
+                      state
+                    },postData) => {
+      return post(url.chatPage,postData);
     },
 
   }

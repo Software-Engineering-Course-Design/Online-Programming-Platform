@@ -45,8 +45,9 @@ export default {
     return {
       activeName: '0',
       activeName2: '0',
-      userType: '面试官',
+      userType: this.p_userType,
       username: this.p_username,
+      questionID: this.p_questionID,
       drawer: false,
       form: {
         commentText: '',
@@ -97,11 +98,13 @@ export default {
           ]
         },
       ],
-
+      commentTemp:[],
     }
   },
   props:{
     p_username: String,
+    p_userType: Boolean,
+    p_questionID: Number
   },
   methods: {
     handleClose(done) {
@@ -154,6 +157,20 @@ export default {
         }
       });
     },
+    onStart(){
+      const postData = {
+        'username': this.username,
+        'userType': this.userType,
+        'questionID': this.questionID,
+      };
+      this.$store.dispatch('discussRequest',postData).then(res => {
+        console.log(res);
+        this.commentTemp = res.commentList;
+      });
+    },
+  },
+  mounted() {
+    this.onStart();
   }
 }
 </script>

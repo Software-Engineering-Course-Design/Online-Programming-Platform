@@ -1,7 +1,7 @@
 <template>
   <el-container id="tab">
     <el-header><h1>在线编程平台</h1></el-header>
-
+    <user-quit :username="username"></user-quit>
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
       <el-menu-item index="1">面试情况</el-menu-item>
       <el-menu-item index="2" @click="toAddNewQuestion">新建题目</el-menu-item>
@@ -23,32 +23,35 @@
 </template>
 
 <script>
+import UserQuit from "../components/UserQuit";
 import ExamList from "../components/examList";
+import axios from "axios";
 export default {
   name: "viewExamList",
   components: {
+    UserQuit,
     ExamList
   },
   data(){
     return{
       activeIndex: '1',
-      username: 'qzx',
+      username: this.$cookies.get("username"),
       sessionID: '',
       unreadList: [],
       readList: [],
     }
   },
   methods:{
+
     onStart(){
       const postData = {
         'username': this.username,
         //'sessionID': this.sessionID,
       };
       this.$store.dispatch('viewExamListRequest',postData).then(res => {
-        //console.log(res);
         //处理后端传的数据
-        const unread_eList = res.unreadList;
-        const read_eList = res.readList;
+        const unread_eList = res.unread;
+        const read_eList = res.read;
 
         for(let i=0; i<unread_eList.length; i++){
           this.unreadList.push({
@@ -67,6 +70,12 @@ export default {
           });
         }
       })
+      // axios.post('http://127.0.0.1:5000/interviewer/interview_info',postData).then(function (response) {
+      //   console.log(response);
+      // })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
     },
     handleSelect(key){
       console.log(key);
@@ -74,18 +83,25 @@ export default {
     toAddNewQuestion(){
       this.$router.push({
         name:'interviewerToAddQuestion',
-        //params：用户id
+        params: {
+          username: this.username
+        },
       });
     },
     toAddNewExam(){
       this.$router.push({
         name:'interviewerToAddNewExam',
-        //params：用户id
+        params: {
+          username: this.username
+        },
       })
     },
     toViewQuestionList(){
       this.$router.push({
-        name:'interviewerToViewQuestionList'
+        name:'interviewerToViewQuestionList',
+        params: {
+          username: this.username
+        },
       })
     }
   },
