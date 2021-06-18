@@ -21,10 +21,23 @@ def signup_info():
             checkpwd=request.json.get("checkpwd")
             hr_code=request.json.get("hr_code")
 
+   #         print(type(password))
+   #        print(len(password))
+   #         print(password.isalpha())
             if password!=checkpwd:
-                return dict(ifExist=True, msg="fail! password and checkpwd are not same!")
+                return dict(ifExist=True, msg="错误！密码和确认密码不相同！!")
             if userType==True and hr_code!="666666":
-                return dict(ifExist=True, msg="fail! hr_code is wrong!")
+                return dict(ifExist=True, msg="邀请码错误！")
+
+
+            if len(password)<5:
+            	if password.isalpha() or password.isdigit():
+            		return dict(ifExist=True, msg="请输入至少5位的密码，且密码不能仅包含字母或数字！")
+            	else:
+            		return dict(ifExist=True, msg="请输入至少5位的密码！")
+            if len(password)>=5:
+            	if password.isalpha() or password.isdigit():
+            		return dict(ifExist=True, msg="密码不能仅包含字母或数字！")         	
             
             # 0.写sql
             query = "SELECT * FROM user WHERE username='{}'".format(username)
@@ -38,10 +51,10 @@ def signup_info():
                 query = "INSERT INTO user(usertype,username,password) values({},'{}','{}')".format(userType,username,password)
                 connection.execute(query)
                 connection.commit()
-                return  dict(ifExist=False,msg = "success")
+                return  dict(ifExist=False,msg = "注册成功！")
             else:#数据库里有该用户
                 print('fail')
-                return dict(ifExist=True, msg="fail! user already existed!")
+                return dict(ifExist=True, msg="用户已存在!")
  
     return 'user_add'
 

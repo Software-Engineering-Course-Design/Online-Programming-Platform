@@ -47,7 +47,7 @@
                     <div>出题者：{{item.interviewer}}</div>
                     <div>题数：{{item.questionNumber}}</div>
                     <div>面试时间：{{item.startTime}} —— {{item.endTime}}</div>
-                    <div>批改状态：{{item.status?'已批改':'未批改'}}</div>
+                    <div>批改状态：{{item.status=="true"?'已批改':'未批改'}}</div>
                     <!-- 状态为已批改的时候显示面试分数 -->
                     <div v-if="item.status">面试分数：{{item.score}}</div>
                   </div>
@@ -206,7 +206,7 @@
         //根据面试场次请求题目列表
         this.$store.dispatch('interviewListRequest', postData).then(res => {
           console.log(res.notjoin);
-
+          console.log(res.join);
           this.createInterviewList(res.notjoin, this.interviewList);
           this.createResultList(res.join, this.resultList);
         })

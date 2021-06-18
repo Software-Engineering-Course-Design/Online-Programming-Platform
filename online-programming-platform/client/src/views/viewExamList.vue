@@ -1,7 +1,15 @@
 <template>
   <el-container id="tab">
-    <el-header>查看面试页</el-header>
-    <el-tabs @tab-click="">
+    <el-header><h1>在线编程平台</h1></el-header>
+    <user-quit :username="username"></user-quit>
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+      <el-menu-item index="1">面试情况</el-menu-item>
+      <el-menu-item index="2" @click="toAddNewQuestion">新建题目</el-menu-item>
+      <el-menu-item index="3" @click="toAddNewExam">发起新面试</el-menu-item>
+      <el-menu-item index="4" @click="toViewQuestionList">查看题库</el-menu-item>
+    </el-menu>
+
+    <el-tabs>
       <el-tab-pane label="已批改面试" name="first">
         <exam-list :p_check="false" :p_e-list="readList"></exam-list>
 
@@ -15,15 +23,19 @@
 </template>
 
 <script>
+import UserQuit from "../components/UserQuit";
 import ExamList from "../components/examList";
+import axios from "axios";
 export default {
   name: "viewExamList",
   components: {
+    UserQuit,
     ExamList
   },
   data(){
     return{
-      username: 'testusr',
+      activeIndex: '1',
+      username: this.$cookies.get("username"),
       sessionID: '',
       unreadList: [],
       readList: [],
@@ -36,11 +48,11 @@ export default {
         //'sessionID': this.sessionID,
       };
       this.$store.dispatch('viewExamListRequest',postData).then(res => {
-        console.log(res);
         //处理后端传的数据
-        const unread_eList = res.unreadList;
-        const read_eList = res.readList;
-
+        const unread_eList = res.unread;
+        const read_eList = res.read;
+        console.log(read_eList);
+        console.log(unread_eList);
         for(let i=0; i<unread_eList.length; i++){
           this.unreadList.push({
               sessionID: unread_eList[i].sessionID,
@@ -59,6 +71,33 @@ export default {
         }
       })
     },
+    handleSelect(key){
+      console.log(key);
+    },
+    toAddNewQuestion(){
+      this.$router.push({
+        name:'interviewerToAddQuestion',
+        params: {
+          username: this.username
+        },
+      });
+    },
+    toAddNewExam(){
+      this.$router.push({
+        name:'interviewerToAddNewExam',
+        params: {
+          username: this.username
+        },
+      })
+    },
+    toViewQuestionList(){
+      this.$router.push({
+        name:'interviewerToViewQuestionList',
+        params: {
+          username: this.username
+        },
+      })
+    }
   },
   mounted() {
     this.onStart();

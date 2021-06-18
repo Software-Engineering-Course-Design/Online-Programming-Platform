@@ -1,8 +1,7 @@
 <template>
   <el-container>
-    <el-header>题目名称：{{ title }}</el-header>
+    <el-header id="qTitle"><h2>{{ title }}</h2></el-header>
     <el-main>
-      <div>题目内容：</div>
       <div v-html="content" v-highlight></div>
     </el-main>
   </el-container>
@@ -45,5 +44,7 @@
   .el-container {
     overflow: auto;
   }
+  #qTitle{
 
+  }
 </style>

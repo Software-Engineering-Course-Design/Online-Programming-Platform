@@ -131,5 +131,15 @@ export default new Router({
         userType: true,
       },
     },
+    {
+      path: '/interviewer/viewQuestionList',
+      name: 'interviewerToViewQuestionList',
+      component: resolve => require(['../views/viewQuestionList'], resolve),
+      meta: {
+        isLogin: true,
+        userType: true,
+      },
+    },
   ]
+
 })

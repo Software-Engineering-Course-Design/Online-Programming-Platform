@@ -481,7 +481,7 @@
       },
       handin() {
         for (var i = 0; i < this.questionObj.length; i++) {
-          //检查每道题是否提交过，没提交的就一起提交    
+          //检查每道题是否提交过，没提交的就一起提交
           if (this.questionObj[i].questionStatus == false) {
             this.submit(this.questionObj[i].questionID);
           }

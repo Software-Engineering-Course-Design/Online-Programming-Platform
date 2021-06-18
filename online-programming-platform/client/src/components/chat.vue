@@ -1,29 +1,39 @@
 <template>
   <!--Drawer 抽屉实现侧边栏评论区-->
-  <div>
-    <div>你是： {{userType}}</div>
+  <div id="drawer">
+    <div>你是： {{username}}</div>
     <el-button @click="drawer=true" type="primary">点我打开评论区</el-button>
     <el-drawer
       title="评论内容"
       :visible.sync="drawer"
-      :before-close="handleClose"
-    > <!---->
-      <div>
+      :before-close="handleClose"> <!---->
+      <el-collapse v-model="activeName">
         <div v-for="(item, idx) in commentList" :key="idx">
-          >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-          <p>id： {{ item.id}}</p>
-          <p>L{{ item.layIDX}}</p>
-          <p>评论内容：{{ item.content}}</p>
-          <div v-if="item.isSub==false">
-            <div v-for="(subitem,index) in item.sublayer" style="margin-left: 50px" :key="index">
-              ------------------------------------
-              <p>id： {{ subitem.id}}</p>
-              <p>L{{ subitem.layIDX}}</p>
-              <p>评论内容：{{ subitem.content}}</p>
+          <el-collapse-item :title="item.content" :name="idx">
+            <p>id： {{ item.id}}</p>
+            <p>L{{ item.layIDX}}</p>
+            <div v-if="item.isSub==false">
+              <el-collapse v-model="activeName2">
+                <div v-for="(subitem,index) in item.sublayer" style="margin-left: 50px" :key="index">
+                  <el-collapse-item :title="subitem.content" :name="index">
+                    <p>id： {{ subitem.id}}</p>
+                    <p>L{{ subitem.layIDX}}</p>
+                  </el-collapse-item>
+
+                </div>
+              </el-collapse>
             </div>
-          </div>
+          </el-collapse-item>
         </div>
-      </div>
+      </el-collapse>
+    <el-form ref="form" :model="form" :rules="rules">
+      <el-form-item prop="commentText">
+        <el-input v-model="form.commentText"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">发送评论</el-button>
+      </el-form-item>
+    </el-form>
     </el-drawer>
   </div>
 </template>
@@ -32,9 +42,23 @@
 //by qzx - component
 export default {
   data() {
-    return{
-      userType: '面试官/面试者',
+    return {
+      activeName: '0',
+      activeName2: '0',
+      userType: this.p_userType,
+      username: this.p_username,
+      questionID: this.p_questionID,
       drawer: false,
+      form: {
+        commentText: '',
+      },
+      rules: {
+      commentText: [{
+        required: true,
+        message: '请输入评论内容！',
+        trigger: 'blur'
+      }],
+    },
       commentList: [
         {
           id: 'testUsr0',//用户id
@@ -73,8 +97,14 @@ export default {
             },
           ]
         },
-      ]
+      ],
+      commentTemp:[],
     }
+  },
+  props:{
+    p_username: String,
+    p_userType: Boolean,
+    p_questionID: Number
   },
   methods: {
     handleClose(done) {
@@ -83,7 +113,64 @@ export default {
           done();
         })
         .catch(_ => {});
-    }
+    },
+    onSubmit(){
+      console.log(this.form);
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          alert('submit!');
+
+          /*
+          id: 'testUsr0',//用户id
+          layIDX: 1,//主楼层数
+          content: 'testComment0',//评论内容
+          isSub: false,//是否为楼中楼回复
+          sublayer: [
+            {
+            id: 'testUsr1',
+            layIDX: 1,
+            content: 'testComment1',
+            isSub: true,
+            sublayer: []
+            },
+            {
+              id: 'testUsr2',
+              layIDX: 2,
+              content: 'testComment2',
+              isSub: true,
+              sublayer: []
+            },
+          ]*/
+          let len = this.commentList.length;
+          const temp_c = {
+            id: this.username,
+            layIDX: len + 1,
+            content: this.form.commentText,
+            isSub: false,
+            sublayer: [],
+          };
+          this.commentList.push(temp_c);
+
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    onStart(){
+      const postData = {
+        'username': this.username,
+        'userType': this.userType,
+        'questionID': this.questionID,
+      };
+      this.$store.dispatch('discussRequest',postData).then(res => {
+        console.log(res);
+        this.commentTemp = res.commentList;
+      });
+    },
+  },
+  mounted() {
+    this.onStart();
   }
 }
 </script>
@@ -92,6 +179,10 @@ export default {
 
 .el-drawer__body {
   overflow: auto;
+}
+#drawer{
+  margin: 0 auto;
+  left: 95%;
 }
 
 </style>

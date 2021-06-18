@@ -30,7 +30,7 @@ def login_info():
                     msg="登陆成功！" 
                     return dict(ifExist=True,userType=bool(userType),msg=msg)
                 else:
-                    return dict(ifExist=True,userType=bool(result['usertype']),msg="密码错误！")
+                    return dict(ifExist=False,userType=bool(result['usertype']),msg="密码错误！")
     else:
         return dict(ifExist=False,usertype=2,msg = "您没有权限!")
  

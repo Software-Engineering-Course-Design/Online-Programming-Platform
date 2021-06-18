@@ -1,15 +1,19 @@
 <template>
   <el-container id="tab">
-    <el-header>已提交代码列表</el-header>
+    <el-header><h1>在线编程平台</h1></el-header>
+    <el-page-header @back="goBack" content="已提交代码面试者列表"></el-page-header>
     <el-main>
 <!--此处使用element-ui折叠面板-->
-      <div v-for="(code, idx) in codeList" :key="idx">
-        用户id：{{code.id}}
-        <el-button type="info" @click="viewThisCode(idx)">点击显示或折叠代码</el-button>
-        <div v-show="code.currShowStatus==true">{{code.value}}</div>
-      </div>
+      <el-collapse v-model="activeName" accordion>
+        <div v-for="(code, idx) in codeList" :key="idx">
+          <el-collapse-item :title="code.id" :name="idx">
+            用户id：{{code.id}}<br />
+            {{code.value}}
+          </el-collapse-item>
+        </div>
+      </el-collapse>
       <br />
-      <chat></chat>
+      <chat :p_username="username" :p_question-i-d="questionID" :p_user-type="userType"></chat>
     </el-main>
     <el-footer> <el-button  @click="goBack">返回</el-button> </el-footer>
 
@@ -22,6 +26,11 @@ import chat from "../components/chat";
 export default {
   data(){
     return{
+      activeName: '',
+      username: '',
+      questionID:'',
+      userType:true,
+      id_applicant:[],
       codeList:[
         {
           id:"0000",
@@ -38,19 +47,25 @@ export default {
           value:"print('hello world2!')",
           currShowStatus:false,
         }
-      ]
+      ],
+
     }
   },
   methods:{
-    viewThisCode(idx){
-      this.codeList[idx].currShowStatus=!this.codeList[idx].currShowStatus;
-    },
     goBack(){
       this.$router.back();
     }
   },
   components:{
     chat
+  },
+  created() {
+    this.username=this.$route.params.username;
+    this.questionID=this.$route.params.q_id;
+    this.id_applicant=this.$route.params.id_applicant;
+    /*username: '',
+      questionID:'',
+      userType:'',*/
   }
 }
 </script>

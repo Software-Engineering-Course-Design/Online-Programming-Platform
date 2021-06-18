@@ -144,15 +144,15 @@
 
               } else {
                 //用户已存在，重新取一个用户名
-                //this.alertMsg = msg;
-                this.alertMsg = '注册失败！该用户名已存在，请更换用户名';
+                this.alertMsg = msg;
+               // this.alertMsg = '注册失败！该用户名已存在，请更换用户名';
                 this.dialogVisible = true;
               }
             })
 
 
             // this.axios.post(url, loginData).then(response => {
-            //   console.log(response.data) // 得到返回结果数据 
+            //   console.log(response.data) // 得到返回结果数据
             //   var ifExist = response.data.ifExist;
             //   var msg = response.data.msg;
             //   if(!ifExist){

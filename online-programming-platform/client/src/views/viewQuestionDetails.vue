@@ -1,6 +1,7 @@
 <template>
   <el-container id="tab">
-    <el-header>题目详情页</el-header>
+    <el-header><h1>在线编程平台</h1></el-header>
+    <el-page-header @back="goBack" content="当前题目详情"></el-page-header>
     <el-main>
       <question-details
         :p_id="q_id"
@@ -25,7 +26,8 @@ export default {
     return{
       msg: "Updating the question!",
       username: 'testusr',
-      q_id: 3,
+      q_id: '',//从上一个页面中route获取
+      //向后端请求返回
       q_title: '',
       q_content: '',
       id_applicant: [],
@@ -43,13 +45,15 @@ export default {
     updateQuestion
   },
   methods:{
+    goBack(){
+      this.$router.go(-1);
+    },
     onStart(){
-      console.log(this.q_id);
+      //console.log(this.q_id);
       const postData = {
-      //'username': this.username,
-      'uid': this.q_id,
+        'uid': this.q_id,
       };
-      this.$store.dispatch('viewExamListRequest',postData).then(res => {
+      this.$store.dispatch('viewQuestionRequest',postData).then(res => {
         console.log(res);
         this.q_title = res.heading;
         this.q_content = res.question;
@@ -57,21 +61,37 @@ export default {
       });
     },
     invite(){
-      this.$router.push('./inviteToExam');
+      this.$router.push({
+        name:'interviewerToInvite',
+        params:{
+          q_id:this.q_id
+        }
+      });
     },
     viewCodes(){
-      this.$router.push('./viewQuestionCodeList');//需要传参
+      this.$router.push({
+        name:'interviewerToViewQuestionCodeList',
+        params:{
+          q_id:this.q_id,
+          id_applicant:this.id_applicant,//提交了代码的面试者数组
+          username: this.username,
+        }
+      });//需要传参
     },
     update(){
       this.$router.push({
         name: 'interviewerToUpdateQuestion',
         params: {
-          id: '0000',
+          id: this.q_id,
           title: this.q_title,
           content: this.q_content
         }
       })
     },
+  },
+  created(){
+    this.q_id = this.$route.params.qID;
+    this.q_title = this.$route.params.title;
   },
   mounted(){
     this.onStart();
