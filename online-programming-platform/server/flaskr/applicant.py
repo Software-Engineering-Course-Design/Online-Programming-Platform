@@ -242,7 +242,8 @@ def submit_message():
 		query = "SELECT * FROM code WHERE sessionID='{}' AND applicant='{}' AND questionID='{}'".format(sessionID, applicant, questionID)
 		result = query_db(query,one=True) 
 		#print(result['code'])
-		if result['code'] is None:
+		if result is None:
 			return  dict(ifExist=False,msg = "可提交")
-		else:
+		elif result['code'] is not None:
+			print("here aaa")
 			return  dict(ifExist=True,msg = "已提交过，不可重复提交")

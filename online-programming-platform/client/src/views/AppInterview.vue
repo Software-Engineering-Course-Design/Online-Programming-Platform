@@ -413,6 +413,9 @@
           questionID: questionID,
         };
         this.$store.dispatch('submitJudgeRequest', data).then(res => {
+          console.log(res)
+          console.log('res')
+          console.log(res.ifExist)
           if (res.ifExist) { //已经提交过，不能再提交
             this.$message({
               showClose: true,
@@ -481,7 +484,7 @@
       },
       handin() {
         for (var i = 0; i < this.questionObj.length; i++) {
-          //检查每道题是否提交过，没提交的就一起提交    
+          //检查每道题是否提交过，没提交的就一起提交
           if (this.questionObj[i].questionStatus == false) {
             this.submit(this.questionObj[i].questionID);
           }
