@@ -18,12 +18,21 @@ def comment_add():
         questionID=request.json.get("questionID")
         senderID=request.json.get("senderID")
         content=request.json.get("commentContent")
-        isSub=request.json.get("isSublayer")
-        layerid=request.json.get("layerID")
+        #isSub=request.json.get("isSublayer")
+        #layerid=request.json.get("layerID")
         # 0.写sql
         connection = db.get_db()  
+        #查询最大层数
+        query_searchMax="SELECT max(layer) FROM comment WHERE questionID={}".format(questionID)
+        result = query_db(query_searchMax, one=True)
+        qid=tuple(result)[0]
+        #print(tuple(result))
+        if qid==None:
+            qid=1
+        else:
+            qid+=1
         #插入数据
-        query_in="INSERT INTO comment(questionID,username,content,isSublayer,layer) values('{}','{}','{}','{}','{}')".format(questionID,senderID,content,isSub,layerid)
+        query_in="INSERT INTO comment(questionID,username,content,layer) values({},'{}','{}','{}')".format(questionID,senderID,content,qid)
         try:
             connection.execute(query_in)
             connection.commit()

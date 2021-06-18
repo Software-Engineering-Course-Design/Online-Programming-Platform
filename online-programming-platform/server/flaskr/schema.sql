@@ -25,7 +25,7 @@ CREATE TABLE comment (
   questionID INTEGER,
   username TEXT,
   content TEXT,
-  isSublayer boolean,
+  --isSublayer boolean,
   layer INTEGER,
   FOREIGN KEY (questionID) REFERENCES question(questionID),
   FOREIGN KEY (username) REFERENCES user(username)

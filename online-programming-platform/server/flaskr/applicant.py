@@ -184,7 +184,6 @@ def commit_code():
 		sessionID  = request.json.get("sessionID")#场次
 		questionID = request.json.get("questionID")#问题ID
 		code = request.json.get("code")#代码内容
-		print("test")
 
 #		connection = db.get_db()
 #		query = "UPDATE code SET code='{}' WHERE sessionID='{}' AND questionID='{}' AND applicant ='{}'".format(code, sessionID, questionID, applicant )
@@ -242,8 +241,7 @@ def submit_message():
 		query = "SELECT * FROM code WHERE sessionID='{}' AND applicant='{}' AND questionID='{}'".format(sessionID, applicant, questionID)
 		result = query_db(query,one=True) 
 		#print(result['code'])
-		if result is None:
+		if result['code'] is None:
 			return  dict(ifExist=False,msg = "可提交")
-		elif result['code'] is not None:
-			print("here aaa")
+		else:
 			return  dict(ifExist=True,msg = "已提交过，不可重复提交")
