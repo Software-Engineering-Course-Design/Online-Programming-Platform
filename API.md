@@ -21,7 +21,7 @@
 | ifExist | boolean | true(用户已存在)                   false(用户未存在) | 已存在：注册失败               未存在：注册成功              |
 | msg     | string  | 后端自己设置                                         | 返回相应提示信息（比如ifExist为true则“注册失败，用户已存在”；为false则“注册成功”） |
 
-#### 登录
+#### 登录 /login/login_info
 
 1.前端->后端
 
@@ -412,7 +412,7 @@ questionStatus默认未提交，即false
 
 ## **四——评论区模块** 
 
-#### **进入后加载页面** 
+#### **进入后加载页面**  comment/comment_search
 
 1.前端->后端 
 
@@ -447,7 +447,7 @@ content: 'testComment0',//评论内容
 
 ] 
 
-#### **发送评论** 
+#### **发送评论**  comment/comment_add
 
 1.前端->后端 
 
