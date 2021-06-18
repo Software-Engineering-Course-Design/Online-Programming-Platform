@@ -184,6 +184,7 @@ def commit_code():
 		sessionID  = request.json.get("sessionID")#场次
 		questionID = request.json.get("questionID")#问题ID
 		code = request.json.get("code")#代码内容
+		print("test")
 
 #		connection = db.get_db()
 #		query = "UPDATE code SET code='{}' WHERE sessionID='{}' AND questionID='{}' AND applicant ='{}'".format(code, sessionID, questionID, applicant )
