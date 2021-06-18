@@ -437,23 +437,9 @@ commentList建议格式：
 
 {    id: 'testUsr0',//用户id 
 
-layIDX: 1,//主楼层数 
+layIDX: 1,//楼层数 
 
 content: 'testComment0',//评论内容 
-
-isSub: true/false,//是否为楼中楼回复 
-
-sublayer: { 
-
-id: 'testUsr1',//用户id 
-
-layIDX: 1,//楼中楼层数 
-
-content: 'testComment1',//评论内容 
-
-}//楼中楼回复列表，如果isSub为true，设置sublayer为空； 
-
-//如果isSub为false，允许给sublayer赋值 
 
 }, 
 
@@ -465,12 +451,11 @@ content: 'testComment1',//评论内容
 
 1.前端->后端 
 
-| Column         | Type    | Value                        | Description                                            |
-| -------------- | ------- | ---------------------------- | ------------------------------------------------------ |
-| senderID       | string  |                              | 当前用户（即发送评论者）的id                           |
-| commentContent | string  |                              | 评论内容                                               |
-| isSublayer     | Boolean | true：楼中楼 false：直接评论 | 是否回复他人评论，楼中楼则为true，直接评论题目为false  |
-| layerID        | int     | 0：直接评论 >=1：楼中楼      | 回复楼层的层数，楼中楼则为大于等于1的整数，直接评论为0 |
+| Column         | Type   | Value | Description                  |
+| -------------- | ------ | ----- | ---------------------------- |
+| senderID       | string |       | 当前用户（即发送评论者）的id |
+| commentContent | string |       | 评论内容                     |
+| questionID     | string |       | 回复题目ID                   |
 
 2.后端->前端 
 
@@ -480,3 +465,4 @@ content: 'testComment1',//评论内容
 | msg       | string  |                                | 返回相应提示信息（比如ifSuccess为true则“评论成功”；为false则“评论失败”） |
 
 - 此处前端是否应该向后端发送questionID
+
