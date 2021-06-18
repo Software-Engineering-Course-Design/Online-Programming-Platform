@@ -181,7 +181,8 @@ def code():
     if request.method == 'POST':
         applicant = request.json.get("applicant")
         questionID = request.json.get("questionID")
-        query = "SELECT * FROM code WHERE questionID={} or applicant='{}'".format(questionID, applicant)
+        sessionID = request.json.get("sessionID")
+        query = "SELECT * FROM code WHERE questionID={} and applicant='{}' and sessionID={}".format(questionID, applicant, sessionID)
         query = query_db(query, one=True)
         if query is None:
             return dict(message="查询失败，不存在该用户提交的代码")
@@ -316,6 +317,7 @@ def check_code():
         result_detail = request.json.get("result")
         sessionID = request.json.get("sessionID")
         connection = db.get_db()
+        '''
         for i in range(len(result_detail)):
             dict1 = result_detail[i]
             applicant = dict1['examineeID']
@@ -338,7 +340,31 @@ def check_code():
                     connection.commit()
                     print('success')
                 else:
-                    return dict(ifSuccess=False, msg="该代码已被批改过，不可重复批改")
+                    return dict(ifSuccess=False, msg="该代码已被批改过，不可重复批改")'''
+
+        for i in range(len(result_detail)):
+            dict1 = result_detail[i]
+            applicant = dict1['applicant']
+            questionID = dict1['questionID']
+            result = dict1['value']
+            print(applicant, result, questionID)
+            query = "SELECT result FROM code WHERE applicant='{}' AND questionID={} AND sessionID={}".format(applicant,
+                                                                                                             questionID,
+                                                                                                             sessionID)
+            result_before = query_db(query, one=True)
+            result_before = tuple(result_before)
+            print('3', result_before[0])
+            if result_before[0] == '0':
+                # query = "INSERT INTO code(result,username,questionID) values('{}','{}','{}')"\
+                # .format(result, username, questionID)
+                query = "UPDATE code SET result='{}' WHERE applicant='{}' AND questionID={} AND sessionID={}" \
+                    .format(result, applicant, questionID, sessionID)
+                connection.execute(query)
+                connection.commit()
+                print('success')
+            else:
+                return dict(ifSuccess=False, msg="该代码已被批改过，不可重复批改")
+
         return dict(ifSuccess=True, msg="批改成功!")
 
     else:
