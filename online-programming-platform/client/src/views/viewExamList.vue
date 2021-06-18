@@ -42,7 +42,6 @@ export default {
     }
   },
   methods:{
-
     onStart(){
       const postData = {
         'username': this.username,
@@ -52,7 +51,8 @@ export default {
         //处理后端传的数据
         const unread_eList = res.unread;
         const read_eList = res.read;
-
+        console.log(read_eList);
+        console.log(unread_eList);
         for(let i=0; i<unread_eList.length; i++){
           this.unreadList.push({
               sessionID: unread_eList[i].sessionID,
@@ -70,12 +70,6 @@ export default {
           });
         }
       })
-      // axios.post('http://127.0.0.1:5000/interviewer/interview_info',postData).then(function (response) {
-      //   console.log(response);
-      // })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
     },
     handleSelect(key){
       console.log(key);

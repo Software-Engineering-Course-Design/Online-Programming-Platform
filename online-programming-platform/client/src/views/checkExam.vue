@@ -34,25 +34,39 @@ export default {
   components: {QuestionDetails},
   data(){
     return{
-      form:{answerList:[]},
-      id: '',//面试id
-      examineeID: 123,//考生id
-      content: [],//面试题信息数组
-      //后端返回的面试题目列表
-
-      //还应添加面试者id，此处假设是一位考生的一张试卷
+      form:{answerList:[]},//存放批改结果
+      sessionID: '',//面试id
+      content: [],//面试题id数组
+      detail: [],//后端返回的面试题目列表
+      id_arr: [],//每道题面试者数组
+      codeList: [],//代码列表
+      result: [],//处理后的结果
     }
   },
   methods:{
     onStart(){
-      const postData = {
-        'username': this.username,
-        //'sessionID': this.sessionID,
-      };
-
     },
     submit(){
       console.log(this.form.answerList);
+      /*
+      this.form.answerList.push({
+              q_id: this.content[i],//面试题id
+              u_id: this.id_arr[i][j],//面试者id
+              value:'unread',
+      });
+      */
+      //提交批改结果
+      for(let i=0;i<this.form.answerList.length;i++){
+
+      }
+      const postData = {
+        "username": this.username,
+        "sessionID": this.sessionID,
+        "result": this.result,
+      }
+      this.$store.dispatch('checkExamCodeRequest',postData).then(res => {
+        console.log(res);
+      })
       this.$message({
         message: '批改完成',
         type: 'success'
@@ -64,15 +78,59 @@ export default {
     }
   },
   created() {
-    this.id = this.$route.params.id;//面试id
-    console.log(this.id);
-    this.content = this.$route.params.content;//面试题信息数组
-    console.log(this.content);
-    //this.onStart();
+    this.sessionID = this.$route.params.id;//面试id
+    this.content = this.$route.params.content;//面试题信息数组，里面都是questionID
+    /*
+      content: [],//面试题id数组
+      detail: [],//后端返回的面试题目列表
+      id_arr: [],//面试者数组
+      codeList: [],//代码列表
+      */
+    //请求题目信息
     for(let i=0; i<this.content.length; i++){
-      this.form.answerList.push({  idx:this.content[i].questionID,  value:'unread'});
+      const postData = {
+        'uid': this.content[i],
+      };
+      this.$store.dispatch('viewQuestionRequest',postData).then(res => {
+        //获取题目内容、用户id
+        this.detail.push({
+          uid: this.content[i],
+          content: res.question,
+        });
+        this.id_arr.push(res.id_arr);
+      });
     }
-    console.log(this.form.answerList);
+    for(let i=0;i<this.content.length;i++){
+      let temp=[];
+        for(let j=0;j<this.id_arr[i].length;j++){
+          const postData2 = {
+            "applicant": this.id_arr[i][j],
+            "questionID" : this.content[i],
+          }
+          this.$store.dispatch('viewCodesRequest',postData2).then(res => {
+            this.codeList.push({
+              applicant: this.id_arr[i][j],
+              questionID : this.content[i],
+              code: res.code,
+              result: res.result
+            });
+            this.form.answerList.push({
+              q_id: this.content[i],//面试题id
+              u_id: this.id_arr[i][j],//面试者id
+              value:'unread',
+            });
+          });
+        }
+      }
+
+
+
+
+
+    /*for(let i=0; i<this.content.length; i++){
+      this.form.answerList.push({  idx:this.content[i],  value:'unread'});
+    }
+    console.log(this.form.answerList);*/
   }
 }
 </script>

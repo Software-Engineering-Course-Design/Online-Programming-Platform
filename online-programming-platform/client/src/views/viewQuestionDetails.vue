@@ -51,8 +51,7 @@ export default {
     onStart(){
       //console.log(this.q_id);
       const postData = {
-      //'username': this.username,
-      'uid': this.q_id,
+        'uid': this.q_id,
       };
       this.$store.dispatch('viewQuestionRequest',postData).then(res => {
         console.log(res);

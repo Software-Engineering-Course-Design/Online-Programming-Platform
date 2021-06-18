@@ -30,6 +30,9 @@ const url = {
   addNewQuestion: 'http://127.0.0.1:5000/interviewer/add_question',//新建题目
   addNewExam: 'http://127.0.0.1:5000/interviewer/initial_interview',//发起面试
   updateQuestion: 'http://127.0.0.1:5000/interviewer/edit_question',//修改面试题
+  viewCodes: 'http://127.0.0.1:5000/interviewer/code',//查看代码
+  checkExamCode: 'http://127.0.0.1:5000/interviewer/check_code',//批改代码
+
   chatPage: 'http://127.0.0.1:5000/comment/comment_search',//查看评论列表
 };
 
@@ -122,11 +125,6 @@ export default {
     }, postData) => {
       return post(url.questionContent, postData);
     },
-    // viewQuestionListRequest:({
-    //   state
-    // },postData) =>{
-    //   return post(url.questionLibrary,postData);
-    // },
     viewQuestionListRequest:(state) =>{
       return get(url.questionLibrary);
     },
@@ -145,6 +143,17 @@ export default {
                        },postData) => {
       return post(url.updateQuestion,postData);
     },
+    viewCodesRequest:({
+                        state
+                      },postData) => {
+      return post(url.viewCodes,postData);
+    },
+    checkExamCodeRequest:({
+                            state
+                          },postData) => {
+      return post(url.checkExamCode,postData);
+    },
+
     discussRequest:({
                       state
                     },postData) => {

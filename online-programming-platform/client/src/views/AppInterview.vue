@@ -413,9 +413,6 @@
           questionID: questionID,
         };
         this.$store.dispatch('submitJudgeRequest', data).then(res => {
-          console.log(res)
-          console.log('res')
-          console.log(res.ifExist)
           if (res.ifExist) { //已经提交过，不能再提交
             this.$message({
               showClose: true,

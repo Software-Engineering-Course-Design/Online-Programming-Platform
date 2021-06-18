@@ -4,6 +4,10 @@
 
 #### 注册
 
+```
+/signup/signup_info
+```
+
 1.前端->后端
 
 | Column   | Type    | Value                       | Description                                                  |
@@ -21,7 +25,11 @@
 | ifExist | boolean | true(用户已存在)                   false(用户未存在) | 已存在：注册失败               未存在：注册成功              |
 | msg     | string  | 后端自己设置                                         | 返回相应提示信息（比如ifExist为true则“注册失败，用户已存在”；为false则“注册成功”） |
 
-#### 登录 /login/login_info
+#### 登录
+
+```
+/login/login_info
+```
 
 1.前端->后端
 
@@ -52,6 +60,8 @@
 
 #### 面试官首页
 
+
+
 后端->前端
 
 | Column        | Type  | Value | Description                                  |
@@ -63,6 +73,10 @@
 **h_id_arr格式如下：[[1,heading_one],[2,heading_two]……]，两层数组，第一个参数是questionID，第二个参数是面试题标题**
 
 #### 面试官查看面试情况
+
+```
+/interviewer/interview_info
+```
 
 前端->后端
 
@@ -84,12 +98,21 @@ content：面试内容，是包含面试中题目信息的数组
 startTime：面试开始时间
 endTime：面试结束时间
 
-
 #### 面试题详情
+
+```
+/interviewer/questionID
+```
 
 此页面即在面试官首页中点击列表中的题目时，跳转到具体题目内容的页面
 
 每个面试题页面的URL，用**questionID**作为参数，由此实现每个面试题有各自的固定链接，其中**questionID**是**数据库的问题表中的自增id**
+
+前端->后端
+
+| Column | Type | Value | Description |
+| ------ | ---- | ----- | ----------- |
+| uid    | int  |       | 面试题ID    |
 
 后端->前端（打开页面即返回）
 
@@ -101,12 +124,17 @@ endTime：面试结束时间
 | question   |        |       | 面试题内容                                 |
 | id_arr     | Array  |       | 面试者数组（返回提交了该题的面试者用户ID） |
 
-***点击某个用户ID即触发请求，显示改面试者提交的代码以及批改结果***
+#### 显示改面试者提交的代码以及批改结果
+
+```
+/interviewer/code
+```
 
 1.前端->后端
 
 | Column     | Type   | Value | Description |
 | ---------- | ------ | ----- | ----------- |
+| sessionID  | int    |       | 面试场次ID  |
 | applicant  | string |       | 面试者ID    |
 | questionID | int    |       | 面试题ID    |
 
@@ -120,6 +148,10 @@ endTime：面试结束时间
 
 
 #### 面试官新建面试题
+
+```
+/interviewer/add_question
+```
 
 1.前端->后端
 
@@ -145,6 +177,10 @@ question是面试官输入的题目，支持富文本格式，类型暂定
 
 #### 面试官修改面试题目
 
+```
+/interviewer/edit_question
+```
+
 1.前端->后端
 
 | Column      | Type   | Value | Description  |
@@ -164,6 +200,10 @@ question是面试官输入的题目，支持富文本格式，类型暂定
 | msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“修改成功”；为false则“修改失败……”） |
 
 #### 发起一场面试
+
+```
+/interviewer/initial_interview
+```
 
 1.前端->后端
 
@@ -190,14 +230,41 @@ question是面试官输入的题目，支持富文本格式，类型暂定
 
 #### 面试官批改提交代码
 
+```
+/interviewer/check_code
+```
+
 1.前端->后端
 
-| Column   | Type   | Value                       | Description  |
-| -------- | ------ | --------------------------- | ------------ |
-| username | string |                             | 面试官用户ID |
-| status   | string | 0：未批改    1：AC    2：WA | 代码结果     |
+| Column    | Type   | Value | Description                    |
+| --------- | ------ | ----- | ------------------------------ |
+| username  | string |       | 面试官用户ID                   |
+| sessionID | int    |       | 当前面试场次的ID               |
+| result    | Array  |       | 元素为每道题目的批改结果的数组 |
 
-status是提交代码的批改，默认为0，只有当result为0时，批改按钮才是可用的，否则按钮disabled
+result是保存每场面试代码们批改结果的数组。没批改时，每道题对应的值为'unread'；批改后，值相应地修改为'WA', 'AC'等结果。
+
+result举例：
+
+[
+
+{	applicant://面试者id
+
+questionID://面试题id
+
+value://'unread':未批改；'WA':错误；'AC':正确
+
+},
+
+{	applicant:面试者id
+
+questionID:面试题id
+
+value://'unread':未批改；'WA':错误；'AC':正确
+
+}
+
+]
 
 2.后端->前端
 
@@ -211,6 +278,10 @@ status是提交代码的批改，默认为0，只有当result为0时，批改按
 ## 三——面试者模块
 
 #### 面试者首页
+
+```
+/applicant/join_message
+```
 
 前端->后端
 
@@ -285,6 +356,10 @@ notjoin: [{
 
 #### 在线编程题目显示模块
 
+```
+/applicant/question_message'
+```
+
 1.前端->后端
 
 | Column    | Type   | Value | Description |
@@ -316,6 +391,10 @@ notjoin: [{
 #### 在线编程代码模块
 
 ##### 提交
+
+```
+/applicant/commit_code
+```
 
 提交某一道题
 
@@ -360,6 +439,10 @@ questionStatus默认未提交，即false
 
 答题结束之后总交卷
 
+```
+/applicant/end_session
+```
+
 1.前端->后端
 
 | Column      | Type     | Value | Description    |
@@ -378,6 +461,10 @@ questionStatus默认未提交，即false
 #### 查看已参加的面试的结果
 
 按面试场次显示，按场次顺序显示题目标题，点击标题可查看面试题内容、提交代码内容、标准答案以及批改结果
+
+```
+/applicant/interview_result
+```
 
 1.前端->后端
 
@@ -431,7 +518,11 @@ questionStatus默认未提交，即false
 
 ## **四——评论区模块** 
 
-#### **进入后加载页面**  comment/comment_search
+#### **进入后加载页面** 
+
+```
+/comment/comment_search
+```
 
 1.前端->后端 
 
@@ -466,7 +557,11 @@ content: 'testComment0',//评论内容
 
 ] 
 
-#### **发送评论**  comment/comment_add
+#### **发送评论**  
+
+```
+/comment/comment_add
+```
 
 1.前端->后端 
 
