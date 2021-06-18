@@ -185,8 +185,12 @@ def commit_code():
 		questionID = request.json.get("questionID")#问题ID
 		code = request.json.get("code")#代码内容
 
+#		connection = db.get_db()
+#		query = "UPDATE code SET code='{}' WHERE sessionID='{}' AND questionID='{}' AND applicant ='{}'".format(code, sessionID, questionID, applicant )
+#		connection.execute(query)
+#		connection.commit()
 		connection = db.get_db()
-		query = "UPDATE code SET code='{}' WHERE sessionID='{}' AND questionID='{}' AND applicant ='{}'".format(code, sessionID, questionID, applicant )
+		query = "INSERT INTO code(sessionID,questionID,applicant,code,result) values('{}','{}','{}','{}','{}')".format(sessionID,questionID,applicant,code,0)
 		connection.execute(query)
 		connection.commit()
 		return dict(ifSuccess=True, msg="提交成功")
