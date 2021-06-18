@@ -317,7 +317,7 @@ notjoin: [{
 
 ##### 提交
 
-提交某一道题，每道题只能提交一次
+提交某一道题
 
 1.前端->后端
 
@@ -336,6 +336,26 @@ questionStatus默认未提交，即false
 | --------- | ------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ifSuccess | boolean | true：提交成功                                           false：提交失败 | 判断提交代码是否成功提交                                     |
 | msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“提交成功”；为false则“提交失败，网络发生故障”） |
+
+限制一道题只能提交一次
+
+1.前端->后端
+
+| Column | Type |  Value    | Description |
+| ------ | ---- | ---- | ----- |
+| sessionID | int |      | 面试场次ID |
+| username | string |      | 面试者用户ID |
+| questionID | int | | 面试题目ID |
+
+2.后端->前端
+
+| Column  | Type    | Value                      | Description                    |
+| ------- | ------- | -------------------------- | ------------------------------ |
+| ifExist | boolean | true：已存在 false：不存在 | 判断这道题的代码是否已经提交过 |
+| msg     | string  | 后端设置                   | 返回相应提示信息               |
+|         |         |                            |                                |
+
+
 
 #### 结束面试（场次）
 
@@ -377,31 +397,31 @@ questionStatus默认未提交，即false
         {
 
             "answer": "answer1",
-
+    
             "body": "body1",
-
+    
             "code": "#include<iostream>",
-
+    
             "heading": "Stack",
-
+    
             "questionID": 1,
-
+    
             "result": "0"
-
+    
         },
         {
             "answer": "answer2",
-
+    
             "body": "body2",
-
+    
             "code": null,
-
+    
             "heading": "Queue",
-
+    
             "questionID": 2,
-
+    
             "result": "AC"
-
+    
         }
     ]
 
