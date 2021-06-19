@@ -29,8 +29,8 @@ export default {
   methods:{
     view(id,idx){
       this.$router.push({
-        name: 'interviewerToQuestionDetails',
-        params:{
+        path: '/interviewer/viewQuestionDetails',
+        query:{
           username: this.username,
           qID: id,
           title: this.qList[idx][1],

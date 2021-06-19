@@ -4,7 +4,7 @@
     <el-header><h1>在线编程平台</h1></el-header>
     <el-page-header @back="goBack" content="题库管理"></el-page-header>
     <el-main>
-    <question-list :p_qList="h_id_arr" :p_page-status="1"></question-list>
+    <question-list :p_username="username" :p_qList="h_id_arr" :p_page-status="1"></question-list>
     </el-main>
   </el-container>
 </template>

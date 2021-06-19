@@ -58,10 +58,29 @@
 
         </el-form-item>
 
-        <el-form-item label="请输入要邀请的面试者ID" prop="people">
-          <el-input v-model="form.people">
-          </el-input>
-        </el-form-item>
+
+
+        <el-tag
+          :key="tag"
+          v-for="tag in dynamicTags"
+          closable
+          :disable-transitions="false"
+          @close="handleDeletePeople(tag)">
+          {{tag}}
+        </el-tag>
+        <el-input
+          class="input-new-tag"
+          v-if="inputVisible"
+          v-model="inputValue"
+          ref="saveTagInput"
+          size="small"
+          @keyup.enter.native="handleInputConfirm"
+          @blur="handleInputConfirm"
+        >
+        </el-input>
+        <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+
+
         <el-form-item>
           <el-button type="primary" @click="submit">发起面试</el-button>
           <el-button @click="reset">重置</el-button>
@@ -89,7 +108,7 @@ export default {
         //type: -1,
         time1: '',
         time2: '',
-        people:'abc',
+        people:[],
         qArr:[1,2],
       },
       username: '',
@@ -97,6 +116,10 @@ export default {
       selectedQ:[],
       showMsg: false,
       msg:'',
+      dynamicTags: [],
+      inputVisible: false,
+      inputValue: '',
+
       rules:{
         num:[
           { type:'number', require: true, message: '请选择题目数量'},
@@ -127,6 +150,27 @@ export default {
     handleClose(idx){
       this.selectedQ.splice(idx,1);
     },
+    //删除面试者
+    handleDeletePeople(tag) {
+      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+    },
+    //添加面试者
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+    handleInputConfirm() {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        this.dynamicTags.push(inputValue);
+        this.form.people.push(inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = '';
+    },
+    //提交面试
     submit(){
       //console.log(this.form);
       this.$refs.form.validate((valid) => {
@@ -149,7 +193,7 @@ export default {
 
           const postData = {
             "username": this.username,
-            "applicant": [this.form.people],
+            "applicant": this.form.people,
             "questionNumber": this.form.num,
             "questionID": this.selectedQ,
             //"createWay": temp,
@@ -167,9 +211,11 @@ export default {
         }
       });
     },
+    //重置表单
     reset(){
       this.$refs.form.resetFields();
     },
+    //实时收取子组件信息更新
     selectQuestionList(list){
       this.selectedQ = list;
       console.log(this.selectedQ);
@@ -193,4 +239,19 @@ export default {
 
 <style scoped>
 @import "../assets/qzx_css.css";
+.el-tag + .el-tag {
+  margin-left: 10px;
+}
+.button-new-tag {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
+}
 </style>

@@ -94,9 +94,9 @@ export default {
     },
   },
   created(){
-    this.q_id = this.$route.params.qID;
-    this.q_title = this.$route.params.title;
-    this.username = this.$route.params.username;
+    this.q_id = parseInt(this.$route.query.qID);
+    this.q_title = this.$route.query.title;
+    this.username = this.$route.query.username;
   },
   mounted(){
 
