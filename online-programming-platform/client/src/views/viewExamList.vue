@@ -11,11 +11,11 @@
 
     <el-tabs>
       <el-tab-pane label="已批改面试" name="first">
-        <exam-list :p_check="false" :p_e-list="readList"></exam-list>
+        <exam-list :p_username="username" :p_check="false" :p_e-list="readList"></exam-list>
 
       </el-tab-pane>
       <el-tab-pane label="待批改面试" name="second">
-        <exam-list :p_check="true" :p_e-list="unreadList"></exam-list>
+        <exam-list :p_username="username" :p_check="true" :p_e-list="unreadList"></exam-list>
       </el-tab-pane>
 
     </el-tabs>

@@ -18,15 +18,18 @@
             <el-radio-button v-for="n in 5" :label="n" :key="n"></el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="请选择出题类型" prop="type" required>
+        <!--<el-form-item label="请选择出题类型" prop="type" required>
           <el-radio-group v-model="form.type">
             <el-radio-button v-for="(item,index) in options" :label="item.value" :key="index"></el-radio-button>
           </el-radio-group>
-        </el-form-item>
-        <div v-if="form.type=='自主选题'">
+        </el-form-item>-->
+        <div>
           <div>
-            已选择的题号：{{selectedQ}}
+            已选择的题号：
           </div>
+          <el-tag v-for="(selection, idx) in selectedQ" :key="idx" closable @close="handleClose(idx)">
+            {{selection}}
+          </el-tag>
           <question-list :p_qList="h_id_arr" :p_page-status="2" @updateQuestionList="selectQuestionList"></question-list>
 
         </div>
@@ -83,7 +86,7 @@ export default {
     return{
       form: {
         num: 'null',
-        type: -1,
+        //type: -1,
         time1: '',
         time2: '',
         people:'abc',
@@ -98,9 +101,9 @@ export default {
         num:[
           { type:'number', require: true, message: '请选择题目数量'},
         ],
-        type:[
-          { type:'string', require: true, message: '请选择出题方式'},
-        ],
+        //type:[
+        //  { type:'string', require: true, message: '请选择出题方式'},
+        //],
         time1: [
           { required: true, message: '请选择日期', trigger: 'change' }
         ],
@@ -112,10 +115,6 @@ export default {
         ]
 
       },
-      options:[
-        { value: '自主选题'},
-        { value: '随机抽题'}
-      ]
     }
   },
   methods:{
@@ -125,11 +124,18 @@ export default {
     goBack(){
       this.$router.go(-1);
     },
+    handleClose(idx){
+      this.selectedQ.splice(idx,1);
+    },
     submit(){
       //console.log(this.form);
       this.$refs.form.validate((valid) => {
 
         if(valid){
+          if(this.selectedQ.length==0){
+            alert('请选择题目！');
+            return false;
+          }
           console.log('submit!');
           var temp = this.form.type;
           if(temp=='自主命题'){
@@ -146,7 +152,7 @@ export default {
             "applicant": [this.form.people],
             "questionNumber": this.form.num,
             "questionID": this.selectedQ,
-            "createWay": temp,
+            //"createWay": temp,
             "startTime": startTime,
             "endTime": endTime
           };

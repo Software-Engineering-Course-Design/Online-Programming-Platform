@@ -35,7 +35,7 @@ export default {
       username: '',
       q_title: '',
       q_content: '',
-      q_answer: '我是答案',
+      q_answer: '',
     }
   },
   components: {

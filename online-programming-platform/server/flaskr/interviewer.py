@@ -294,7 +294,8 @@ def initial_interview():
         applicant = request.json.get("applicant")  # 数组
         questionNumber = request.json.get("questionNumber")
         questionID = request.json.get("questionID")  # 数组
-        createWay = request.json.get("createWay")
+        #createWay = request.json.get("createWay")
+        createWay = True
         startTime = request.json.get("startTime")
         endTime = request.json.get("endTime")
         query = "SELECT max(sessionID) FROM interview"
@@ -324,9 +325,9 @@ def initial_interview():
             connection = db.get_db()
             for i in range(questionNumber):
                 for j in range(len(applicant)):
-                    query = "INSERT INTO interview(sessionID,username,applicant, questionNumber, questionID, createWay, status," \
-                            " startTime, endTime, timeUsed) values({},'{}','{}',{},{},{},{},'{}','{}','{}')"\
-                        .format(sessionID, username, applicant[j], questionNumber, questionID[i], createWay, status, startTime, endTime, timeUsed)
+                    query = "INSERT INTO interview(sessionID,username,applicant, questionNumber, questionID, status," \
+                            " createWay, startTime, endTime, timeUsed) values({},'{}','{}',{},{},{},{},'{}','{}','{}')"\
+                        .format(sessionID, username, applicant[j], questionNumber, questionID[i], status, createWay, startTime, endTime, timeUsed)
                     connection.execute(query)
                     connection.commit()
             return dict(ifSuccess=True, msg="邀请成功", sessionID=sessionID)

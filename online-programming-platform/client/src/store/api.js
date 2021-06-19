@@ -26,6 +26,7 @@ const url = {
 
   examList: 'http://127.0.0.1:5000/interviewer/interview_info',//查看面试情况
   questionContent: 'http://127.0.0.1:5000/interviewer/questionID',//查看面试题详情
+  questionCodeList: 'http://127.0.0.1:5000/interviewer/questionID_code',//查看面试题提交代码
   questionLibrary: 'http://127.0.0.1:5000/interviewer/interviewer_info',//查看面试题目列表
   addNewQuestion: 'http://127.0.0.1:5000/interviewer/add_question',//新建题目
   addNewExam: 'http://127.0.0.1:5000/interviewer/initial_interview',//发起面试
@@ -116,11 +117,19 @@ export default {
     }, postData) => {
       return post(url.submitJudge, postData);
     },
+    //查看面试情况
     viewExamListRequest: ({
       state
     }, postData) => {
       return post(url.examList, postData);
     },
+    //查看某面试题的所有已提交代码
+    viewQuestionCodeListRequest: ({
+                            state
+                          }, postData) => {
+      return post(url.questionCodeList, postData);
+    },
+    //查看面试题详情
     viewQuestionRequest: ({
       state
     }, postData) => {

@@ -1,5 +1,6 @@
 <template>
   <el-container id="tab">
+    <user-quit :username="username"></user-quit>
     <el-header>面试批改页</el-header>
     <el-form ref="form" :model="form">
       <div v-for="(q, idx) in detail" :key="idx">
@@ -28,7 +29,6 @@
         </el-button-group>
       </el-form-item>
     </el-form>
-
   </el-container>
 
 </template>
@@ -56,31 +56,25 @@
 
 <script>
 import QuestionDetails from "../components/questionDetails";
+import UserQuit from "../components/UserQuit";
 export default {
   name: "checkExam",
-  components: {QuestionDetails},
+  components: {QuestionDetails, UserQuit},
   data(){
     return{
+      username: '',
       form:{answerList:[]},//存放批改结果
       sessionID: '',//面试id
       content: [],//面试题id数组
       detail: [],//后端返回的面试题目列表
       id_arr: [],//每道题面试者数组
       codeList: [],//代码列表
-      result: [],//处理后的结果
     }
   },
   methods:{
     onStart(){
     },
     submit(){
-      //console.log(this.form.answerList);
-      //提交批改结果
-      /*for(let i=0;i<this.form.answerList.length;i++){
-          this.result.push({
-
-          })
-      }*/
       const postData = {
         "username": this.username,
         "sessionID": this.sessionID,
@@ -102,6 +96,8 @@ export default {
   created() {
     this.sessionID = this.$route.params.id;//面试id
     this.content = this.$route.params.content;//面试题信息数组，里面都是questionID
+    this.username = this.$route.params.username;
+
     //console.log(this.content,'content')
     /*
       content: [],//面试题id数组
@@ -115,7 +111,7 @@ export default {
         'uid': this.content[i],
       };
       this.$store.dispatch('viewQuestionRequest',postData).then(res => {
-        //console.log(res)
+        console.log(res,'res')
         //获取题目内容、用户id
         this.detail.push({
           uid: parseInt(this.content[i]),
@@ -123,6 +119,7 @@ export default {
           content: res.question,
         });
         this.id_arr.push(res.id_arr);//第一个元素：对应题目id在content中的索引，第二个元素：面试者id的索引
+        console.log(this.id_arr,'idarr');
         for(let j=0;j<this.id_arr[i].length;j++){
           const postData2 = {
             "applicant": this.id_arr[i][j],
@@ -130,11 +127,12 @@ export default {
             "sessionID": this.sessionID,
           }
           this.$store.dispatch('viewCodesRequest',postData2).then(res2 => {
-            //console.log(res2)
-            if('code' in res2){
+            console.log(postData2)
+            console.log(res2,'res2')
+            if('code' in res2 ){
               this.codeList.push({
                 applicant: this.id_arr[i][j],//面试者id
-                questionID : this.content[i],//面试题id
+                questionID :  parseInt(this.content[i]),
                 code: res2.code,//代码
                 result: res2.result//结果
               });
@@ -144,13 +142,14 @@ export default {
                 value:'unread',
               });
             }
+            console.log(this.codeList, "codeList");
           });
         }
       });
     }
 
-    console.log(this.id_arr, "id_arr");
-    console.log(this.form.answerList, "answerList");
+    //console.log(this.id_arr, "id_arr");
+    //console.log(this.form.answerList, "answerList");
   }
 }
 </script>

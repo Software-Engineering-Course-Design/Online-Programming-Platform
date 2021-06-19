@@ -140,6 +140,15 @@ export default new Router({
         userType: true,
       },
     },
+    {
+      path: '/interviewer/viewExamChecked',
+      name: 'interviewerToViewExamChecked',
+      component: resolve => require(['../views/viewExamChecked'], resolve),
+      meta: {
+        isLogin: true,
+        userType: true,
+      },
+    },
   ]
 
 })

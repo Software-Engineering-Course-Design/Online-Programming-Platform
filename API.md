@@ -98,6 +98,29 @@ content：面试内容，是包含面试中题目信息的数组
 startTime：面试开始时间
 endTime：面试结束时间
 
+#### 查看某面试题的所有已提交代码
+```
+/interviewer/questionID_code
+```
+此页面是从已阅面试中进入，查看批阅情况。
+
+前端->后端
+
+| Column     | Type | Value | Description |
+| ---------- | ---- | ----- | ----------- |
+| questionID | int  |       | 面试题ID    |
+
+后端->前端（打开页面即返回）
+
+| Column    | Type   | Value                       | Description |
+| --------- | ------ | --------------------------- | ----------- |
+| code      | string |                             | 提交代码    |
+| applicant | string |                             | 面试者ID    |
+| result    | string | 0：未批改    1：AC    2：WA | 代码结果    |
+
+
+
+
 #### 面试题详情
 
 ```
