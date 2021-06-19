@@ -91,6 +91,45 @@ def questionID():
     else:
         return dict(msg="查询失败，网络发生故障")
 
+# 查看某面试题的所有已提交代码
+@interviewer.route('/questionID_code', methods=['POST'])
+@cross_origin()
+def questionID_code():
+    if request.method == 'POST':
+        questionID = request.json.get("questionID")  # 获取questionID
+        query = "SELECT * FROM code WHERE questionID={}".format(questionID)
+        # 通过questionID来查询面试题详情（one=True返回第一条数据）
+        result = query_db(query)
+        temp = []
+        info = []
+        for i in range(len(result)):
+            item = dict(result[i])
+            temp.append(item)
+        for j in range(len(temp)):
+            dict1 = temp[j]
+            applicant = dict1['applicant']
+            code = dict1['code']
+            result = dict1['result']
+            return_info = dict(applicant=applicant, code=code, result=result)
+            info.append(return_info)
+        return dict(info=info)
+    else:
+        return dict(msg="查询失败，网络发生故障")
+
+
+"""
+{
+    "info":[{"applicant":"b",
+        "code":"111",
+        "result":"ac"
+        },
+        {
+        "applicant":"d",
+        "code":"111",
+        "result":"ac"
+        }],
+}
+"""
 
 # 面试官查看面试情况
 @interviewer.route('/interview_info', methods=['POST'])
@@ -401,3 +440,20 @@ def check_code():
     "sessionID":1
 }
 """
+
+"""
+{
+    "username":"a",
+    "result":[{
+        "applicant":"d",
+        "questionID":1,
+        "value":"ac"
+        }
+        ,{
+        "applicant":"b",
+        "questionID":1,
+        "value":"ac"
+    }],
+    
+    "sessionID":1
+}"""
