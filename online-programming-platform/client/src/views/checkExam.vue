@@ -8,13 +8,16 @@
         :p_id="q.uid"
         :p_title="q.heading"
         :p_content="q.content"></question-details>
-        <div v-for="(coder, idx2) in id_arr" :key="idx2">
-          <div>code:{{codeList[idx2].code}}</div>
-          <div>applicant:{{codeList[idx2].applicant}},code in idArr:{{coder}}</div>
-          <el-select v-model="form.answerList[idx2].value" placeholder="请选择">
-            <el-option label="WA" value="WA"></el-option>
-            <el-option label="AC" value="AC"></el-option>
-          </el-select>
+        <div v-for="(code, idx2) in codeList" :key="idx2">
+          <div v-if="code.questionID==q.uid">
+            <div>code:{{code.code}}</div>
+            <div>applicant:{{code.applicant}}</div>
+            <el-select v-model="form.answerList[idx2].value" placeholder="请选择">
+              <el-option label="WA" value="WA"></el-option>
+              <el-option label="AC" value="AC"></el-option>
+            </el-select>
+          </div>
+
         </div>
       </el-form-item>
       </div>
@@ -37,16 +40,16 @@
           content: res.question,
         });
     this.codeList.push({
-          applicant: this.id_arr[i][j],//面试者id
-          questionID : this.content[i],//面试题id
-          code: res.code,//代码
-          result: res.result//结果
-        });
-    this.form.answerList.push({
-          applicant: this.id_arr[i][j],//面试者id
-          questionID: this.content[i],//面试题id
-          value:'unread',
-        });
+                applicant: this.id_arr[i][j],//面试者id
+                questionID : this.content[i],//面试题id
+                code: res2.code,//代码
+                result: res2.result//结果
+              });
+   this.form.answerList.push({
+                applicant: this.id_arr[i][j],//面试者id
+                questionID: parseInt(this.content[i]),
+                value:'unread',
+              });
     */
 -->
 
@@ -71,22 +74,17 @@ export default {
     onStart(){
     },
     submit(){
-      console.log(this.form.answerList);
-      /*
-      this.form.answerList.push({
-              q_id: this.content[i],//面试题id
-              u_id: this.id_arr[i][j],//面试者id
-              value:'unread',
-      });
-      */
+      //console.log(this.form.answerList);
       //提交批改结果
-      for(let i=0;i<this.form.answerList.length;i++){
+      /*for(let i=0;i<this.form.answerList.length;i++){
+          this.result.push({
 
-      }
+          })
+      }*/
       const postData = {
         "username": this.username,
         "sessionID": this.sessionID,
-        "result": this.result,
+        "result": this.form.answerList,
       }
       this.$store.dispatch('checkExamCodeRequest',postData).then(res => {
         console.log(res);
@@ -117,54 +115,42 @@ export default {
         'uid': this.content[i],
       };
       this.$store.dispatch('viewQuestionRequest',postData).then(res => {
-        console.log(res)
-        console.log('res for question')
+        //console.log(res)
         //获取题目内容、用户id
         this.detail.push({
-          uid: this.content[i],
+          uid: parseInt(this.content[i]),
           heading: res.heading,
           content: res.question,
         });
         this.id_arr.push(res.id_arr);//第一个元素：对应题目id在content中的索引，第二个元素：面试者id的索引
-      });
-    }
-    console.log(this.detail,'detail');
-    console.log(this.id_arr,'id_arr');
-    for(let i=0;i<this.content.length;i++){
-      console.log(this.id_arr[0],'id_arr[i]')
         for(let j=0;j<this.id_arr[i].length;j++){
           const postData2 = {
             "applicant": this.id_arr[i][j],
             "questionID": this.content[i],
             "sessionID": this.sessionID,
           }
-          console.log(postData2,'postdata2');
-          this.$store.dispatch('viewCodesRequest',postData2).then(res => {
-            console.log(res)
-            console.log('res for Code')
-            this.codeList.push({
-              applicant: this.id_arr[i][j],//面试者id
-              questionID : this.content[i],//面试题id
-              code: res.code,//代码
-              result: res.result//结果
-            });
-            this.form.answerList.push({
-              applicant: this.id_arr[i][j],//面试者id
-              questionID: this.content[i],//面试题id
-              value:'unread',
-            });
+          this.$store.dispatch('viewCodesRequest',postData2).then(res2 => {
+            //console.log(res2)
+            if('code' in res2){
+              this.codeList.push({
+                applicant: this.id_arr[i][j],//面试者id
+                questionID : this.content[i],//面试题id
+                code: res2.code,//代码
+                result: res2.result//结果
+              });
+              this.form.answerList.push({
+                applicant: this.id_arr[i][j],//面试者id
+                questionID: parseInt(this.content[i]),
+                value:'unread',
+              });
+            }
           });
         }
-      }
-
-
-
-
-
-    /*for(let i=0; i<this.content.length; i++){
-      this.form.answerList.push({  idx:this.content[i],  value:'unread'});
+      });
     }
-    console.log(this.form.answerList);*/
+
+    console.log(this.id_arr, "id_arr");
+    console.log(this.form.answerList, "answerList");
   }
 }
 </script>
