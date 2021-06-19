@@ -20,7 +20,7 @@ export default {
   data(){
     return{
       activeName: '1',
-      username: '',
+      username: this.p_username,
       qList:'',
       sList:[],//选中题号的数组
       pageStatus: this.p_pageStatus,//1:显示查看题目 2:显示选中
@@ -49,6 +49,7 @@ export default {
   props:{
     p_qList: Array,
     p_pageStatus: Number,
+    p_username: String,
   },
   created() {
     this.qList = this.p_qList;

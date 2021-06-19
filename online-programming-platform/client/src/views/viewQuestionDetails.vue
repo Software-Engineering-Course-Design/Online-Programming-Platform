@@ -1,5 +1,6 @@
 <template>
   <el-container id="tab">
+    <user-quit :username="username"></user-quit>
     <el-header><h1>在线编程平台</h1></el-header>
     <el-page-header @back="goBack" content="当前题目详情"></el-page-header>
     <el-main>
@@ -21,11 +22,13 @@
 //by qzx
 import questionDetails from "../components/questionDetails";
 import updateQuestion from "./updateQuestion";
+import UserQuit from "../components/UserQuit";
+
 export default {
   data(){
     return{
       msg: "Updating the question!",
-      username: 'testusr',
+      username:'',
       q_id: '',//从上一个页面中route获取
       //向后端请求返回
       q_title: '',
@@ -41,8 +44,9 @@ export default {
     }
   },
   components:{
+    UserQuit,
     questionDetails,
-    updateQuestion
+    updateQuestion,
   },
   methods:{
     goBack(){
@@ -92,8 +96,10 @@ export default {
   created(){
     this.q_id = this.$route.params.qID;
     this.q_title = this.$route.params.title;
+    this.username = this.$route.params.username;
   },
   mounted(){
+
     this.onStart();
   }
 

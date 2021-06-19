@@ -34,6 +34,7 @@ const url = {
   checkExamCode: 'http://127.0.0.1:5000/interviewer/check_code',//批改代码
 
   chatPage: 'http://127.0.0.1:5000/comment/comment_search',//查看评论列表
+  pubDiscuss: 'http://127.0.0.1:5000/comment/comment_add',//发送评论
 };
 
 
@@ -146,6 +147,7 @@ export default {
     viewCodesRequest:({
                         state
                       },postData) => {
+
       return post(url.viewCodes,postData);
     },
     checkExamCodeRequest:({
@@ -158,6 +160,11 @@ export default {
                       state
                     },postData) => {
       return post(url.chatPage,postData);
+    },
+    pubDiscussRequest:({
+                         state
+                       },postData) => {
+      return post(url.pubDiscuss,postData);
     },
 
   }
