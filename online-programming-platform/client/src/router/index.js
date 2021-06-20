@@ -105,15 +105,6 @@ export default new Router({
       },
     },
     {
-      path: '/interviewer/inviteToExam',
-      name: 'interviewerToInvite',
-      component: resolve => require(['../views/inviteToExam'], resolve),
-      meta: {
-        isLogin: true,
-        userType: true,
-      },
-    },
-    {
       path: '/interviewer/viewExamList',
       name: 'interviewerToViewExamList',
       component: resolve => require(['../views/viewExamList'], resolve),

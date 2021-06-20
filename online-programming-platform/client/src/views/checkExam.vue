@@ -72,8 +72,6 @@ export default {
     }
   },
   methods:{
-    onStart(){
-    },
     submit(){
       const postData = {
         "username": this.username,
@@ -82,11 +80,13 @@ export default {
       }
       this.$store.dispatch('checkExamCodeRequest',postData).then(res => {
         console.log(res);
+        this.$message({
+          showClose: true,
+          message: res.msg,
+          type: 'success'
+        });
+        this.$router.push('/interviewer/viewExamList');
       })
-      this.$message({
-        message: '批改完成',
-        type: 'success'
-      });
     },
     reset(){
       this.$refs.form.resetFields();
@@ -103,7 +103,6 @@ export default {
       const postData = {
         'uid': this.content[i],
       };
-      console.log('test',i);
       this.$store.dispatch('viewQuestionRequest',postData).then(res => {
         //获取题目内容、用户id
         this.detail.push({

@@ -70,6 +70,12 @@ export default {
       console.log(postData);
       this.$store.dispatch('addNewQuestionRequest',postData).then(res => {
         console.log(res);
+        this.$message({
+          showClose: true,
+          message: res.msg,
+          type: 'success'
+        });
+        this.$router.push('/interviewer/viewExamList');
       })
     },
     cancel(){

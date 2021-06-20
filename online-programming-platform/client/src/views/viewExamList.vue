@@ -54,6 +54,7 @@ export default {
   },
   methods:{
     onStart(){
+
       this.$store.dispatch('viewInfoRequest').then(res =>{
         console.log('info',res);
         //处理后端传的数据

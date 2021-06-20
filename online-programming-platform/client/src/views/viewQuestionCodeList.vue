@@ -32,23 +32,7 @@ export default {
       questionID:'',
       userType:true,
       id_applicant:[],
-      codeList:[],/*[
-        {
-          id:"0000",
-          value:"print('hello world0!')",
-          currShowStatus:false,
-        },
-        {
-          id:"0001",
-          value:"print('hello world1!')",
-          currShowStatus:false,
-        },
-        {
-          id:"0002",
-          value:"print('hello world2!')",
-          currShowStatus:false,
-        }
-      ],*/
+      codeList:[],
 
     }
   },

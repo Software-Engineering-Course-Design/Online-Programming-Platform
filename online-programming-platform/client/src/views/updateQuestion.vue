@@ -72,8 +72,13 @@ export default {
         "newQuestion": this.content,
       }
       this.$store.dispatch('updateQuestionRequest', postData).then(res => {
-        //console.log(postData);
         console.log(res);
+        this.$message({
+          showClose: true,
+          message: res.msg,
+          type: 'success'
+        });
+        this.$router.push('/interviewer/viewQuestionList');
       })
     },
     getContent(content){

@@ -76,7 +76,7 @@
           @blur="handleInputConfirm"
         >
         </el-input>
-        <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+        <el-button v-else class="button-new-tag" size="small" @click="showInput">添加面试者（请输入ID）</el-button>
 
 
         <el-form-item>
@@ -201,6 +201,12 @@ export default {
           this.$store.dispatch('addNewExamRequest', postData).then(res => {
             //console.log(postData);
             console.log(res);
+            this.$message({
+              showClose: true,
+              message: res.msg,
+              type: 'success'
+            });
+            this.$router.push('/interviewer/viewExamList');
           })
         }
         else {
