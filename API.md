@@ -2,7 +2,7 @@
 
 ## 一——登录/注册页面
 
-#### 注册
+#### 注册post
 
 ```
 /signup/signup_info
@@ -25,7 +25,7 @@
 | ifExist | boolean | true(用户已存在)                   false(用户未存在) | 已存在：注册失败               未存在：注册成功              |
 | msg     | string  | 后端自己设置                                         | 返回相应提示信息（比如ifExist为true则“注册失败，用户已存在”；为false则“注册成功”） |
 
-#### 登录
+#### 登录post
 
 ```
 /login/login_info
@@ -50,7 +50,7 @@
 
 //方案一：无论ifExist值是怎样，都返回userType到前端；此时userType类型设为string，值  0：面试官  1：候选人  2：用户不存在，不用跳转
 
-方案二：只有ifExist的值为true，即用户存在，登录成功的时候，才返回userType到前端；此时userType类型设为boolean，值  true：面试官  false：候选人
+//方案二：只有ifExist的值为true，即用户存在，登录成功的时候，才返回userType到前端；此时userType类型设为boolean，值  true：面试官  false：候选人
 
 用方案二
 
@@ -58,7 +58,7 @@
 
 ## 二——面试官
 
-#### 面试官首页
+#### 1面试官首页get
 
 ```
 /interviewer/interviewer_info
@@ -74,7 +74,7 @@
 
 **h_id_arr格式如下：[[1,heading_one],[2,heading_two]……]，两层数组，第一个参数是questionID，第二个参数是面试题标题**
 
-#### 面试官查看面试情况
+#### 2面试官查看面试情况post
 
 ```
 /interviewer/interview_info
@@ -100,7 +100,7 @@ content：面试内容，是包含面试中题目信息的数组
 startTime：面试开始时间
 endTime：面试结束时间
 
-#### 查看某面试题的所有已提交代码
+#### 3查看某面试题的所有已提交代码psot
 ```
 /interviewer/questionID_code
 ```
@@ -123,7 +123,7 @@ endTime：面试结束时间
 
 
 
-#### 面试题详情
+#### 4面试题详情post
 
 ```
 /interviewer/questionID
@@ -149,7 +149,7 @@ endTime：面试结束时间
 | question   |        |       | 面试题内容                                 |
 | id_arr     | Array  |       | 面试者数组（返回提交了该题的面试者用户ID） |
 
-#### 显示改面试者提交的代码以及批改结果
+#### 5显示改面试者提交的代码以及批改结果post
 
 ```
 /interviewer/code
@@ -172,7 +172,7 @@ endTime：面试结束时间
 
 
 
-#### 面试官新建面试题
+#### 6面试官新建面试题post
 
 ```
 /interviewer/add_question
@@ -200,7 +200,7 @@ question是面试官输入的题目，支持富文本格式，类型暂定
 
 
 
-#### 面试官修改面试题目
+#### 7面试官修改面试题目post
 
 ```
 /interviewer/edit_question
@@ -224,7 +224,7 @@ question是面试官输入的题目，支持富文本格式，类型暂定
 | ifSuccess | boolean | true：修改成功                                     false：修改失败 | 判断题目是否修改成功并存入数据库中                           |
 | msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“修改成功”；为false则“修改失败……”） |
 
-#### 发起一场面试
+#### 8发起一场面试post
 
 ```
 /interviewer/initial_interview
@@ -252,7 +252,7 @@ question是面试官输入的题目，支持富文本格式，类型暂定
 
 
 
-#### 面试官批改提交代码
+#### 9面试官批改提交代码post
 
 ```
 /interviewer/check_code
@@ -301,7 +301,7 @@ value://'unread':未批改；'WA':错误；'AC':正确
 
 ## 三——面试者模块
 
-#### 面试者首页
+#### 1面试者首页post
 
 ```
 /applicant/join_message
@@ -378,10 +378,10 @@ notjoin: [{
 
 
 
-#### 在线编程题目显示模块
+#### 2在线编程题目显示模块post
 
 ```
-/applicant/question_message'
+/applicant/question_message
 ```
 
 1.前端->后端
@@ -420,7 +420,7 @@ notjoin: [{
 /applicant/commit_code
 ```
 
-提交某一道题
+3提交某一道题post
 
 1.前端->后端
 
@@ -440,7 +440,11 @@ questionStatus默认未提交，即false
 | ifSuccess | boolean | true：提交成功                                           false：提交失败 | 判断提交代码是否成功提交                                     |
 | msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“提交成功”；为false则“提交失败，网络发生故障”） |
 
-限制一道题只能提交一次
+4限制一道题只能提交一次post
+
+```
+/applicant/submit_message
+```
 
 1.前端->后端
 
@@ -459,7 +463,7 @@ questionStatus默认未提交，即false
 
 
 
-#### 结束面试（场次）
+#### 5结束面试（场次）post
 
 答题结束之后总交卷
 
@@ -482,7 +486,7 @@ questionStatus默认未提交，即false
 | ifSuccess | boolean | true：提交成功                                           false：提交失败 | 判断是否成功交卷                                             |
 | msg       | string  | 后端自己设置                                                 | 返回相应提示信息（比如ifSuccess为true则“交卷成功，已结束面试”；为false则“提交失败，网络发生故障”） |
 
-#### 查看已参加的面试的结果
+#### 6查看已参加的面试的结果post
 
 按面试场次显示，按场次顺序显示题目标题，点击标题可查看面试题内容、提交代码内容、标准答案以及批改结果
 
@@ -542,7 +546,7 @@ questionStatus默认未提交，即false
 
 ## **四——评论区模块** 
 
-#### **进入后加载页面** 
+#### 1**进入后加载页面**post
 
 ```
 /comment/comment_search
@@ -560,7 +564,7 @@ questionStatus默认未提交，即false
 
 | Column      | Type    | Value                          | Description                                                  |
 | ----------- | ------- | ------------------------------ | ------------------------------------------------------------ |
-| commentList | Array   |                                | 当前题目下的评论内容，存储在数组中。元素为每条评论的相关信息，包括发送用户id、楼层数、评论内容、楼中楼回复。且每条直接评论的评论最多只能有一层楼中楼 |
+| commentList | Array   |                                | 当前题目下的评论内容，存储在数组中。元素为每条评论的相关信息，包括发送用户id、楼层数、评论内容。 |
 | questionID  | string  |                                | 面试题ID                                                     |
 | ifSuccess   | Boolean | true：加载成功 false：加载失败 | 判断评论是否加载成功                                         |
 | msg         | string  |                                | 返回相应提示信息（比如ifSuccess为false则返回“加载失败”）     |
@@ -581,7 +585,7 @@ content: 'testComment0',//评论内容
 
 ] 
 
-#### **发送评论**  
+#### **2发送评论**post
 
 ```
 /comment/comment_add
@@ -593,7 +597,7 @@ content: 'testComment0',//评论内容
 | -------------- | ------ | ----- | ---------------------------- |
 | senderID       | string |       | 当前用户（即发送评论者）的id |
 | commentContent | string |       | 评论内容                     |
-| questionID     | string |       | 回复题目ID                   |
+| questionID     | int    |       | 回复题目ID                   |
 
 2.后端->前端 
 

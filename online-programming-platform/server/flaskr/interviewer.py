@@ -72,7 +72,7 @@ def questionID():
             username = result['username']
 
             # 面试者数组（返回提交了该题的面试者用户ID）
-            id_arr = "SELECT applicant FROM code WHERE code is not null AND questionID={}".format(uid)
+            id_arr = "SELECT distinct applicant FROM code WHERE code is not null AND questionID={}".format(uid)
             id_arr = query_db(id_arr)
             temp = []
             h_id_arr = []

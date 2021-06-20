@@ -22,7 +22,7 @@ const url = {
   submitCode: 'http://127.0.0.1:5000/applicant/commit_code', //提交代码
   viewResult: 'http://127.0.0.1:5000/applicant/interview_result', //查看已参加面试详情
   handin: 'http://127.0.0.1:5000/applicant/end_session', //交卷
-  submitJudge: 'http://127.0.0.1:5000/applicant/submit_message', //判断代码是否已提交过
+  submitJudge: 'http://127.0.0.1:5000/applicant/submit_message',//判断代码是否已提交过
 
   interviewInfo: 'http://127.0.0.1:5000/interviewer/interviewer_info',//查看面试情况
   examList: 'http://127.0.0.1:5000/interviewer/interview_info',//查看面试情况

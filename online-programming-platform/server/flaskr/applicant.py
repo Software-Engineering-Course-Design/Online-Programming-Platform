@@ -243,5 +243,5 @@ def submit_message():
 		#print(result['code'])
 		if result is None:
 			return  dict(ifExist=False,msg = "可提交")
-		elif result['code'] is not None:
+		elif result is not None:
 			return  dict(ifExist=True,msg = "已提交过，不可重复提交")
