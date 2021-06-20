@@ -97,14 +97,7 @@ export default {
     this.sessionID = this.$route.params.id;//面试id
     this.content = this.$route.params.content;//面试题信息数组，里面都是questionID
     this.username = this.$route.params.username;
-    console.log(this.codeList, "codeList0");
-    //console.log(this.content,'content')
-    /*
-      content: [],//面试题id数组
-      detail: [],//后端返回的面试题目列表
-      id_arr: [],//面试者数组
-      codeList: [],//代码列表
-      */
+
     //请求题目信息
     for(let i=0; i<this.content.length; i++){
       const postData = {
@@ -112,7 +105,6 @@ export default {
       };
       console.log('test',i);
       this.$store.dispatch('viewQuestionRequest',postData).then(res => {
-        console.log(res,'res')
         //获取题目内容、用户id
         this.detail.push({
           uid: parseInt(this.content[i]),
@@ -128,10 +120,6 @@ export default {
             "sessionID": this.sessionID,
           }
           this.$store.dispatch('viewCodesRequest',postData2).then(res2 => {
-            console.log('test',i,'<i',j,'<j');
-            console.log(postData2,'postData2');
-            console.log(res2,'res2');
-            console.log(this.codeList, "codeList1");
             if(res2.hasOwnProperty('code')){
               this.codeList.push({
                 applicant: this.id_arr[i][j],//面试者id
@@ -139,13 +127,11 @@ export default {
                 code: res2.code,//代码
                 result: res2.result//结果
               });
-              console.log('test T_T')
               this.form.answerList.push({
                 applicant: this.id_arr[i][j],//面试者id
                 questionID: parseInt(this.content[i]),
                 value:'unread',
               });
-              //console.log(this.codeList, "codeList2");
             }
 
           });
