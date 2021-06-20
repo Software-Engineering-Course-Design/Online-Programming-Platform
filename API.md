@@ -60,15 +60,17 @@
 
 #### 面试官首页
 
-
+```
+/interviewer/interviewer_info
+```
 
 后端->前端
 
-| Column        | Type  | Value | Description                                  |
-| ------------- | ----- | ----- | -------------------------------------------- |
-| question_num  | int   |       | 当前面试题数量                               |
-| applicant_num | int   |       | 当前面试者数量                               |
-| h_id_arr      | Array |       | 面试题数组（返回所有面试题标题、questionID） |
+| Column          | Type  | Value | Description                                  |
+| --------------- | ----- | ----- | -------------------------------------------- |
+| question_num    | int   |       | 当前面试题数量                               |
+| interviewer_num | int   |       | 当前面试者数量                               |
+| h_id_arr        | Array |       | 面试题数组（返回所有面试题标题、questionID） |
 
 **h_id_arr格式如下：[[1,heading_one],[2,heading_two]……]，两层数组，第一个参数是questionID，第二个参数是面试题标题**
 
@@ -230,15 +232,14 @@ question是面试官输入的题目，支持富文本格式，类型暂定
 
 1.前端->后端
 
-| Column         | Type    | Value                           | Description      |
-| -------------- | ------- | ------------------------------- | ---------------- |
-| username       | string  |                                 | 面试官用户ID     |
-| applicant      | Array   |                                 | 面试者用户ID数组 |
-| questionNumber | int     |                                 | 面试题数目       |
-| questionID     | Array   |                                 | 面试题ID数组     |
-| createWay      | boolean | true：自主命题；false：系统抽题 | 命题方式         |
-| startTime      | string  | '2021-05-28 22:50:00'类似这种   | 面试开始时间     |
-| endTime        |         |                                 | 面试结束时间     |
+| Column         | Type   | Value                         | Description      |
+| -------------- | ------ | ----------------------------- | ---------------- |
+| username       | string |                               | 面试官用户ID     |
+| applicant      | Array  |                               | 面试者用户ID数组 |
+| questionNumber | int    |                               | 面试题数目       |
+| questionID     | Array  |                               | 面试题ID数组     |
+| startTime      | string | '2021-05-28 22:50:00'类似这种 | 面试开始时间     |
+| endTime        |        |                               | 面试结束时间     |
 
 **将一场面试存入数据库之后，将表中的自增ID作为sessionID，用来做场次的ID**
 

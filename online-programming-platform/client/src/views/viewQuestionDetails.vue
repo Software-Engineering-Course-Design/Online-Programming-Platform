@@ -66,9 +66,10 @@ export default {
     },
     invite(){
       this.$router.push({
-        name:'interviewerToInvite',
+        name:'interviewerToAddNewExam',
         params:{
-          q_id:this.q_id
+          q_id:this.q_id,
+          username: this.username,
         }
       });
     },

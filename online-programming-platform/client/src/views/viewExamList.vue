@@ -9,12 +9,20 @@
       <el-menu-item index="4" @click="toViewQuestionList">查看题库</el-menu-item>
     </el-menu>
 
-    <el-tabs>
-      <el-tab-pane label="已批改面试" name="first">
-        <exam-list :p_username="username" :p_check="false" :p_e-list="readList"></exam-list>
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="当前站点情况" name="first">
+        <div>
+          当前题目数量：{{question_num}}
+        </div>
+        <div>
+          当前面试者数量：{{interviewer_num}}
+        </div>
 
       </el-tab-pane>
-      <el-tab-pane label="待批改面试" name="second">
+      <el-tab-pane label="已批改面试" name="second">
+        <exam-list :p_username="username" :p_check="false" :p_e-list="readList"></exam-list>
+      </el-tab-pane>
+      <el-tab-pane label="待批改面试" name="third">
         <exam-list :p_username="username" :p_check="true" :p_e-list="unreadList"></exam-list>
       </el-tab-pane>
 
@@ -35,7 +43,10 @@ export default {
   data(){
     return{
       activeIndex: '1',
+      activeName: 'first',
       username: this.$cookies.get("username"),
+      question_num: 0,
+      interviewer_num: 0,
       sessionID: '',
       unreadList: [],
       readList: [],
@@ -43,6 +54,12 @@ export default {
   },
   methods:{
     onStart(){
+      this.$store.dispatch('viewInfoRequest').then(res =>{
+        console.log('info',res);
+        //处理后端传的数据
+        this.question_num = res.question_num;
+        this.interviewer_num = res.interviewer_num;
+      });
       const postData = {
         'username': this.username,
         //'sessionID': this.sessionID,

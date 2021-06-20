@@ -58,8 +58,6 @@
 
         </el-form-item>
 
-
-
         <el-tag
           :key="tag"
           v-for="tag in dynamicTags"
@@ -221,6 +219,16 @@ export default {
       console.log(this.selectedQ);
       //题号
     }
+  },
+  beforeRouteEnter(to,from,next){
+    const that = this;
+    console.log(to,'to',from,'from');
+    next(vm => {
+        if(from.name=='interviewerToQuestionDetails'){
+          console.log(to.params.q_id,'toID');
+          vm.selectedQ.push(to.params.q_id);
+        }
+    });
   },
   created() {
     this.username = this.$route.params.username;

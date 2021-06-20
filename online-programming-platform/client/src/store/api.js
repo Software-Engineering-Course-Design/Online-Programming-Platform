@@ -24,6 +24,7 @@ const url = {
   handin: 'http://127.0.0.1:5000/applicant/end_session', //交卷
   submitJudge: 'http://127.0.0.1:5000/applicant/submit_message', //判断代码是否已提交过
 
+  interviewInfo: 'http://127.0.0.1:5000/interviewer/interviewer_info',//查看面试情况
   examList: 'http://127.0.0.1:5000/interviewer/interview_info',//查看面试情况
   questionContent: 'http://127.0.0.1:5000/interviewer/questionID',//查看面试题详情
   questionCodeList: 'http://127.0.0.1:5000/interviewer/questionID_code',//查看面试题提交代码
@@ -116,6 +117,10 @@ export default {
       state
     }, postData) => {
       return post(url.submitJudge, postData);
+    },
+    //面试官首页信息
+    viewInfoRequest:(state) =>{
+      return get(url.interviewInfo);
     },
     //查看面试情况
     viewExamListRequest: ({

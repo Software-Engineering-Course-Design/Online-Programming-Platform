@@ -8,7 +8,8 @@
         <div v-for="(code, idx) in codeList" :key="idx">
           <el-collapse-item :title="code.id" :name="idx">
             用户id：{{code.id}}<br />
-            {{code.value}}
+            用户提交代码：{{code.value}}<br />
+            批改结果：{{code.result}}
           </el-collapse-item>
         </div>
       </el-collapse>
@@ -31,7 +32,7 @@ export default {
       questionID:'',
       userType:true,
       id_applicant:[],
-      codeList:[
+      codeList:[],/*[
         {
           id:"0000",
           value:"print('hello world0!')",
@@ -47,11 +48,35 @@ export default {
           value:"print('hello world2!')",
           currShowStatus:false,
         }
-      ],
+      ],*/
 
     }
   },
   methods:{
+    onStart(){
+      //viewQuestionCodeListRequest
+      const postData = {
+        "questionID": this.questionID,
+      }
+      this.$store.dispatch('viewQuestionCodeListRequest',postData).then(res=>{
+        console.log(res);
+        /*{
+          id:"0000",
+          value:"print('hello world0!')",
+          currShowStatus:false,
+        },*/
+        const temp=JSON.parse(JSON.stringify(res.info));
+        for(let i=0; i<temp.length; i++){
+          this.codeList.push({
+            id: temp[i].applicant,
+            value: temp[i].code,
+            currShowStatus:false,
+            result: temp[i].result,
+          })
+        }
+
+      })
+    },
     goBack(){
       this.$router.back();
     }
@@ -66,6 +91,9 @@ export default {
     /*username: '',
       questionID:'',
       userType:'',*/
+  },
+  mounted() {
+    this.onStart();
   }
 }
 </script>
