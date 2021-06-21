@@ -14,13 +14,14 @@ def query_db(query, args=(), one=False):
 @cross_origin()
 def signup_info():
     if request.method == 'POST': 
+
 #
             username=request.json.get("username") 
             userType=request.json.get("userType")
             password=request.json.get("password") 
             checkpwd=request.json.get("checkpwd")
             hr_code=request.json.get("hr_code")
-
+            print(sqlite3.sqlite_version)
    #         print(type(password))
    #        print(len(password))
    #         print(password.isalpha())

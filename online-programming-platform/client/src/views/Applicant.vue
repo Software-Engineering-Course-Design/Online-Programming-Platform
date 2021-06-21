@@ -117,7 +117,7 @@
         for (var i = 0; i < arr.length; i++) {
           list.push({
             sessionID: arr[i].sessionID,
-            interviewer: arr[i].hr_username,
+            interviewer: arr[i].username,
             questionNumber: arr[i].questionNumber,
             startTime: arr[i].startTime,
             endTime: arr[i].endTime,
@@ -130,7 +130,7 @@
         for (var i = 0; i < arr.length; i++) {
           list.push({
             sessionID: arr[i].sessionID,
-            interviewer: arr[i].hr_username,
+            interviewer: arr[i].username,
             questionNumber: arr[i].questionNumber,
             status: arr[i].status,
             score: arr[i].score,
