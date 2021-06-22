@@ -14,10 +14,16 @@
         </div>
       </el-collapse>
       <br />
-      <chat :p_username="username" :p_question-i-d="questionID" :p_user-type="userType"></chat>
     </el-main>
-    <el-footer> <el-button  @click="goBack">返回</el-button> </el-footer>
 
+    <el-footer>
+      <el-col :span="18">
+        <chat :p_username="username" :p_question-i-d="questionID" :p_user-type="userType"></chat>
+      </el-col>
+      <el-col :span="5">
+        <el-button  @click="goBack">返回</el-button>
+      </el-col>
+    </el-footer>
   </el-container>
 </template>
 

@@ -3,11 +3,17 @@
     <el-page-header @back="goBack" class="goback">
     </el-page-header>
     <logout :username="username"></logout>
+    <div style="float: right">
+      <chat :p_username="username" :p_question-i-d="questionID"></chat>
+    </div>
+
     <el-container >
       <el-header>
         <h3 class="header">面试场次{{sessionID}}结果</h3>
       </el-header>
+
       <el-main>
+
         <el-tabs type="border-card" class="view-card">
           <el-tab-pane v-for="item in allObj" :key="item.questionID" :label="item.label" :value="item.questionID">
             <!-- 如何实现点击获取题目ID -->
@@ -48,12 +54,14 @@
 <script>
   import questionDetails from '../components/questionDetails.vue'
   import codeEditor from '../components/CodeEditor.vue'
-import logout from "../components/UserQuit.vue"
+  import logout from "../components/UserQuit.vue"
+  import chat from "../components/chat";
   export default {
     components: {
       questionDetails,
       codeEditor,
       logout,
+      chat
     },
     data() {
       return {

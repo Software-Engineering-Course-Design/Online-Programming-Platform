@@ -1,28 +1,29 @@
 <template>
   <!--Drawer 抽屉实现侧边栏评论区-->
   <div id="drawer">
-    <div>你是： {{username}}</div>
-    <el-button @click="drawer=true" type="primary">点我打开评论区</el-button>
+    <el-button @click="drawer=true" type="primary" plain>查看评论</el-button>
     <el-drawer
       title="评论内容"
       :visible.sync="drawer"
       :before-close="handleClose"> <!---->
+      <div style="padding: 5%">
+      <div>{{username}}，你好！</div>
       <el-collapse v-model="activeName">
         <div v-for="(item, idx) in commentList" :key="idx">
-          <el-collapse-item :title="item.content" :name="idx">
+          <el-collapse-item :title="'L'+(idx+1).toString()+': '+item.content" :name="idx">
             <p>id： {{ item.id}}</p>
-            <p>L{{ item.layIDX}}</p>
           </el-collapse-item>
         </div>
       </el-collapse>
-    <el-form ref="form" :model="form" :rules="rules">
-      <el-form-item prop="commentText">
-        <el-input v-model="form.commentText"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">发送评论</el-button>
-      </el-form-item>
+      <el-form ref="form" :model="form" :rules="rules">
+        <el-form-item prop="commentText">
+          <el-input v-model="form.commentText"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">发送评论</el-button>
+        </el-form-item>
     </el-form>
+      </div>
     </el-drawer>
   </div>
 </template>
@@ -95,6 +96,7 @@ export default {
           };
           this.$store.dispatch('pubDiscussRequest',postData).then(res=>{
             console.log(res);
+            this.form.commentText='';
           });
 
         } else {
@@ -123,9 +125,7 @@ export default {
 
 <style>
 
-.el-drawer__body {
-  overflow: auto;
-}
+
 #drawer{
   margin: 0 auto;
   left: 95%;

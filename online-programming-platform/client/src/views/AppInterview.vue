@@ -14,19 +14,21 @@
               </el-select>
             </div>
           </el-col>
-          <el-col :span="4">
-            <div class="grid-content"></div>
-          </el-col>
           <el-col :span="8">
             <div class="grid-content"></div>
+          </el-col>
+          <el-col :span="2" >
+            <chat :p_username="username" :p_questionID="parseInt(questionID)" ></chat>
           </el-col>
           <el-col :span="4" class="close">
             <el-button type="primary" id="final-btn" @click="finalDialogVisible=true" plain>结束面试</el-button>
           </el-col>
-          <!-- 倒计时 -->
+
           <el-col :span="4">
             <count-down :interviewTime="interviewTime" :startTime="startTime" :endTime="endTime" @endInterview="timeUp">
             </count-down>
+
+            <!-- 倒计时 -->
           </el-col>
         </el-row>
 
@@ -89,6 +91,7 @@
   import questionDetails from '../components/questionDetails.vue'
   //import CodeEditor from '../components/CodeEditor.vue'
   import CountDown from '../components/CountDown.vue'
+  import chat from "../components/chat";
   import io from 'socket.io-client';
   // 引入全局实例
   import _CodeMirror from 'codemirror'
@@ -128,6 +131,7 @@
       questionDetails,
       //CodeEditor,
       CountDown,
+      chat
     },
     data() {
       return {
@@ -394,7 +398,7 @@
           this.questionID = this.questionObj[0].questionID;
           this.currentQuestion();
           this.displayQuestionInfo(this.questionID);
-
+          console.log(this.questionID,'aaa')
         })
 
         //学习组件间通信，将题目内容传到questionDetails组件上
