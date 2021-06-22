@@ -12,6 +12,7 @@
         <div v-for="(item, idx) in commentList" :key="idx">
           <el-collapse-item :title="'L'+(idx+1).toString()+': '+item.content" :name="idx">
             <p>id： {{ item.username}}</p>
+            <el-button @click="reply(item.username)">回复</el-button>
           </el-collapse-item>
         </div>
       </el-collapse>
@@ -70,6 +71,9 @@ export default {
     p_questionID: Number
   },
   methods: {
+    reply(name){
+      this.form.commentText = "回复@"+name+'：';
+    },
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then(_ => {
