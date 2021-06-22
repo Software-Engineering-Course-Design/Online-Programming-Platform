@@ -14,8 +14,8 @@
 
       <el-main>
 
-        <el-tabs type="border-card" class="view-card">
-          <el-tab-pane v-for="item in allObj" :key="item.questionID" :label="item.label" :value="item.questionID">
+        <el-tabs type="border-card" class="view-card" v-model="activeTab" @tab-click="refresh">
+          <el-tab-pane v-for="item in allObj" :key="item.questionID" :label="item.label" :value="item.questionID" :name="item.label" >
             <!-- 如何实现点击获取题目ID -->
             <span slot="label">{{item.label}}</span>
             <el-row :gutter="10" class="el-row">
@@ -55,7 +55,7 @@
   import questionDetails from '../components/questionDetails.vue'
   import codeEditor from '../components/CodeEditor.vue'
   import logout from "../components/UserQuit.vue"
-  import chat from "../components/chat";
+  import chat from "../components/chat.vue";
   export default {
     components: {
       questionDetails,
@@ -65,6 +65,7 @@
     },
     data() {
       return {
+        activeTab: '',
         questionID: '',
         tabPosition: 'right',
         username: this.$route.query.username,
@@ -80,6 +81,11 @@
     methods: {
       goBack() {
         this.$router.push('/applicant');
+      },
+      refresh(tab, event){
+        console.log(tab,event);
+        this.questionID=this.allObj[tab.index].questionID;
+        console.log(this.questionID,'qid');
       },
       onStart() {
         var postData = {
@@ -110,12 +116,13 @@
             //显示代码、答案、结果
           }
           this.questionID = interview_result_list[0].questionID;
+          this.activeTab = interview_result_list[0].heading;
         })
       },
 
 
     },
-    mounted() {
+    created() {
       this.onStart();
 
     },

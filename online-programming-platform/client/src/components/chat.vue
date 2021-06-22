@@ -11,7 +11,7 @@
       <el-collapse v-model="activeName">
         <div v-for="(item, idx) in commentList" :key="idx">
           <el-collapse-item :title="'L'+(idx+1).toString()+': '+item.content" :name="idx">
-            <p>id： {{ item.id}}</p>
+            <p>id： {{ item.username}}</p>
           </el-collapse-item>
         </div>
       </el-collapse>
@@ -81,7 +81,12 @@ export default {
       console.log(this.form);
       this.$refs.form.validate((valid) => {
         if (valid) {
-          alert('submit!');
+
+          this.$message({
+              showClose: true,
+              message: '发送成功！',
+              type: 'success'
+            });
           let len = this.commentList.length;
           const temp_c = {
             id: this.username,
@@ -118,7 +123,15 @@ export default {
     },
   },
   mounted() {
+    console.log(this.p_questionID,'pid')
     this.onStart();
+  },
+  watch:{
+    p_questionID(val){
+      console.log(this.p_questionID,'pid',val,'val')
+      this.questionID=val;
+      this.onStart();
+    }
   }
 }
 </script>
